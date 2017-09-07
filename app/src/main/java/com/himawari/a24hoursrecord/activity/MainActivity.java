@@ -19,13 +19,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.himawari.a24hoursrecord.R;
 import com.himawari.a24hoursrecord.adapter.BTDeviceAdapter;
+import com.himawari.a24hoursrecord.resolution.ResolutionActivity;
 import com.himawari.a24hoursrecord.utils.BlutoothVersionUtils;
 import com.himawari.a24hoursrecord.utils.CameraAlbumUtils;
 import com.himawari.a24hoursrecord.utils.PermissionRequestUtils;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private Button camera_btn,scanbluetooth_btn;
+    private Button camera_btn,scanbluetooth_btn,resolution_btn;
     private ListView list;
     private ImageView imageView;
     private BTDeviceAdapter adapter;
@@ -77,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         camera_btn.setOnClickListener(this);
         scanbluetooth_btn = (Button)findViewById(R.id.scanbluetooth);
         scanbluetooth_btn.setOnClickListener(this);
+        resolution_btn = (Button)findViewById(R.id.screenResolution);
+        resolution_btn.setOnClickListener(this);
 
         mbluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         callback = new LeScanCallback(){
@@ -147,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
         }
-
     }
     @Override
     public void onClick(View view) {
@@ -161,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(BlutoothVersionUtils.IsTurnonBluetooth(MainActivity.this,mbluetoothAdapter))
                 if(!PermissionRequestUtils.RequestPermission(MainActivity.this,PermissionRequestUtils.location_RequestCode,"  "))
                    ScanBluetoothDevice();
+                break;
+            case R.id.screenResolution:
+                startActivity(new Intent(this,ResolutionActivity.class));
                 break;
         }
     }
@@ -220,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CameraAlbumUtils.dealWithResult(requestCode,data,imageView);
                 break;
         }
+
 
     }
 
