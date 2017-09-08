@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.himawari.a24hoursrecord.R;
+import com.himawari.a24hoursrecord.utils.AlarmSetting;
 import com.himawari.a24hoursrecord.utils.AlarmUtils;
 
 /**
@@ -41,7 +42,8 @@ public class AlarmActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.setAlarm:
-                AlarmUtils.SetAlarm(this,input_edt.getText().toString());
+                 AlarmUtils.SetAlarm(this,input_edt.getText().toString(),"com.himawari.requestpermission.mybroadcast",AlarmUtils.SUBSCRIPT_TWENTYHOUR);
+                //AlarmSetting.setConvertAlarm(this,input_edt.getText().toString());
                 break;
         }
     }

@@ -1,12 +1,15 @@
 package com.himawari.a24hoursrecord.receiver;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.AlarmClock;
+import android.util.Log;
 
 import com.himawari.a24hoursrecord.activity.AlarmActivity;
 import com.himawari.a24hoursrecord.resolution.ResolutionActivity;
+import com.himawari.a24hoursrecord.utils.AlarmSetting;
 import com.himawari.a24hoursrecord.utils.AlarmUtils;
 
 /**
@@ -22,7 +25,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             Intent alarmIntent = new Intent(context, ResolutionActivity.class);
             alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(alarmIntent);
-            AlarmUtils.SetAlarm(context,"");
+            AlarmUtils.SetAlarm(context,"",intent.getAction(),AlarmUtils.SUBSCRIPT_TWENTYHOUR);
+            //AlarmSetting.setConvertAlarm(context,"",0);
         }
     }
 }
