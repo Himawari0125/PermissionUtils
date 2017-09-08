@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.himawari.a24hoursrecord.requestpermission.R;
+
+import com.himawari.a24hoursrecord.R;
 
 import java.util.HashMap;
 import java.util.Map;

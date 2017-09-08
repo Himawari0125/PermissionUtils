@@ -1,4 +1,4 @@
-package com.himawari.a24hoursrecord.requestpermission;
+package com.himawari.a24hoursrecord.activity;
 
 
 import android.bluetooth.BluetoothAdapter;
@@ -19,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private Button camera_btn,scanbluetooth_btn,resolution_btn;
+    private Button camera_btn,scanbluetooth_btn,resolution_btn,sendBroadcast_btn;
     private ListView list;
     private ImageView imageView;
     private BTDeviceAdapter adapter;
@@ -82,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanbluetooth_btn.setOnClickListener(this);
         resolution_btn = (Button)findViewById(R.id.screenResolution);
         resolution_btn.setOnClickListener(this);
+        sendBroadcast_btn = (Button)findViewById(R.id.sendBroadcast);
+        sendBroadcast_btn.setOnClickListener(this);
 
         mbluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         callback = new LeScanCallback(){
@@ -168,6 +169,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.screenResolution:
                 startActivity(new Intent(this,ResolutionActivity.class));
+                break;
+            case R.id.sendBroadcast:
+                Intent intent = new Intent(MainActivity.this,AlarmActivity.class);
+                startActivity(intent);
                 break;
         }
     }
