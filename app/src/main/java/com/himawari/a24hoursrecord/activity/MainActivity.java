@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bluetoothData = new HashMap<>();
 
+
         list = (ListView)findViewById(R.id.listview);
         adapter = new BTDeviceAdapter(this);
         list.setAdapter(adapter);

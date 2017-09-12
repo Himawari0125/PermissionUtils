@@ -14,6 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.himawari.a24hoursrecord.MyApplication;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by S.Lee on 2017/8/26.
  */
@@ -32,7 +37,7 @@ public class PermissionRequestUtils {
     public static final int storage_RequestCode = 1007;
     public static final int microphone_RequestCode = 1008;
     public static final int sms_RequestCode = 1009;
-    
+
     //只要其中一个申请了就全部打开了
     /**
      * 联系人权限
@@ -50,7 +55,7 @@ public class PermissionRequestUtils {
     Manifest.permission.WRITE_CALL_LOG,
     Manifest.permission.USE_SIP,
     Manifest.permission.PROCESS_OUTGOING_CALLS,
-    Manifest.permission.ADD_VOICEMAIL,//com.android.voicemail.permission.ADD_VOICEMAIL 
+    Manifest.permission.ADD_VOICEMAIL,//com.android.voicemail.permission.ADD_VOICEMAIL
     };
 
     private String[] camera_Permission = {//Manifest.permission_group.CAMERA,
@@ -58,7 +63,7 @@ public class PermissionRequestUtils {
 
     private String[] sensor_Permission = {//Manifest.permission_group.SENSORS,
     Manifest.permission.BODY_SENSORS};
-    
+
     private String[] calander_Permission = {//Manifest.permission_group.CALENDAR,
     Manifest.permission.READ_CALENDAR,
     Manifest.permission.WRITE_CALENDAR};
@@ -67,16 +72,16 @@ public class PermissionRequestUtils {
     private String[] location_Permission = {   //Manifest.permission_group.LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION};
-    
+
     private String[] storage_Permission = {//Manifest.permission_group.STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    
+
     private String[] microphone_Permission = {// Manifest.permission_group.MICROPHONE,
             Manifest.permission.RECORD_AUDIO};
-    
-    
-    
+
+
+
     private String[] sms_Permission = {//Manifest.permission_group.SMS,
             Manifest.permission.READ_SMS,
             Manifest.permission.RECEIVE_WAP_PUSH,
@@ -85,7 +90,7 @@ public class PermissionRequestUtils {
             Manifest.permission.SEND_SMS
             //Manifest.permission.READ_CELL_BROADCASTS
     };
-    
+
 
     public static boolean RequestPermission(final Activity mActivity, final int RequestCode, String requestRationaleStr){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
@@ -159,29 +164,47 @@ public class PermissionRequestUtils {
         }
         return false;
     }
-    
+
+    private String[] getAllRequestPermission(){
+
+        return null;
+    }
     private String[] getPermissions(int requestCode){
         switch (requestCode){
             case contact_RequestCode:
-                return calander_Permission;
+                return getLastPermission(calander_Permission);
             case phone_RequestCode :
-                return phone_Perission;
+                return getLastPermission(phone_Perission);
             case camera_RequestCode :
-                return camera_Permission;
+                return getLastPermission(camera_Permission);
             case sensor_RequestCode :
-                return sensor_Permission;
+                return getLastPermission(sensor_Permission);
             case calander_RequestCode :
-                return calander_Permission;
+                return getLastPermission(calander_Permission);
             case location_RequestCode :
-                return location_Permission;
+                return getLastPermission(location_Permission);
             case storage_RequestCode :
-                return storage_Permission;
+                return getLastPermission(storage_Permission);
             case microphone_RequestCode :
-                return microphone_Permission;
+                return getLastPermission(microphone_Permission);
             case sms_RequestCode :
-                return sms_Permission;
+                return getLastPermission(sms_Permission);
         }
         return null;
+    }
+
+    public String[] getLastPermission(String[] orginalPermission){
+        List<String>  lastPermission = new ArrayList<>();
+        if(MyApplication.requestPermission==null)return null;
+        for(String permission: MyApplication.requestPermission){
+            for(int i = 0 ; i < orginalPermission.length ; i++){
+                if(orginalPermission[i].equals(permission))
+                    lastPermission.add(permission);
+            }
+        }
+        String[] lastStrs = lastPermission.toArray(new String[lastPermission.size()]);
+        return lastStrs;
+
     }
 
     public static boolean IsAllGranted(@NonNull String[] permissions, @NonNull int[] grantResults){

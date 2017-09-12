@@ -2,6 +2,8 @@ package com.himawari.a24hoursrecord;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.WindowManager;
@@ -13,6 +15,8 @@ import android.view.WindowManager;
 public class MyApplication extends Application {
     public static float width;
     public static float height;
+    private PackageInfo packageInfo;
+    public static String[] requestPermission;
 
     @Override
     public void onCreate() {
@@ -23,5 +27,13 @@ public class MyApplication extends Application {
         display.getSize(size);
         width = size.x;
         height = size.y;
+
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_PERMISSIONS);
+            requestPermission = packageInfo.requestedPermissions;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
