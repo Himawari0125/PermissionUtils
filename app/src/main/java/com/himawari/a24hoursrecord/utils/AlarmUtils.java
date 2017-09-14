@@ -33,6 +33,7 @@ public class AlarmUtils {
         if(firstStr == null || "".equals(firstStr)){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
                 calendar.setTimeInMillis(calendar.getTimeInMillis()+getIntervalMillis(subscript));
+                //calendar.set(Calendar.SECOND,0);
                 am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pi);
             }else{
 
@@ -41,6 +42,7 @@ public class AlarmUtils {
             String[] time = firstStr.split(":");
             calendar.set(Calendar.HOUR_OF_DAY,Integer.parseInt(time[0]));
             calendar.set(Calendar.MINUTE,Integer.parseInt(time[1]));
+            calendar.set(Calendar.SECOND,0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pi);
             }else{
@@ -64,7 +66,8 @@ public class AlarmUtils {
     private static long getIntervalMillis(int subscript) {
         if (SUBSCRIPT_TWENTYHOUR == subscript) {
             // 12个小时的毫秒数
-            return 12 * 60 * 60 * 1000;
+          //  return 12 * 60 * 60 * 1000;
+            return 5* 60 * 1000;
         } else if (SUBSCRIPT_ONEDAY == subscript) {
             // 一天的毫秒数
             return 24 * 60 * 60 * 1000;
