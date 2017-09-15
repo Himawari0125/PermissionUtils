@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.himawari.a24hoursrecord.BaseActvity;
 import com.himawari.a24hoursrecord.R;
 import com.himawari.a24hoursrecord.adapter.BTDeviceAdapter;
 import com.himawari.a24hoursrecord.resolution.ResolutionActivity;
@@ -37,14 +38,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends BaseActvity implements View.OnClickListener{
 
     private static final String TAG = "MainActivity_5.0以上";
     private static final String TAG_2 = "MainActivity_5.0以下";
 
 
 
-    private Button camera_btn,scanbluetooth_btn,resolution_btn,sendBroadcast_btn;
+    private Button camera_btn,scanbluetooth_btn,resolution_btn,sendBroadcast_btn,webView_btn;
     private ListView list;
     private ImageView imageView;
     private BTDeviceAdapter adapter;
@@ -64,26 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
 
         bluetoothData = new HashMap<>();
-
-
-        list = (ListView)findViewById(R.id.listview);
-        adapter = new BTDeviceAdapter(this);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new BluetoothDeviceOnItemclick());
-        imageView = (ImageView)findViewById(R.id.imageview);
-
-        camera_btn = (Button)findViewById(R.id.intent_camera);
-        camera_btn.setOnClickListener(this);
-        scanbluetooth_btn = (Button)findViewById(R.id.scanbluetooth);
-        scanbluetooth_btn.setOnClickListener(this);
-        resolution_btn = (Button)findViewById(R.id.screenResolution);
-        resolution_btn.setOnClickListener(this);
-        sendBroadcast_btn = (Button)findViewById(R.id.sendBroadcast);
-        sendBroadcast_btn.setOnClickListener(this);
 
         mbluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         callback = new LeScanCallback(){
@@ -155,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             };
         }
     }
+
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -174,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sendBroadcast:
                 Intent intent = new Intent(MainActivity.this,AlarmActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.webView:
+                startActivity(new Intent(this,WebActivity.class));
                 break;
         }
     }
@@ -237,7 +228,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-   class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{
+    @Override
+    protected void initView() {
+        list = (ListView)findViewById(R.id.listview);
+        adapter = new BTDeviceAdapter(this);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new BluetoothDeviceOnItemclick());
+        imageView = (ImageView)findViewById(R.id.imageview);
+
+        camera_btn = (Button)findViewById(R.id.intent_camera);
+        camera_btn.setOnClickListener(this);
+        scanbluetooth_btn = (Button)findViewById(R.id.scanbluetooth);
+        scanbluetooth_btn.setOnClickListener(this);
+        resolution_btn = (Button)findViewById(R.id.screenResolution);
+        resolution_btn.setOnClickListener(this);
+        sendBroadcast_btn = (Button)findViewById(R.id.sendBroadcast);
+        sendBroadcast_btn.setOnClickListener(this);
+        webView_btn = (Button)findViewById(R.id.webView);
+        webView_btn.setOnClickListener(this);
+    }
+
+    class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{
 
        @Override
        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

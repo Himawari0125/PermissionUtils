@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.himawari.a24hoursrecord.BaseActvity;
 import com.himawari.a24hoursrecord.R;
 import com.himawari.a24hoursrecord.utils.AlarmSetting;
 import com.himawari.a24hoursrecord.utils.AlarmUtils;
@@ -24,17 +25,21 @@ import com.himawari.a24hoursrecord.utils.AlarmUtils;
  * Created by S.Lee on 2017/9/7 0007.
  */
 
-public class AlarmActivity extends Activity implements View.OnClickListener{
+public class AlarmActivity extends BaseActvity implements View.OnClickListener{
     private Button setalarm_btn;
     private EditText input_edt;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_alarm);
-        setalarm_btn = findViewById(R.id.setAlarm);
-        input_edt = findViewById(R.id.inputtime);
+        super.onCreate(savedInstanceState);
+    }
+    @Override
+    protected void initView() {
+        setalarm_btn = (Button)findViewById(R.id.setAlarm);
+        input_edt = (EditText)findViewById(R.id.inputtime);
         setalarm_btn.setOnClickListener(this);
     }
 

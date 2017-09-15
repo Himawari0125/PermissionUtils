@@ -40,6 +40,12 @@
         android:text="sendBroadcast"
         android:id="@+id/sendBroadcast"></Button>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="webView"
+        android:id="@+id/webView"></Button>
+
 
     <ImageView
         android:layout_width="200dp"

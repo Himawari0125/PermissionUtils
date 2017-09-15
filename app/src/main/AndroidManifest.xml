@@ -23,6 +23,9 @@
     <!--ScreenControlUtils Required-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <!--WebViewActivity Required-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
 
 
@@ -48,6 +51,8 @@
         </activity>
         <activity android:name=".resolution.ResolutionActivity"/>
         <activity android:name=".activity.AlarmActivity"/>
+        <activity android:name=".activity.WebActivity"
+            android:hardwareAccelerated="true"></activity>
         <receiver android:name=".receiver.MyBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.himawari.requestpermission.mybroadcast"></action>
