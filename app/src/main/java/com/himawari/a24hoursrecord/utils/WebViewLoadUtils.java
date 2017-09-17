@@ -21,11 +21,10 @@ public class WebViewLoadUtils {
     public static final int LOADURL = 1002;
 
     public static void LoadWebView(WebView webView,String urlPath,int type){
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+ //       webView.getSettings().setSupportZoom(false);
+//        webView.getSettings().setDisplayZoomControls(false);
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
