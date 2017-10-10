@@ -45,7 +45,7 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
 
 
 
-    private Button camera_btn,scanbluetooth_btn,resolution_btn,sendBroadcast_btn,webView_btn;
+    private Button camera_btn,scanbluetooth_btn,resolution_btn,sendBroadcast_btn,webView_btn,service_btn,weblogin_btn;
     private ListView list;
     private ImageView imageView;
     private BTDeviceAdapter adapter;
@@ -166,6 +166,12 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
             case R.id.webView:
                 startActivity(new Intent(this,WebActivity.class));
                 break;
+            case R.id.button:
+                startActivity(new Intent(this,ServiceActivity.class));
+                break;
+            case R.id.button4:
+                startActivity(new Intent(this,WebLoginActivity.class));
+                break;
         }
     }
 
@@ -246,6 +252,10 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
         sendBroadcast_btn.setOnClickListener(this);
         webView_btn = (Button)findViewById(R.id.webView);
         webView_btn.setOnClickListener(this);
+        service_btn = (Button)findViewById(R.id.button);
+        service_btn.setOnClickListener(this);
+        weblogin_btn = (Button)findViewById(R.id.button4);
+        weblogin_btn.setOnClickListener(this);
     }
 
     class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{
@@ -283,7 +293,7 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
                @Override
                public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                    super.onCharacteristicRead(gatt, characteristic, status);
-                   Log.i("onCharacteristicRead","");
+                   Log.i("onCharacteristicRead",""+characteristic.toString());
                }
 
                @Override

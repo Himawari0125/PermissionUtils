@@ -27,14 +27,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
 
-
-
-
-
-
-
-
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -53,6 +45,10 @@
         <activity android:name=".activity.WebActivity"
            android:screenOrientation="landscape"
            ></activity>
+        <activity android:name=".activity.ServiceActivity"></activity>
+        <activity android:name=".activity.WebLoginActivity"></activity>
+        <service
+            android:name=".services.BaseService"></service>
         <receiver android:name=".receiver.MyBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.himawari.requestpermission.mybroadcast"></action>
