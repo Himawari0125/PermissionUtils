@@ -1,32 +1,26 @@
 package com.himawari.a24hoursrecord.services;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 /**
- * Created by S.Lee on 2017/9/29.
+ * Created by S.Lee on 2017/10/11.
  */
 
-public class BaseService extends Service {
+public class ProtectorService extends Service {
     private boolean isRunning;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-    //@IntDef(value = {Service.START_FLAG_REDELIVERY, Service.START_FLAG_RETRY} => int flags
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent,int flags, int startId) {
         if(!isRunning){
             isRunning = true;
             new Thread(new Runnable() {
@@ -34,12 +28,11 @@ public class BaseService extends Service {
                 public void run() {
                     SystemClock.sleep(3000);
                     isRunning = false;
-                    startService(new Intent(BaseService.this, ProtectorService.class));
-                    System.out.println("BaseService");
+                    startService(new Intent(ProtectorService.this, BaseService.class));
+                    System.out.println("ProtectorService");
                 }
             }).start();
         }
-
         return Service.START_REDELIVER_INTENT;
     }
 
@@ -47,5 +40,4 @@ public class BaseService extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
-
 }

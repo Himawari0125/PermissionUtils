@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.himawari.a24hoursrecord.activity.AlarmActivity;
 import com.himawari.a24hoursrecord.resolution.ResolutionActivity;
+import com.himawari.a24hoursrecord.services.BaseService;
 import com.himawari.a24hoursrecord.utils.AlarmSetting;
 import com.himawari.a24hoursrecord.utils.AlarmUtils;
 import com.himawari.a24hoursrecord.utils.ScreenControlUtils;
@@ -27,6 +28,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             Intent alarmIntent = new Intent(context, ResolutionActivity.class);
             alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(alarmIntent);
+            context.startService(new Intent(context, BaseService.class));
             AlarmUtils.SetAlarm(context,"",intent.getAction(),AlarmUtils.SUBSCRIPT_TWENTYHOUR);
 
             //AlarmSetting.setConvertAlarm(context,"",0);

@@ -12,6 +12,7 @@ import com.himawari.a24hoursrecord.BaseActvity;
 import com.himawari.a24hoursrecord.Contant;
 import com.himawari.a24hoursrecord.R;
 import com.himawari.a24hoursrecord.services.BaseService;
+import com.himawari.a24hoursrecord.utils.AlarmUtils;
 
 /**
  * Created by S.Lee on 2017/9/29.
@@ -41,9 +42,9 @@ public class ServiceActivity extends BaseActvity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button2:
-                String settingStr = input_edt.getText().toString();
-                if(settingStr == null || "".equals(settingStr)) break;
-                it.putExtra(Contant.SETALARM,settingStr);
+//                String settingStr = input_edt.getText().toString();
+//                if(settingStr == null || "".equals(settingStr)) break;
+//                AlarmUtils.SetAlarm(this,settingStr,"com.himawari.requestpermission.mybroadcast",AlarmUtils.SUBSCRIPT_TWENTYHOUR);
                 startService(it);
                 break;
             case R.id.button3:

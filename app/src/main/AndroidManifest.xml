@@ -47,8 +47,11 @@
            ></activity>
         <activity android:name=".activity.ServiceActivity"></activity>
         <activity android:name=".activity.WebLoginActivity"></activity>
+        <activity android:name=".activity.CircleActivity"></activity>
         <service
-            android:name=".services.BaseService"></service>
+            android:name=".services.BaseService"
+            android:process=":remote"></service>
+        <service android:name=".services.ProtectorService"></service>
         <receiver android:name=".receiver.MyBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.himawari.requestpermission.mybroadcast"></action>
