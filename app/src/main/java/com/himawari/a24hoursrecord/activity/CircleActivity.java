@@ -13,7 +13,7 @@ import com.himawari.a24hoursrecord.R;
 public class CircleActivity extends BaseActvity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.circle_activity);
+        setContentView(R.layout.activity_circle);
         super.onCreate(savedInstanceState);
     }
 

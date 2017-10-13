@@ -4,7 +4,7 @@
     xmlns:circle="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-    <com.himawari.a24hoursrecord.views.CircleLayout
+    <com.himawari.a24hoursrecord.views.MyCircleLayout
         android:id="@+id/main_circle_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -79,6 +79,6 @@
             android:background="@mipmap/a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </com.himawari.a24hoursrecord.views.CircleLayout>
+    </com.himawari.a24hoursrecord.views.MyCircleLayout>
 
 </LinearLayout>
