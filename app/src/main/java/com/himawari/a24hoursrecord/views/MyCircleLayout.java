@@ -1,32 +1,33 @@
 package com.himawari.a24hoursrecord.views;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.Window;
+
+import com.himawari.a24hoursrecord.MyApplication;
 
 /**
  * Created by S.Lee on 2017/10/13.
  */
 
 public class MyCircleLayout extends ViewGroup {
-    private int countChild;
+
+    private float averageAngle;
+    private float radius;
+    private float center_X,center_Y;
+
+
     public MyCircleLayout(Context context) {
         this(context,null);
     }
-
     public MyCircleLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-
     public MyCircleLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
@@ -37,18 +38,59 @@ public class MyCircleLayout extends ViewGroup {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        //完成对childview位置的指定  onLayout要与onMeasure配合使用 子视图需要在onMeasure中测量一下，才能在显示出内容
+        final int countChild = getChildCount();
+        averageAngle = 360/(countChild*1.0f);
+        for(int i = 0 ; i < countChild;i++){
+            CircleImageViews child = (CircleImageViews) getChildAt(i );
+            int cWidth = child.getMeasuredWidth()/10;
+            int cHeight = child.getMeasuredHeight()/10;
 
+            float childAngle = (i+1)*averageAngle;
+            radius = MyApplication.width/2;
+            center_X = radius;
+            center_Y = radius;
+            int child_X,child_Y;
+            if(childAngle >= 0 && childAngle < 90){
+                child_X = (int) (center_X+radius*Math.cos(childAngle));
+                child_Y = (int) (center_Y+radius*Math.sin(childAngle));
+                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
+            }else if(childAngle >= 90 && childAngle < 180){
+                childAngle = 180 - childAngle;
+                child_X = (int) (center_X-radius*Math.cos(childAngle));
+                child_Y = (int) (center_Y+radius*Math.sin(childAngle));
+                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
+            }else if(childAngle >= 180 && childAngle < 270){
+                childAngle = childAngle - 180;
+                child_X = (int) (center_X-radius*Math.cos(childAngle));
+                child_Y = (int) (center_Y-radius*Math.sin(childAngle));
+                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
+            }else if(childAngle >= 270 && childAngle <= 360){
+                childAngle =360 - childAngle;
+                child_X = (int) (center_X+radius*Math.cos(childAngle));
+                child_Y = (int) (center_Y-radius*Math.sin(childAngle));
+                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
+            }
+
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int count = getChildCount();
+        Log.i("--widthMeasureSpec---"+widthMeasureSpec,"---heightMeasureSpec---"+heightMeasureSpec);
+        for (int i = 0; i < count; i++){
+            // 先测量子布局的宽高，然后在layout中在获取宽高。
+            measureChild(getChildAt(i), widthMeasureSpec, heightMeasureSpec);//measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec)
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        //完成对自己宽高的指定
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        countChild = getChildCount();
-        Log.i("test","countChild = "+countChild);
-        for(int i = 0 ; i < countChild; i++){
-            View childImg = getChildAt(i);
-            childImg.layout(i*10,i*10,i*10+100,i*10+100);
-        }
+
     }
 }
