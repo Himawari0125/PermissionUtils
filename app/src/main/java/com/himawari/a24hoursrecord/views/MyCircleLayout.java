@@ -3,13 +3,13 @@ package com.himawari.a24hoursrecord.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.himawari.a24hoursrecord.MyApplication;
+import com.himawari.a24hoursrecord.utils.DensityUtils;
 
 /**
  * Created by S.Lee on 2017/10/13.
@@ -44,35 +44,31 @@ public class MyCircleLayout extends ViewGroup {
         averageAngle = 360/(countChild*1.0f);
         for(int i = 0 ; i < countChild;i++){
             CircleImageViews child = (CircleImageViews) getChildAt(i );
-            int cWidth = child.getMeasuredWidth()/10;
-            int cHeight = child.getMeasuredHeight()/10;
+            int cWidth = DensityUtils.px2dip(getContext(),child.getMeasuredWidth());
+            int cHeight = DensityUtils.px2dip(getContext(),child.getMeasuredHeight());
 
             float childAngle = (i+1)*averageAngle;
             radius = MyApplication.width/2;
             center_X = radius;
             center_Y = radius;
-            int child_X,child_Y;
+            int child_X = 0,child_Y = 0;
             if(childAngle >= 0 && childAngle < 90){
                 child_X = (int) (center_X+radius*Math.cos(childAngle));
                 child_Y = (int) (center_Y+radius*Math.sin(childAngle));
-                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
             }else if(childAngle >= 90 && childAngle < 180){
                 childAngle = 180 - childAngle;
                 child_X = (int) (center_X-radius*Math.cos(childAngle));
                 child_Y = (int) (center_Y+radius*Math.sin(childAngle));
-                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
             }else if(childAngle >= 180 && childAngle < 270){
                 childAngle = childAngle - 180;
                 child_X = (int) (center_X-radius*Math.cos(childAngle));
                 child_Y = (int) (center_Y-radius*Math.sin(childAngle));
-                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
             }else if(childAngle >= 270 && childAngle <= 360){
                 childAngle =360 - childAngle;
                 child_X = (int) (center_X+radius*Math.cos(childAngle));
                 child_Y = (int) (center_Y-radius*Math.sin(childAngle));
-                child.layout(child_X,child_Y,child_X+cWidth,child_Y+cHeight);
             }
-
+            child.layout(child_X-cWidth/2,child_Y-cHeight/2,child_X+cWidth/2,child_Y+cHeight/2);
         }
     }
 
@@ -91,6 +87,25 @@ public class MyCircleLayout extends ViewGroup {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.i("Touchs_","dispatchTouchEvent:"+ev.toString());
+        return super.dispatchTouchEvent(ev);
 
     }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        Log.i("Touchs_","onInterceptTouchEvent_"+ev.toString());
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.i("Touchs_","onTouchEvent_"+event.toString());
+        return super.onTouchEvent(event);
+    }
+
 }

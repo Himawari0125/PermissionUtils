@@ -40,8 +40,8 @@
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item5"
             android:background="@mipmap/a"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item6"

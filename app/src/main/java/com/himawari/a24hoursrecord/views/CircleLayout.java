@@ -463,9 +463,7 @@ public class CircleLayout extends ViewGroup {
                 CircleLayout.this
                         .post(new FlingRunnable(velocityX + velocityY));
             }
-
             return true;
-
         }
 
         @Override
