@@ -394,14 +394,11 @@ public class CircleLayout extends ViewGroup {
             if (isRotating) {
                 switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-
                     // reset the touched quadrants
                     for (int i = 0; i < quadrantTouched.length; i++) {
                         quadrantTouched[i] = false;
                     }
-
                     allowRotating = false;
-
                     startAngle = getAngle(event.getX(), event.getY());
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -416,7 +413,6 @@ public class CircleLayout extends ViewGroup {
                     break;
                 }
             }
-
             // set the touched quadrant to true
             quadrantTouched[getQuadrant(event.getX() - (circleWidth / 2),
                     circleHeight - event.getY() - (circleHeight / 2))] = true;
