@@ -3,7 +3,6 @@ package com.himawari.a24hoursrecord.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -20,19 +19,18 @@ import com.himawari.a24hoursrecord.utils.DensityUtils;
 
 public class MyCircleLayout extends ViewGroup {
 
-    private float averageAngle;
-    private float radius;
-    private float center_X,center_Y;
-    private Matrix matrix;
+    private double averageAngle;
+    private double radius;
+    private double center_X,center_Y;
     private int childCount;
-    private boolean isDraw = false;
-    private float[] childAngles;
+    private double[] childAngles;
+    private double[] nextAngles;
 
     private Handler mhandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            childLayout(5);
+            childLayout(13);
         }
     };
 
@@ -50,7 +48,6 @@ public class MyCircleLayout extends ViewGroup {
 
     private void init() {
         setBackgroundColor(Color.BLACK);
-        matrix = new Matrix();
     }
 
     @Override
@@ -58,9 +55,10 @@ public class MyCircleLayout extends ViewGroup {
         //完成对childview位置的指定  onLayout要与onMeasure配合使用 子视图需要在onMeasure中测量一下，才能在显示出内容
         childCount = getChildCount();
         averageAngle = 360/(childCount*1.0f);
-        childAngles = new float[childCount];
+        childAngles = new double[childCount];
+        nextAngles = new double[childCount];
         //初始化childLayout
-        childLayout(1);
+        childLayout(0);
 
     }
 
@@ -92,12 +90,11 @@ public class MyCircleLayout extends ViewGroup {
                 break;
             case MotionEvent.ACTION_MOVE:
                 Log.i("Touchs_","ACTION_MOVE");
-                isDraw = true;
-              //  postInvalidate();
                 mhandler.sendEmptyMessage(1);
                 break;
             case MotionEvent.ACTION_UP:
                 Log.i("Touchs_","ACTION_UP");
+
                 break;
 
         }
@@ -110,30 +107,48 @@ public class MyCircleLayout extends ViewGroup {
             int cWidth = DensityUtils.px2dip(getContext(),child.getMeasuredWidth());
             int cHeight = DensityUtils.px2dip(getContext(),child.getMeasuredHeight());
 
-            float childAngle = childAngles[i];
-            float degress = averageAngle / speed;
-            float nextAngle = (childAngle == 0?((i+1)*averageAngle+90):(childAngle/averageAngle+1)*averageAngle)%360;
-            childAngle = ((childAngle == 0?(i*averageAngle+90):((nextAngle - childAngle)/degress <= 1 ? nextAngle:childAngle))+degress)%360;
+            double childAngle = childAngles[i];
+            if(speed == 0){
+                childAngle = (i*averageAngle+90)%360;
+                if(i < childCount-1 )
+                    nextAngles[i] = ((i+1)*averageAngle+90);
+                else
+                    nextAngles[i] = 450;
+            }else{
+                double degress = averageAngle / speed;
+                double nextAngle = nextAngles[i];
+                Log.i("test","childAngle:"+childAngle);
+                childAngle = (childAngle<90)?(childAngle+360):childAngle;
+
+                for(int j = 0 ; j < childCount;j++){
+                    if((nextAngle = nextAngles[j])>childAngle)
+                        break;
+                }
+                childAngle = ((nextAngle - childAngle)/degress <= 1 )? nextAngle%360:(childAngle+degress)%360;
+                Log.i("test","childAngle:"+childAngle+" nextAngle:"+nextAngle);
+            }
             childAngles[i] = childAngle;
             radius = MyApplication.width/2;
             center_X = radius;
             center_Y = radius;
+            radius = radius - Math.max(cWidth/2,cHeight/2);
             int child_X = 0,child_Y = 0;
+            Log.i("childLayout","childangle:"+childAngle);
             if(childAngle > 0 && childAngle < 90){
-                child_X = (int) (center_X+radius*Math.cos(childAngle));
-                child_Y = (int) (center_Y+radius*Math.sin(childAngle));
+                child_X = (int) (center_X+radius*Math.cos(Math.toRadians(childAngle)));
+                child_Y = (int) (center_Y+radius*Math.sin(Math.toRadians(childAngle)));
             }else if(childAngle > 90 && childAngle < 180){
                 childAngle = 180 - childAngle;
-                child_X = (int) (center_X-radius*Math.cos(childAngle));
-                child_Y = (int) (center_Y+radius*Math.sin(childAngle));
+                child_X = (int) (center_X-radius*Math.cos(Math.toRadians(childAngle)));
+                child_Y = (int) (center_Y+radius*Math.sin(Math.toRadians(childAngle)));
             }else if(childAngle > 180 && childAngle < 270){
                 childAngle = childAngle - 180;
-                child_X = (int) (center_X-radius*Math.cos(childAngle));
-                child_Y = (int) (center_Y-radius*Math.sin(childAngle));
+                child_X = (int) (center_X-radius*Math.cos(Math.toRadians(childAngle)));
+                child_Y = (int) (center_Y-radius*Math.sin(Math.toRadians(childAngle)));
             }else if(childAngle > 270 && childAngle < 360){
                 childAngle =360 - childAngle;
-                child_X = (int) (center_X+radius*Math.cos(childAngle));
-                child_Y = (int) (center_Y-radius*Math.sin(childAngle));
+                child_X = (int) (center_X+radius*Math.cos(Math.toRadians(childAngle)));
+                child_Y = (int) (center_Y-radius*Math.sin(Math.toRadians(childAngle)));
             }else {
                 int temp = (int) (childAngle / 90);
                 switch (temp){
@@ -142,15 +157,15 @@ public class MyCircleLayout extends ViewGroup {
                         child_Y = (int) center_Y;
                         break;
                      case 1:
-                         child_X = 0;
+                         child_X = (int)center_X;
                          child_Y = (int) (center_Y+radius);
                     break;
                      case 2:
                          child_X = (int) (center_X-radius);
-                         child_Y = 0;
+                         child_Y = (int) center_Y;
                     break;
                      case 3:
-                         child_X = 0;
+                         child_X = (int) center_X;
                          child_Y = (int) (center_Y-radius);
                     break;
 
@@ -158,6 +173,7 @@ public class MyCircleLayout extends ViewGroup {
 
             }
             child.layout(child_X-cWidth/2,child_Y-cHeight/2,child_X+cWidth/2,child_Y+cHeight/2);
+            Log.i("childLayout","childangle:"+childAngle+" left:"+(child_X-cWidth/2)+" top:"+(child_Y-cHeight/2)+" right:"+(child_X+cWidth/2)+" bottom:"+(child_Y+cHeight/2));
         }
     }
 

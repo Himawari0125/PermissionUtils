@@ -15,80 +15,68 @@
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item1"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             circle:name="1"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item2"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             circle:name="2"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item3"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             circle:name="3"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item4"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             circle:name="4"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item5"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             circle:name="5"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item6"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            circle:name="6"/>
+            circle:name="2"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item7"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            circle:name="7"/>
+            circle:name="3"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item8"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            circle:name="8"/>
+            circle:name="4"/>
 
         <com.himawari.a24hoursrecord.views.CircleImageViews
             android:id="@+id/civ_item9"
-            android:background="@mipmap/a"
+            android:background="@mipmap/a_meitu_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            circle:name="9"/>
+            circle:name="5"/>
 
-        <com.himawari.a24hoursrecord.views.CircleImageViews
-            android:id="@+id/civ_item10"
-            android:background="@mipmap/a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            circle:name="10"/>
 
-        <com.himawari.a24hoursrecord.views.CircleImageViews
-            android:id="@+id/civ_item11"
-            android:background="@mipmap/a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            circle:name="11"/>
     </com.himawari.a24hoursrecord.views.MyCircleLayout>
 
 </LinearLayout>
