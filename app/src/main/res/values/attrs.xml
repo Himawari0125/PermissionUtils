@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="itemview">
+        <attr name="img_icon" format="reference|color"/>
+        <attr name="title_tv" format="string"/>
+        <attr name="next_icon" format="reference|color"/>
+        <attr name="title_size" format="float"></attr>
+
+
+    </declare-styleable>
+</resources>

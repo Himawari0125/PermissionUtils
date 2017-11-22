@@ -265,6 +265,10 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
         circlelayout_btn.setOnClickListener(this);
     }
 
+    public void onDelListClick(View view){
+        startActivity(new Intent(this,DeleteListActivity.class));
+    }
+
     class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{
 
        @Override

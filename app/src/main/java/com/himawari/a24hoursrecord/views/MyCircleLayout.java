@@ -3,7 +3,6 @@ package com.himawari.a24hoursrecord.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -36,10 +35,10 @@ public class MyCircleLayout extends ViewGroup {
     private boolean isAntiClock = false;
     private float startX,startY;
 
-    private GestureDetector gestureDetector;
-
     private static final int CLOCKWISE = 1000;
     private static final int ANTICLOCKWISE = 1001;
+    private static final int MOVETOUCH = 1002;
+    private static final int UPTOUCH = 1003;
 
 
     private Handler mhandler = new Handler(){
@@ -48,14 +47,38 @@ public class MyCircleLayout extends ViewGroup {
             super.handleMessage(msg);
             switch(msg.arg1){
                 case CLOCKWISE:
-                    childLayoutClock(13);
+                    if(msg.what == UPTOUCH){
+                        if(msg.arg2 < 11){
+                            childLayoutClock(msg.arg2);
+                            msg.arg2++;
+                            Message message = new Message();
+                            message.arg1 = msg.arg1;
+                            message.arg2 = msg.arg2;
+                            message.what = msg.what;
+                            mhandler.sendMessage(message);
+                        }else{
+                            childLayoutClock(msg.arg2);
+                        }
+                    }else
+                    childLayoutClock(msg.arg2);
                     break;
                 case ANTICLOCKWISE:
-                    childLayoutAntiClock(13);
+                    if(msg.what == UPTOUCH){
+                        if(msg.arg2 < 11){
+                            childLayoutAntiClock(msg.arg2);
+                            msg.arg2++;
+                            Message message = new Message();
+                            message.arg1 = msg.arg1;
+                            message.arg2 = msg.arg2;
+                            message.what = msg.what;
+                            mhandler.sendMessage(message);
+                        }else{
+                            childLayoutAntiClock(msg.arg2);
+                        }
+                    }else
+                    childLayoutAntiClock(msg.arg2);
                     break;
             }
-
-
         }
     };
 
@@ -140,15 +163,7 @@ public class MyCircleLayout extends ViewGroup {
                 velocityTracker.computeCurrentVelocity(1000);
                 int xSpeed = (int)Math.abs(velocityTracker.getXVelocity());
                 int ySpeed = (int)Math.abs(velocityTracker.getYVelocity());
-                Message msg = new Message();
-                if(isAntiClock){
-                    msg.arg1 = ANTICLOCKWISE;
-                    mhandler.sendMessage(msg);
-                }else{
-                    msg.arg1 = CLOCKWISE;
-                    mhandler.sendMessage(msg);
-                }
-                Log.i("speed","xspeed:"+xSpeed+" yspeed:"+ySpeed);
+                sendMessage(xSpeed,ySpeed,MOVETOUCH);
                 break;
             case MotionEvent.ACTION_UP:
                 Log.i("Touchs_","ACTION_UP");
@@ -156,24 +171,49 @@ public class MyCircleLayout extends ViewGroup {
                 velocityTracker.computeCurrentVelocity(1000);
                 int mxSpeed = (int)Math.abs(velocityTracker.getXVelocity());
                 int mySpeed = (int)Math.abs(velocityTracker.getYVelocity());
-                Log.i("speed","mxspeed:"+mxSpeed+" myspeed:"+mySpeed);
                 if(velocityTracker!=null){
                     velocityTracker.recycle();
                     velocityTracker = null;
                 }
+                currentX = event.getX();
+                currentY = event.getY();
+                isAntiClock = isAntiClock(startX,startY,currentX,currentY);
+                startX = currentX;
+                startY = currentY;
+                sendMessage(mxSpeed,mySpeed,UPTOUCH);
                 break;
         }
        // gestureDetector.onTouchEvent(event);
         return true;
     }
 
+    private void sendMessage(int SpeedX,int SpeedY,int msgWhat){
+        Message msg = new Message();
+        if(isAntiClock)
+            msg.arg1 = ANTICLOCKWISE;
+        else
+            msg.arg1 = CLOCKWISE;
+        int averageSpeed = SpeedX+SpeedY;
+        int lastSpeed;
+        if(averageSpeed > 10000){
+            lastSpeed = 1;
+        }else if(averageSpeed < 750){
+            lastSpeed = 11;
+        }else{
+            lastSpeed = Math.abs(10 - averageSpeed/925);
+        }
+        msg.arg2 = lastSpeed;
+        msg.what = msgWhat;
+        mhandler.sendMessage(msg);
+    }
 
     private void childLayoutClock(int speed){
+        final int SPEED = 13;
         for(int i = 0 ; i < childCount;i++){
-            CircleImageViews child = (CircleImageViews) getChildAt(i );
+            CircleImageViews child = (CircleImageViews) getChildAt(i);
             double childAngle = childAngles[i];
             setNextAngleArray();
-            double degress = averageAngle / speed;
+            double degress = averageAngle / SPEED;
             double nextAngle = nextAngles[i];
             Log.i("test","childAngle:"+childAngle);
             childAngle = (childAngle<90)?(childAngle+360):childAngle;
@@ -183,20 +223,24 @@ public class MyCircleLayout extends ViewGroup {
                     break;
             }
             childAngle = ((nextAngle - childAngle)/degress <= 1 )? nextAngle%360:(childAngle+degress)%360;
-            Log.i("test","childAngle:"+childAngle+" nextAngle:"+nextAngle);
+            Log.i("childLayoutClock","childAngle:"+childAngle+" nextAngle:"+nextAngle);
 
-            childLayout(i,childAngle,child);
-
+            double speedDegress = childAngle/speed;
+            for(int j = 0;j < speed;j++){
+                if(j == (speed - 1)) childLayout(i,childAngle,child);
+                else childLayout(i,speedDegress,child);
+            }
         }
     }
 
     private void childLayoutAntiClock(int speed){
+        final int SPEED = 13;
         for(int i = 0 ; i < childCount;i++){
             CircleImageViews child = (CircleImageViews) getChildAt(i );
 
             double childAngle = childAngles[i];
             setNextAngleArray();
-            double degress = averageAngle / speed;
+            double degress = averageAngle / SPEED;
             double nextAngle = nextAngles[i];
             Log.i("test","childAngle:"+childAngle);
             childAngle = (childAngle<90)?(childAngle+360):childAngle;
@@ -206,9 +250,14 @@ public class MyCircleLayout extends ViewGroup {
                     break;
             }
             childAngle = ((childAngle - nextAngle)/degress <= 1 )? nextAngle%360:(childAngle-degress)%360;
-            Log.i("test","childAngle:"+childAngle+" nextAngle:"+nextAngle);
+            Log.i("childLayoutAntiClock","childAngle:"+childAngle+" nextAngle:"+nextAngle);
 
-            childLayout(i,childAngle,child);
+
+            double speedDegress = childAngle/speed;
+            for(int j = 0;j < speed;j++){
+                if(j == (speed - 1)) childLayout(i,childAngle,child);
+                else childLayout(i,speedDegress,child);
+            }
         }
     }
 
@@ -270,7 +319,11 @@ public class MyCircleLayout extends ViewGroup {
     }
 
     private boolean isAntiClock(float startX, float startY, float currentX, float currentY) {
-        boolean isAntiClock = false;
+        if(center_X == startX){
+            Log.e("equals","center_X == startX");
+        }else if(center_Y == startY){
+            Log.e("equals","center_Y == startY");
+        }
         //还需要处理在轴上的情况
         int quadrant = (startX > center_X)?((startY>center_Y)?2:1):((startY>center_Y)?3:4);
         switch (quadrant){
@@ -289,7 +342,7 @@ public class MyCircleLayout extends ViewGroup {
                 }else if((currentX -startX) > 0 && (currentY - startY) < 0){
                     isAntiClock = true;
                 }else{
-                    Log.e(getLineInfo(),"Result is not expected.");
+                    Log.e(getLineInfo(),"Result is not expected."+" startX:"+startX+" currentX:"+currentX+" startY:"+startY+" currentY:"+currentY);
                 }
                 break;
             case 3:
@@ -298,7 +351,7 @@ public class MyCircleLayout extends ViewGroup {
                 }else if((currentX -startX) > 0 && (currentY - startY) > 0){
                     isAntiClock = true;
                 }else{
-                    Log.e(getLineInfo(),"Result is not expected.");
+                    Log.e(getLineInfo(),"Result is not expected."+" startX:"+startX+" currentX:"+currentX+" startY:"+startY+" currentY:"+currentY);
                 }
                 break;
             case 4:
@@ -307,14 +360,13 @@ public class MyCircleLayout extends ViewGroup {
                 }else if((currentX -startX) < 0 && (currentY - startY) > 0){
                     isAntiClock = true;
                 }else{
-                    Log.e(getLineInfo(),"Result is not expected.");
+                    Log.e(getLineInfo(),"Result is not expected."+" startX:"+startX+" currentX:"+currentX+" startY:"+startY+" currentY:"+currentY);
                 }
                 break;
             default:
-                Log.e(getLineInfo(),"The quadrant result is not expected.");
+                Log.e(getLineInfo(),"The quadrant result is not expected."+" startX:"+startX+" currentX:"+currentX+" startY:"+startY+" currentY:"+currentY);
                 break;
         }
-
         return isAntiClock;
     }
 
