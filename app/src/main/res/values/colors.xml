@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="delete_account">#ff4646</color>
+    <color name="background_white">#ffffff</color>
 </resources>

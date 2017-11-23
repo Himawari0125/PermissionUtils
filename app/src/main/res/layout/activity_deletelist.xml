@@ -6,32 +6,11 @@
     android:id="@+id/delete_group"
     android:background="#f8f8f8"
     >
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview"></ListView>
 
-    <TextView
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="#44ff0000"
-        android:text="I can be dragged !"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
 
-    <TextView
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="#44ff0000"
-        android:text="I can be dragged !"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
-
-    <TextView
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="#44ff0000"
-        android:text="I can be dragged !"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
 
 </com.himawari.a24hoursrecord.views.DeleteViewGroup>

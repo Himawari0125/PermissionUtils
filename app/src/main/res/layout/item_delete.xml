@@ -1,56 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="66dp"
     android:orientation="horizontal"
     android:background="#ffffff">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="66dp"
-        >
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@mipmap/ic_launcher"
-            android:layout_margin="8dp"
-            android:layout_alignParentLeft="true"
-           />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imageView"
-            />
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="50dp"
-            android:layout_height="66dp"
-            android:gravity="center"
-            android:button="@drawable/account_checker"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
         android:id="@+id/delete_one_layout"
-        android:background="@color/delete_account"
-        android:gravity="center"
+        android:gravity="right"
         android:orientation="horizontal"
         >
+        <LinearLayout
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:background="@color/delete_account"
+            android:gravity="center">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/shangchu_liebiao"
             android:padding="8.5dp"
             />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <com.himawari.a24hoursrecord.views.DeleteViewGroup
+        android:layout_width="match_parent"
+        android:layout_height="66dp"></com.himawari.a24hoursrecord.views.DeleteViewGroup>
+
+</FrameLayout>

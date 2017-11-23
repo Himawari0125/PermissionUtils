@@ -2,15 +2,19 @@ package com.himawari.a24hoursrecord.views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.himawari.a24hoursrecord.MyApplication;
 import com.himawari.a24hoursrecord.R;
 import com.himawari.a24hoursrecord.utils.DensityUtils;
+
 
 
 /**
@@ -19,9 +23,11 @@ import com.himawari.a24hoursrecord.utils.DensityUtils;
 
 public class DeleteViewGroup extends LinearLayout {
     private ViewDragHelper viewDragHelper;
-    public DeleteViewGroup(Context context, @Nullable AttributeSet attrs) {
+    private int leftBound,newLeft;
+    public DeleteViewGroup(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        addViews(context);
         viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
@@ -30,20 +36,25 @@ public class DeleteViewGroup extends LinearLayout {
 
             @Override
             public int clampViewPositionHorizontal(View child, int left, int dx) {
-//                final int leftBound = getPaddingLeft();
-//                final int rightBound = getWidth() - child.getWidth() - leftBound;
-//
-//                final int newLeft = Math.min(Math.max(left, leftBound), rightBound);
-//
-//                return newLeft;
+                leftBound = DensityUtils.dip2px(context,-66);
+                newLeft = (left > 0)?0:(left > leftBound)?left:leftBound;
+                return newLeft;
 
-
-                return left;
+            }
+            @Override
+            public int clampViewPositionVertical(View child, int top, int dy) {
+                return 0;
             }
 
             @Override
-            public int clampViewPositionVertical(View child, int top, int dy) {
-                return top;
+            public void onViewReleased(View releasedChild, float xvel, float yvel) {
+                Log.i("onViewReleased","xvel:"+xvel+" yvel:"+yvel);
+                View child = getChildAt(0);
+                if(releasedChild.getLeft() > DensityUtils.dip2px(context,-33))
+                    getChildAt(0).layout(0,0, (int) MyApplication.width,DensityUtils.dip2px(context,66));
+                else getChildAt(0).layout(DensityUtils.dip2px(context,-66),0,child.getRight()-(DensityUtils.dip2px(context,66)+child.getLeft()),DensityUtils.dip2px(context,66));
+                invalidate();
+
             }
         });
     }
@@ -56,22 +67,14 @@ public class DeleteViewGroup extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        invalidate();
         viewDragHelper.processTouchEvent(event);
         return true;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
 
     public void addViews(Context mcontext){
-        for(int i = 0 ; i < 3 ; i ++){
-            LayoutInflater inflater = LayoutInflater.from(mcontext);
-            View view = inflater.inflate(R.layout.item_delete,null);
-            addView(view);
-
-        }
+        LayoutInflater inflater = LayoutInflater.from(mcontext);
+        View view = inflater.inflate(R.layout.item_acc,null);
+        addView(view);
     }
 }

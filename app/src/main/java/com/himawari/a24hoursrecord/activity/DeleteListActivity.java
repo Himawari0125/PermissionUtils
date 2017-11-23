@@ -3,9 +3,11 @@ package com.himawari.a24hoursrecord.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ListView;
 
 import com.himawari.a24hoursrecord.BaseActvity;
 import com.himawari.a24hoursrecord.R;
+import com.himawari.a24hoursrecord.adapter.DeleteAdapter;
 import com.himawari.a24hoursrecord.views.DeleteViewGroup;
 
 /**
@@ -13,7 +15,8 @@ import com.himawari.a24hoursrecord.views.DeleteViewGroup;
  */
 
 public class DeleteListActivity extends BaseActvity {
-    private DeleteViewGroup delete_group;
+    private ListView listView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_deletelist);
@@ -22,7 +25,13 @@ public class DeleteListActivity extends BaseActvity {
 
     @Override
     protected void initView() {
-        delete_group = (DeleteViewGroup) findViewById(R.id.delete_group);
-        delete_group.addViews(getBaseContext());
+        listView = (ListView)findViewById(R.id.listview);
+        DeleteAdapter adapter = new DeleteAdapter(this);
+        listView.setAdapter(adapter);
+
+
+
     }
+
+
 }
