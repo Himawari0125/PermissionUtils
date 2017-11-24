@@ -114,10 +114,7 @@ public class AboveItemView extends LinearLayout {
         View view = inflater.inflate(R.layout.item_acc,null);
         addView(view);
 
-
         final CheckBox checkBox = view.findViewById(R.id.checkBox);
-
-
 
         checkBox.setOnClickListener(new OnClickListener() {
             @Override
@@ -127,12 +124,6 @@ public class AboveItemView extends LinearLayout {
             }
         });
 
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("---view---","----click----");
-            }
-        });
     }
 
     public void setIsBxChecked(boolean isChecked){

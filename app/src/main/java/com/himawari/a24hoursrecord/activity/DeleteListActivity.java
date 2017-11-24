@@ -55,7 +55,7 @@ public class DeleteListActivity extends BaseActvity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("item_click","position:"+position+" id:"+id);
+                Log.i("-------------","item");
             }
         });
 
