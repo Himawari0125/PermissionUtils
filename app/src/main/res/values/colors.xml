@@ -6,4 +6,6 @@
 
     <color name="delete_account">#ff4646</color>
     <color name="background_white">#ffffff</color>
+    <color name="title">#333333</color>
+    <color name="item_background">#ffffff</color>
 </resources>

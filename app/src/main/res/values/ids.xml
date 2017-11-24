@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="itemview_icon_id" type="id"/>
+    <item name="itemview_check_id" type="id"/>
+    <item name="edittextview_title_id" type="id"/>
 </resources>

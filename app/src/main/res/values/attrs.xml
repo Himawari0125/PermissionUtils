@@ -2,10 +2,26 @@
 <resources>
     <declare-styleable name="itemview">
         <attr name="img_icon" format="reference|color"/>
-        <attr name="title_tv" format="string"/>
+        <attr name="item_title_tv" format="string"/>
         <attr name="next_icon" format="reference|color"/>
-        <attr name="title_size" format="float"></attr>
+        <attr name="item_title_size" format="float"></attr>
+        <attr name="item_title_color" format="color"></attr>
+        <attr name="left_checkbox_button" format="reference"/>
+    </declare-styleable>
 
+    <declare-styleable name="titleview">
+        <attr name="title_tv" format="string"/>
+        <attr name="left_img" format="reference|color"/>
+        <attr name="right_img" format="reference|color"/>
+        <attr name="right_tv" format="string"/>
+        <attr name="right_tv_color" format="color"/>
+        <attr name="right_tv_size" format="float"/>
+    </declare-styleable>
 
+    <declare-styleable name="edittextview">
+        <attr name="edit_goal_title" format="string"/>
+        <attr name="edit_goal_hint" format="string"/>
+        <attr name="title_margin_left" format="integer|float"/>
+        <attr name="hint_margin_left" format="integer|float"/>
     </declare-styleable>
 </resources>

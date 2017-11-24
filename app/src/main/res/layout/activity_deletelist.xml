@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.himawari.a24hoursrecord.views.DeleteViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:id="@+id/delete_group"
-    android:background="#f8f8f8"
-    >
-    <ListView
+    android:background="#f8f8f8">
+
+    <com.himawari.a24hoursrecord.views.TitleView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/title"
+        app:right_tv ="@string/edit"
+        app:right_tv_color="@color/colorAccent">
+        ></com.himawari.a24hoursrecord.views.TitleView>
+    <com.himawari.a24hoursrecord.views.SidesLiplistView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview"></ListView>
+        android:id="@+id/listview"
+        android:scrollbars="none"/>
 
 
 
-</com.himawari.a24hoursrecord.views.DeleteViewGroup>
+</LinearLayout>

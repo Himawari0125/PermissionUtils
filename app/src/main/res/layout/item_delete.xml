@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="66dp"
     android:orientation="horizontal"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    >
 
 
     <LinearLayout
@@ -27,8 +28,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.himawari.a24hoursrecord.views.DeleteViewGroup
+    <com.himawari.a24hoursrecord.views.AboveItemView
         android:layout_width="match_parent"
-        android:layout_height="66dp"></com.himawari.a24hoursrecord.views.DeleteViewGroup>
+        android:layout_height="66dp"
+        android:id="@+id/above_item"></com.himawari.a24hoursrecord.views.AboveItemView>
 
 </FrameLayout>
