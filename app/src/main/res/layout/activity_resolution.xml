@@ -6,7 +6,7 @@
 
 
 
-    <com.himawari.a24hoursrecord.views.CircleView
+    <com.himawari.permissionUtils.views.CircleView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
