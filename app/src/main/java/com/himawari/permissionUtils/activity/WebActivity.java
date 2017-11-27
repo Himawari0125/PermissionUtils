@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.PortraitLandscapeUtils;
 import com.himawari.permissionUtils.utils.WebViewLoadUtils;
@@ -15,7 +15,7 @@ import com.himawari.permissionUtils.utils.WebViewLoadUtils;
  * Created by S.Lee on 2017/9/15 0015.
  */
 
-public class WebActivity extends BaseActvity {
+public class WebActivity extends BaseActivity {
     private WebView webView;
     private LinearLayout layout;
     private static final String urlPath = "<html><body><iframe height=360 width=604 src='http://player.youku.com/embed/XNzQzMTc4Njg0' frameborder=0 'allowfullscreen'></iframe></body></html>";//"http://v.youku.com/v_show/id_XNzQzMTc4Njg0.html";

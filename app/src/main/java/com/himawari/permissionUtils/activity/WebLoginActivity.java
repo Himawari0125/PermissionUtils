@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.sina.SinaConstants;
 import com.sina.weibo.sdk.WbSdk;
@@ -22,7 +22,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
  * Created by S.Lee on 2017/10/10.
  */
 
-public class WebLoginActivity extends BaseActvity implements View.OnClickListener{
+public class WebLoginActivity extends BaseActivity implements View.OnClickListener{
     private Button login_btn;
     private AuthInfo mAuthInfo;
     private SsoHandler mSsoHandler;

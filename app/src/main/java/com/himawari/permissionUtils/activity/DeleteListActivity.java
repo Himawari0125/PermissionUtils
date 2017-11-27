@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.DeleteAdapter;
 import com.himawari.permissionUtils.views.SidesLiplistView;
@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by S.Lee on 2017/11/22.
  */
 
-public class DeleteListActivity extends BaseActvity {
+public class DeleteListActivity extends BaseActivity {
     private SidesLiplistView listView;
     private TitleView title;
 

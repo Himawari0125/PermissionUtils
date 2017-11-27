@@ -24,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.BTDeviceAdapter;
 import com.himawari.permissionUtils.resolution.ResolutionActivity;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActvity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivity_5.0以上";
     private static final String TAG_2 = "MainActivity_5.0以下";
@@ -266,6 +266,7 @@ public class MainActivity extends BaseActvity implements View.OnClickListener{
 
     public void onDelListClick(View view){
         startActivity(new Intent(this,DeleteListActivity.class));
+
     }
 
     class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.services.BaseService;
 
@@ -16,7 +16,7 @@ import com.himawari.permissionUtils.services.BaseService;
  * Created by S.Lee on 2017/9/29.
  */
 
-public class ServiceActivity extends BaseActvity implements View.OnClickListener{
+public class ServiceActivity extends BaseActivity implements View.OnClickListener{
     private Button startService_btn,stopService_btn,setalarm_btn;
     private Intent it;
     private EditText input_edt;

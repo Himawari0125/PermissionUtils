@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.DensityUtils;
+
+import static android.support.v4.widget.ViewDragHelper.STATE_IDLE;
 
 
 /**
@@ -28,6 +31,7 @@ public class AboveItemView extends LinearLayout {
     private CheckBoxListener checkBxlistener;
     private ListView listView;
     private OnClickListener deleteListener;
+    private Context context;
 
 
     public void setCheckBoxListener(CheckBoxListener listener){
@@ -43,7 +47,9 @@ public class AboveItemView extends LinearLayout {
     public AboveItemView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        addViews(context);
+        Log.i("--------------","------------");
+        this.context = context;
+
 
         viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
@@ -65,11 +71,21 @@ public class AboveItemView extends LinearLayout {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
+                Log.i("----------","--------"+releasedChild);
                 if(releasedChild.getLeft() > DensityUtils.dip2px(context,-33))
                     releasedChild.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
                 else releasedChild.layout(DensityUtils.dip2px(context,-66),0,releasedChild.getRight()-(DensityUtils.dip2px(context,66)+releasedChild.getLeft()), DensityUtils.dip2px(context,66));
                 invalidate();
 
+            }
+
+            @Override
+            public void onViewDragStateChanged(int state) {
+                super.onViewDragStateChanged(state);
+                switch (state){
+                    case STATE_IDLE:
+                        break;
+                }
             }
         });
     }
@@ -131,7 +147,7 @@ public class AboveItemView extends LinearLayout {
     }
 
 
-    private void addViews(Context mcontext){
+    public void addViews(Context mcontext){
         LayoutInflater inflater = LayoutInflater.from(mcontext);
         View view = inflater.inflate(R.layout.item_acc,null);
         addView(view);
@@ -154,7 +170,11 @@ public class AboveItemView extends LinearLayout {
     }
 
 
+
+
     public interface CheckBoxListener{
         void isBoxChecked(boolean isBoxChecked);
     }
+
+
 }

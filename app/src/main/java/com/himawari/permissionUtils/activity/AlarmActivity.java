@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.himawari.permissionUtils.BaseActvity;
+import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.AlarmUtils;
 
@@ -14,7 +14,7 @@ import com.himawari.permissionUtils.utils.AlarmUtils;
  * Created by S.Lee on 2017/9/7 0007.
  */
 
-public class AlarmActivity extends BaseActvity implements View.OnClickListener{
+public class AlarmActivity extends BaseActivity implements View.OnClickListener{
     private Button setalarm_btn;
     private EditText input_edt;
 
