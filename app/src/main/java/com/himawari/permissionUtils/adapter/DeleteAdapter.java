@@ -1,6 +1,8 @@
 package com.himawari.permissionUtils.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,9 @@ public class DeleteAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private boolean checkbocAppear = false;
     private Map<Integer,Boolean> check_map;
-    private Map<Integer,Boolean> item_map;
+    private Map<Integer,Boolean> slip_map;
     private ListView listView;
     private View.OnClickListener delete_click;
-    private Context context;
 
 
     public DeleteAdapter(Context mcontext, ListView listView, View.OnClickListener listener){
@@ -32,8 +33,7 @@ public class DeleteAdapter extends BaseAdapter {
         this.listView = listView;
         this.delete_click = listener;
         initCheckMap();
-        this.context = mcontext;
-        item_map = new HashMap<>();
+        initSlipMap();
     }
 
     public void initCheckMap(){
@@ -47,7 +47,16 @@ public class DeleteAdapter extends BaseAdapter {
         }
     }
 
-
+    public void initSlipMap(){
+        if(slip_map != null){
+            slip_map.clear();
+            slip_map = null;
+        }
+        slip_map = new HashMap<>();
+        for(int i = 0 ; i < getCount();i++){
+            slip_map.put(i,false);
+        }
+    }
     public void setChoose(boolean iscanChoose){
         this.checkbocAppear = iscanChoose;
         notifyDataSetChanged();
@@ -94,9 +103,14 @@ public class DeleteAdapter extends BaseAdapter {
         });
         holder.above_item.setListener(listView,delete_click);
         holder.above_item.setTag(position);
-
-
-
+        holder.above_item.setIsSlipedLeft(slip_map.get(position));
+        holder.above_item.setSlipListener(new AboveItemView.SlipListener() {
+            @Override
+            public void isSliped(int position,boolean isSliped) {
+                Log.i("isSliped:",isSliped+" position:"+position);
+                slip_map.put(position,isSliped);
+            }
+        });
 
         return convertView;
     }

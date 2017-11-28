@@ -1,5 +1,6 @@
 package com.himawari.permissionUtils.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ViewDragHelper;
@@ -17,6 +18,7 @@ import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.DensityUtils;
 
+import static android.support.v4.widget.ViewDragHelper.STATE_DRAGGING;
 import static android.support.v4.widget.ViewDragHelper.STATE_IDLE;
 
 
@@ -32,6 +34,12 @@ public class AboveItemView extends LinearLayout {
     private ListView listView;
     private OnClickListener deleteListener;
     private Context context;
+    private SlipListener slipListener;
+
+
+    public void setSlipListener(SlipListener listener){
+        this.slipListener = listener;
+    }
 
 
     public void setCheckBoxListener(CheckBoxListener listener){
@@ -44,12 +52,13 @@ public class AboveItemView extends LinearLayout {
     }
 
 
+
     public AboveItemView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         Log.i("--------------","------------");
         this.context = context;
-
+        addViews(context);
 
         viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
@@ -72,21 +81,21 @@ public class AboveItemView extends LinearLayout {
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
                 Log.i("----------","--------"+releasedChild);
-                if(releasedChild.getLeft() > DensityUtils.dip2px(context,-33))
+                if(releasedChild.getLeft() > DensityUtils.dip2px(context,-33)){
                     releasedChild.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
-                else releasedChild.layout(DensityUtils.dip2px(context,-66),0,releasedChild.getRight()-(DensityUtils.dip2px(context,66)+releasedChild.getLeft()), DensityUtils.dip2px(context,66));
+                    Log.e("position:",getTag()+" isSliped:false");
+                    slipListener.isSliped((int)getTag(),false);
+
+                }else{
+                    releasedChild.layout(DensityUtils.dip2px(context,-66),0,releasedChild.getRight()-(DensityUtils.dip2px(context,66)+releasedChild.getLeft()), DensityUtils.dip2px(context,66));
+                    Log.e("position:",getTag()+" isSliped:true");
+                    slipListener.isSliped((int)getTag(),true);
+                }
+
                 invalidate();
 
             }
 
-            @Override
-            public void onViewDragStateChanged(int state) {
-                super.onViewDragStateChanged(state);
-                switch (state){
-                    case STATE_IDLE:
-                        break;
-                }
-            }
         });
     }
 
@@ -176,5 +185,18 @@ public class AboveItemView extends LinearLayout {
         void isBoxChecked(boolean isBoxChecked);
     }
 
+    public interface SlipListener{
+        void isSliped(int position,boolean isSliped);
+    }
+
+
+    public void setIsSlipedLeft(boolean isSlipedLeft){
+            View child = getChildAt(0);
+            if(isSlipedLeft){
+                child.layout(leftBound,0,(int) MyApplication.width+leftBound,DensityUtils.dip2px(context,66));
+            }else{
+                child.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
+            }
+    }
 
 }

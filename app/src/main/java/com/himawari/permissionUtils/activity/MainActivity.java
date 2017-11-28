@@ -269,6 +269,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+    public void onAccDeleteClick(View view){
+
+    }
+
     class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{
 
        @Override

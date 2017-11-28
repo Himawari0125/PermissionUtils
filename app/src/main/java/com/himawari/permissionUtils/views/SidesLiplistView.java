@@ -3,6 +3,7 @@ package com.himawari.permissionUtils.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 /**
@@ -48,4 +49,5 @@ public class SidesLiplistView extends ListView {
         }
         return super.onInterceptTouchEvent(ev);
     }
+
 }

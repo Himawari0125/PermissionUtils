@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:id="@+id/delete_group"
     android:background="#f8f8f8">
 
     <com.himawari.permissionUtils.views.TitleView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:id="@+id/title"
         app:right_tv ="@string/edit"
         app:right_tv_color="@color/colorAccent">
         ></com.himawari.permissionUtils.views.TitleView>
     <com.himawari.permissionUtils.views.SidesLiplistView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/listview"
         android:scrollbars="none"/>
 

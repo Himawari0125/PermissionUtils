@@ -97,6 +97,14 @@ public class MyCircleLayout extends ViewGroup {
         setBackgroundColor(Color.BLACK);
     }
 
+    /**
+     * 测量过程是通过measure(int,int)来实现的，
+     * 是一种自上而下的遍历过程。
+     * 在遍历期间，每个视图都会传递尺寸说明到下面的树中。
+     * 在测量过程结束时，每个视图都存储了它的测量值。
+     * 第二个过程是由layout(int,int,int,int)触发，也是一种自上而下的过程。
+     * 在这个过程中，父视图的责任是使用测量过程计算出来的尺寸来放置它的所有子视图。
+     */
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         //完成对childview位置的指定  onLayout要与onMeasure配合使用 子视图需要在onMeasure中测量一下，才能在显示出内容

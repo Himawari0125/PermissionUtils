@@ -49,6 +49,7 @@
         <activity android:name=".activity.WebLoginActivity"></activity>
         <activity android:name=".activity.CircleActivity"></activity>
         <activity android:name=".activity.DeleteListActivity"></activity>
+
         <service
             android:name=".services.BaseService"
             android:process=":remote"></service>
