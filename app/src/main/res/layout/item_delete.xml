@@ -28,9 +28,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.himawari.permissionUtils.views.AboveItemView
+    <com.himawari.permissionUtils.deleteList.AboveItemView
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:id="@+id/above_item"></com.himawari.permissionUtils.views.AboveItemView>
+        android:id="@+id/above_item"></com.himawari.permissionUtils.deleteList.AboveItemView>
 
 </FrameLayout>

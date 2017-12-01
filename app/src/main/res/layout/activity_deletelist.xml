@@ -14,7 +14,7 @@
         app:right_tv ="@string/edit"
         app:right_tv_color="@color/colorAccent">
         ></com.himawari.permissionUtils.views.TitleView>
-    <com.himawari.permissionUtils.views.SidesLiplistView
+    <com.himawari.permissionUtils.deleteList.SidesLiplistView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/listview"

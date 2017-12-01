@@ -1,6 +1,5 @@
-package com.himawari.permissionUtils.adapter;
+package com.himawari.permissionUtils.deleteList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.himawari.permissionUtils.R;
-import com.himawari.permissionUtils.views.AboveItemView;
+import com.himawari.permissionUtils.deleteList.AboveItemView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +87,9 @@ public class DeleteAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_delete,null);
             holder = new ViewHolder();
             holder.above_item = convertView.findViewById(R.id.above_item);
+
+
+
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();

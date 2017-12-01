@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.himawari.permissionUtils.views.CustomMenu
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/setting_bg"
+        android:padding="16dp"
+        android:id="@+id/setting_menu"
+        app:img1="@drawable/opensetting"
+        app:img2="@drawable/icon_norspeed"
+        app:img3="@drawable/icon_faster"
+        app:img4="@drawable/icon_init"
+        app:img5="@drawable/icon_poweroff"
+        app:distance="125"
+        app:position="2"></com.himawari.permissionUtils.views.CustomMenu>
+</LinearLayout>

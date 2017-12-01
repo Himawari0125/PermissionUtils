@@ -48,7 +48,8 @@
         <activity android:name=".activity.ServiceActivity"></activity>
         <activity android:name=".activity.WebLoginActivity"></activity>
         <activity android:name=".activity.CircleActivity"></activity>
-        <activity android:name=".activity.DeleteListActivity"></activity>
+        <activity android:name=".deleteList.DeleteListActivity"></activity>
+        <activity android:name=".activity.MenuActivity"></activity>
 
         <service
             android:name=".services.BaseService"

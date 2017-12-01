@@ -1,11 +1,9 @@
-package com.himawari.permissionUtils.views;
+package com.himawari.permissionUtils.deleteList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +15,6 @@ import android.widget.ListView;
 import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.DensityUtils;
-
-import static android.support.v4.widget.ViewDragHelper.STATE_DRAGGING;
-import static android.support.v4.widget.ViewDragHelper.STATE_IDLE;
 
 
 /**
@@ -53,10 +48,9 @@ public class AboveItemView extends LinearLayout {
 
 
 
+
     public AboveItemView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
-        Log.i("--------------","------------");
         this.context = context;
         addViews(context);
 
@@ -80,18 +74,14 @@ public class AboveItemView extends LinearLayout {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
-                Log.i("----------","--------"+releasedChild);
                 if(releasedChild.getLeft() > DensityUtils.dip2px(context,-33)){
                     releasedChild.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
-                    Log.e("position:",getTag()+" isSliped:false");
                     slipListener.isSliped((int)getTag(),false);
 
                 }else{
                     releasedChild.layout(DensityUtils.dip2px(context,-66),0,releasedChild.getRight()-(DensityUtils.dip2px(context,66)+releasedChild.getLeft()), DensityUtils.dip2px(context,66));
-                    Log.e("position:",getTag()+" isSliped:true");
                     slipListener.isSliped((int)getTag(),true);
                 }
-
                 invalidate();
 
             }

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.BTDeviceAdapter;
+import com.himawari.permissionUtils.deleteList.DeleteListActivity;
 import com.himawari.permissionUtils.resolution.ResolutionActivity;
 import com.himawari.permissionUtils.utils.BlutoothVersionUtils;
 import com.himawari.permissionUtils.utils.CameraAlbumUtils;
@@ -269,8 +270,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
-    public void onAccDeleteClick(View view){
-
+    public void onMenuClick(View view){
+        startActivity(new Intent(this,MenuActivity.class));
     }
 
     class BluetoothDeviceOnItemclick implements AdapterView.OnItemClickListener{

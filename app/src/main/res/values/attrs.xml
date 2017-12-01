@@ -24,4 +24,18 @@
         <attr name="title_margin_left" format="integer|float"/>
         <attr name="hint_margin_left" format="integer|float"/>
     </declare-styleable>
+
+    <declare-styleable name="custommenu">
+        <attr name="img1" format="reference|color"/>
+        <attr name="img2" format="reference|color"/>
+        <attr name="img3" format="reference|color"/>
+        <attr name="img4" format="reference|color"/>
+        <attr name="img5" format="reference|color"/>
+        <attr name="img6" format="reference|color"/>
+        <attr name="img7" format="reference|color"/>
+        <attr name="img8" format="reference|color"/>
+        <attr name="img9" format="reference|color"/>
+        <attr name="position" format="integer"></attr>
+        <attr name="distance" format="integer"></attr>
+    </declare-styleable>
 </resources>

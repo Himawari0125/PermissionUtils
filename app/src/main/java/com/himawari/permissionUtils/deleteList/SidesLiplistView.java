@@ -1,4 +1,4 @@
-package com.himawari.permissionUtils.views;
+package com.himawari.permissionUtils.deleteList;
 
 import android.content.Context;
 import android.util.AttributeSet;

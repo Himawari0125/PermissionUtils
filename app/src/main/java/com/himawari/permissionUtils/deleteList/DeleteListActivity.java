@@ -1,16 +1,13 @@
-package com.himawari.permissionUtils.activity;
+package com.himawari.permissionUtils.deleteList;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
-import com.himawari.permissionUtils.adapter.DeleteAdapter;
-import com.himawari.permissionUtils.views.SidesLiplistView;
 import com.himawari.permissionUtils.views.TitleView;
 
 import java.util.Map;
