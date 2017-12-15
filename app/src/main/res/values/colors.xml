@@ -10,6 +10,13 @@
     <color name="background_black">#000000</color>
     <color name="title">#333333</color>
     <color name="item_background">#ffffff</color>
+    <color name="mytransparent">#00000000</color>
+
+    <color name="sub_item_background">#fbfbfb</color>
+    <color name="sub_item_text">#777777</color>
 
     <color name="tranfer">#00ffffff</color>
+
+    <color name="history_titleBarstart">#56d9ff</color>
+    <color name="history_titleBarend">#2072fe</color>
 </resources>

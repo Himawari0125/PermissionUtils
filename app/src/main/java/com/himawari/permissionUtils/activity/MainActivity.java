@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,7 +33,9 @@ import com.himawari.permissionUtils.resolution.ResolutionActivity;
 import com.himawari.permissionUtils.utils.BlutoothVersionUtils;
 import com.himawari.permissionUtils.utils.CameraAlbumUtils;
 import com.himawari.permissionUtils.utils.PermissionRequestUtils;
+import com.himawari.permissionUtils.utils.PopupWindowUtils;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG_2 = "MainActivity_5.0以下";
 
 
+    private boolean isShow = false;
 
     private Button camera_btn,scanbluetooth_btn,resolution_btn,
             sendBroadcast_btn,webView_btn,service_btn,weblogin_btn,
@@ -356,5 +360,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
            });
 
        }
+   }
+
+   public void onDrawerClick(View view){
+        startActivity(new Intent(this,DrawerActivity.class));
+
+   }
+
+   public void onCalenderClick(View view){
+//       long time = System.currentTimeMillis();
+//
+//       isShow = !isShow;
+//       PopupWindowUtils.showCalenderView(this,camera_btn, Gravity.CENTER,isShow,time);
+       startActivity(new Intent(this,CalendarActivity.class));
    }
 }

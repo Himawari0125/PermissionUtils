@@ -3,4 +3,10 @@
     <item name="itemview_icon_id" type="id"/>
     <item name="itemview_check_id" type="id"/>
     <item name="edittextview_title_id" type="id"/>
+
+    <item name="drawer_title" type="id"/>
+
+    <item name="calender_left_btn" type="id"/>
+    <item name="calender_right_btn" type="id"/>
+    <item name="calender_date_tv" type="id"/>
 </resources>
