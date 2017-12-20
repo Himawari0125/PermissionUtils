@@ -26,14 +26,16 @@
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
     </style>
-    <!-- ActionSheet进出动画 -->
+    <!-- DeleteActionSheet进出动画 -->
     <style name="ActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>
     </style>
-    <!--DeleteDialog Style-->
-    <style name="ActionDeleteDialogAnimation" parent="ActionSheetDialogStyle">
-        <item name="android:windowIsTranslucent">false</item>
+
+    <!-- CalendarActionSheet进出动画-->
+    <style name="CalendarActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/calendar_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/calendar_dialog_out</item>
     </style>
 
 

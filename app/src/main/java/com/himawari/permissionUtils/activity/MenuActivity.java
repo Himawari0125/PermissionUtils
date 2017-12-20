@@ -27,7 +27,7 @@ public class MenuActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        menu = (CustomMenu) findViewById(R.id.setting_menu);
+        menu = findViewById(R.id.setting_menu);
 
     }
 }

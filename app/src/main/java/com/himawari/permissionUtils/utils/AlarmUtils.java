@@ -59,8 +59,7 @@ public class AlarmUtils {
      * @return alarmTime>currentTime?true:false
      */
     private static boolean alarmTimeIsLessthanCurrent(Calendar alarmCalendar){
-        if(alarmCalendar.getTimeInMillis() > System.currentTimeMillis())return true;
-        return false;
+        return alarmCalendar.getTimeInMillis() > System.currentTimeMillis();
     }
 
     private static long getIntervalMillis(int subscript) {

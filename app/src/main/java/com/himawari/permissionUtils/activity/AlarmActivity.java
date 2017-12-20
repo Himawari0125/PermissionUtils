@@ -27,8 +27,8 @@ public class AlarmActivity extends BaseActivity implements View.OnClickListener{
     }
     @Override
     protected void initView() {
-        setalarm_btn = (Button)findViewById(R.id.setAlarm);
-        input_edt = (EditText)findViewById(R.id.inputtime);
+        setalarm_btn = findViewById(R.id.setAlarm);
+        input_edt = findViewById(R.id.inputtime);
         setalarm_btn.setOnClickListener(this);
     }
 

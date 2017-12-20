@@ -28,7 +28,7 @@ public class DeleteListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        listView = (SidesLiplistView)findViewById(R.id.listview);
+        listView = findViewById(R.id.listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -45,7 +45,7 @@ public class DeleteListActivity extends BaseActivity {
         listView.setAdapter(adapter);
 
 
-        title = (TitleView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
         title.setRightIconClickListener(new TitleView.rightIconClickListener() {
             @Override
             public void rightIconClick() {

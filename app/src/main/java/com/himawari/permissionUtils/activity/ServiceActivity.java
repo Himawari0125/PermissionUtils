@@ -28,12 +28,12 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        startService_btn = (Button)findViewById(R.id.button2);
+        startService_btn = findViewById(R.id.button2);
         startService_btn.setOnClickListener(this);
         it = new Intent(this, BaseService.class);
-        stopService_btn = (Button)findViewById(R.id.button3);
+        stopService_btn = findViewById(R.id.button3);
         stopService_btn.setOnClickListener(this);
-        input_edt = (EditText)findViewById(R.id.editText);
+        input_edt = findViewById(R.id.editText);
     }
 
     @Override

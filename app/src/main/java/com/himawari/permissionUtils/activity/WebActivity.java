@@ -33,8 +33,8 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        webView = (WebView)findViewById(R.id.web_view);
-        layout = (LinearLayout)findViewById(R.id.layout);
+        webView = findViewById(R.id.web_view);
+        layout = findViewById(R.id.layout);
     }
 
     // goBack()表示返回webView的上一页面

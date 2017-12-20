@@ -68,11 +68,10 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
         }else{
             resultWidth = MyApplication.width - (getPaddingLeft()+getPaddingRight());
         }
-        float width = resultWidth;
-        averageWidth = width/7;
+        averageWidth = resultWidth/7;
         selectedAadius = (averageWidth-10)/2;
-        startX = averageWidth/2 + getPaddingLeft();
-        Log.i("----",width+" "+averageWidth+" "+selectedAadius);
+        startX = averageWidth/2;
+        setMeasuredDimension((int)resultWidth,(int)resultWidth);
     }
 
     public void setCurrentTime(Calendar currentTime){
@@ -95,10 +94,10 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
                 beans.get(i).setSetXAndY(x,y);
                 drawScaledDate(canvas,x,y,bean.getDay()+"");
             }
-            if(bean.isToday()){
-                beans.get(i).setSetXAndY(x,y);
-                drawTodayDate(canvas,x,y,bean.getDay()+"");
-            }
+//            if(bean.isToday()){
+//                beans.get(i).setSetXAndY(x,y);
+//                drawTodayDate(canvas,x,y,bean.getDay()+"");
+//            }
             if(bean.isSelectedDay()){
                 beans.get(i).setSetXAndY(x,y);
                 drawSelectedDate(canvas,x,y,bean.getDay()+"");
@@ -183,8 +182,8 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
         year = currentCalendar.get(Calendar.YEAR);
 
         //获取当前月份天数
-        List<Integer> bigMonth = Arrays.asList(new Integer[]{1,3,5,7,8,10,12});
-        List<Integer> littleMonth = Arrays.asList(new Integer[]{4,6,9,11});
+        List<Integer> bigMonth = Arrays.asList(1,3,5,7,8,10,12);
+        List<Integer> littleMonth = Arrays.asList(4,6,9,11);
         int totalDays;
         if(bigMonth.contains(month)){
             totalDays = 31;
@@ -209,7 +208,7 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
             bean.setYear(year);
             bean.setDayofWeek(currentCalendar.get(Calendar.DAY_OF_WEEK));
             bean.setWeekofMonth(currentCalendar.get(Calendar.WEEK_OF_MONTH));
-            bean.setToday(today == i ? true:false);
+            bean.setSelectedDay(today == i);//setToday(today == i ? true:false);
             bean.setNormalDay(true);
 
             datas.add(bean);

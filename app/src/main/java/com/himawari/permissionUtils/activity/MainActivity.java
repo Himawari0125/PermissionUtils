@@ -245,27 +245,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        list = (ListView)findViewById(R.id.listview);
+        list = findViewById(R.id.listview);
         adapter = new BTDeviceAdapter(this);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new BluetoothDeviceOnItemclick());
-        imageView = (ImageView)findViewById(R.id.imageview);
+        imageView = findViewById(R.id.imageview);
 
-        camera_btn = (Button)findViewById(R.id.intent_camera);
+        camera_btn = findViewById(R.id.intent_camera);
         camera_btn.setOnClickListener(this);
-        scanbluetooth_btn = (Button)findViewById(R.id.scanbluetooth);
+        scanbluetooth_btn = findViewById(R.id.scanbluetooth);
         scanbluetooth_btn.setOnClickListener(this);
-        resolution_btn = (Button)findViewById(R.id.screenResolution);
+        resolution_btn = findViewById(R.id.screenResolution);
         resolution_btn.setOnClickListener(this);
-        sendBroadcast_btn = (Button)findViewById(R.id.sendBroadcast);
+        sendBroadcast_btn = findViewById(R.id.sendBroadcast);
         sendBroadcast_btn.setOnClickListener(this);
-        webView_btn = (Button)findViewById(R.id.webView);
+        webView_btn = findViewById(R.id.webView);
         webView_btn.setOnClickListener(this);
-        service_btn = (Button)findViewById(R.id.button);
+        service_btn = findViewById(R.id.button);
         service_btn.setOnClickListener(this);
-        weblogin_btn = (Button)findViewById(R.id.button4);
+        weblogin_btn = findViewById(R.id.button4);
         weblogin_btn.setOnClickListener(this);
-        circlelayout_btn = (Button)findViewById(R.id.button6);
+        circlelayout_btn = findViewById(R.id.button6);
         circlelayout_btn.setOnClickListener(this);
     }
 
@@ -368,10 +368,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
    }
 
    public void onCalenderClick(View view){
-//       long time = System.currentTimeMillis();
-//
-//       isShow = !isShow;
-//       PopupWindowUtils.showCalenderView(this,camera_btn, Gravity.CENTER,isShow,time);
-       startActivity(new Intent(this,CalendarActivity.class));
+       long time = System.currentTimeMillis();
+       Calendar calendar = Calendar.getInstance();
+       calendar.setTimeInMillis(time);
+       isShow = !isShow;
+       PopupWindowUtils.showCalenderView(this,camera_btn, Gravity.CENTER,calendar);
+//       startActivity(new Intent(this,CalendarActivity.class));
+   }
+
+
+   public void ontrendClick(View view){
+       startActivity(new Intent(this,TrendActivity.class));
    }
 }

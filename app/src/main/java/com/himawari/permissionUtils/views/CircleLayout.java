@@ -529,7 +529,7 @@ public class CircleLayout extends ViewGroup {
     private void rotateViewToCenter(CircleImageViews view, boolean fromRunnable) {
         if (rotateToCenter) {
             float velocityTemp = 1;
-            float destAngle = (float) (firstChildPos - view.getAngle());
+            float destAngle = firstChildPos - view.getAngle();
             float startAngle = 0;
             int reverser = 1;
 
@@ -606,7 +606,7 @@ public class CircleLayout extends ViewGroup {
 
         for (int i = 0; i < getChildCount(); i++) {
 
-            View item = (View) getChildAt(i);
+            View item = getChildAt(i);
             if (item.getLeft() < x && item.getRight() > x & item.getTop() < y
                     && item.getBottom() > y) {
                 return i;

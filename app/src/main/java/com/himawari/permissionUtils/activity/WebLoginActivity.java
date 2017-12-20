@@ -35,7 +35,7 @@ public class WebLoginActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        login_btn = (Button)findViewById(R.id.button5);
+        login_btn = findViewById(R.id.button5);
         login_btn.setOnClickListener(this);
 
     }
