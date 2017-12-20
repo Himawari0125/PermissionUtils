@@ -64,7 +64,7 @@ public class PopupWindowUtils {
         if(deletPopupWindow!=null)deletPopupWindow = null;
     }
 
-    public static void showCalenderView(Context mcontext,View rootView, int gravityLocation,Calendar time){
+    public static void showCalenderView(Context mcontext,View rootView,Calendar time){
         View view = LayoutInflater.from(mcontext).inflate(R.layout.dialog_datechoose, null);
         if(calendarPopupWindow == null) {
             calendarView = view.findViewById(R.id.calenderPickerView);
@@ -101,7 +101,7 @@ public class PopupWindowUtils {
                 }
             });
         }
-        calendarPopupWindow.showAtLocation(rootView,gravityLocation,0,0);
+        calendarPopupWindow.showAsDropDown(rootView);
 
     }
 

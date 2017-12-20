@@ -372,7 +372,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
        Calendar calendar = Calendar.getInstance();
        calendar.setTimeInMillis(time);
        isShow = !isShow;
-       PopupWindowUtils.showCalenderView(this,camera_btn, Gravity.CENTER,calendar);
+       PopupWindowUtils.showCalenderView(this,camera_btn,calendar);
 //       startActivity(new Intent(this,CalendarActivity.class));
    }
 
