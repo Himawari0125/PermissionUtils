@@ -9,11 +9,14 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
+import com.himawari.permissionUtils.MyApplication;
+
+
 /**
  * Created by S.Lee on 2017/12/20.
  */
 
-public class ScrollerLayout  extends ViewGroup {
+public class ScrollerLayout extends ViewGroup {
     private Scroller mScroller;
     /**
      * 判定为拖动的最小移动像素数
@@ -25,6 +28,12 @@ public class ScrollerLayout  extends ViewGroup {
     private int leftBorder;
     private int rightBorder;
 
+    private float heightScaleWidth = 2/3.0f;
+    private int splitSpaceCount = 5;
+    private float averageWidth;
+    private int size;
+    private float height;
+
 
     public ScrollerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,30 +44,47 @@ public class ScrollerLayout  extends ViewGroup {
         mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
     }
 
+    public void reMeasure(int size){
+        this.size = size;
+        measure((int)averageWidth*size,(int)height);
+        layoutChild();
+        if(mScroller!=null)mScroller.startScroll(0, 0, 0, 0);
+        invalidate();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int childCount = getChildCount();
+        int specWidthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             // 为ScrollerLayout中的每一个子控件测量大小
             measureChild(childView, widthMeasureSpec, heightMeasureSpec);
         }
+
+        float width;
+        if(specWidthMode == MeasureSpec.EXACTLY){
+            width = specWidthSize;
+        }else{
+            width = MyApplication.width ;//- getPaddingLeft() - getPaddingRight();
+        }
+        height = width*heightScaleWidth;
+        averageWidth = width/splitSpaceCount;
+        setMeasuredDimension((int)averageWidth*size,(int)height);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed) {
-            int childCount = getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = getChildAt(i);
-                // 为ScrollerLayout中的每一个子控件在水平方向上进行布局
-                childView.layout(i * childView.getMeasuredWidth(), 0, (i + 1) * childView.getMeasuredWidth(), childView.getMeasuredHeight());
-            }
-            // 初始化左右边界值
-            leftBorder = getChildAt(0).getLeft();
-            rightBorder = getChildAt(getChildCount() - 1).getRight();
-        }
+        if (changed)layoutChild();
+    }
+
+    private void layoutChild(){
+        View childView = getChildAt(0);
+        childView.layout(0, 0,(int)averageWidth*size, (int)height);
+        leftBorder = getChildAt(0).getLeft();
+        rightBorder = getChildAt(getChildCount() - 1).getRight();
     }
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

@@ -2,19 +2,46 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/month"
+        android:onClick="onMonthclick"
+        app:layout_constraintBottom_toTopOf="@+id/button13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button15" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="onWeekClick"
+        android:text="week"
+        app:layout_constraintBottom_toTopOf="@+id/button13"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.himawari.permissionUtils.views.ScrollerLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.himawari.permissionUtils.views.TrendView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:id="@+id/trendView"
-        android:background="@mipmap/qushitu_beijing1"/>
+        android:id="@+id/scrollLayout">
+
+        <com.himawari.permissionUtils.views.TrendView
+            android:id="@+id/trendView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/qushitu_beijing1"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
     </com.himawari.permissionUtils.views.ScrollerLayout>
     <Button
         android:id="@+id/button12"
@@ -50,4 +77,6 @@
         android:onClick="onMuscleClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

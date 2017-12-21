@@ -21,6 +21,7 @@ import com.himawari.permissionUtils.utils.DensityUtils;
 
 import java.util.List;
 
+
 /**
  * Created by S.Lee on 2017/12/18.
  */
@@ -85,6 +86,10 @@ public class TrendView extends View implements View.OnTouchListener{
     public void setDatas(List<TrendBean> beans){
         this.datas = beans;
         isScrolling = (datas.size() > splitSpaceCount)?true:false;
+        measure((int)averageWidth*datas.size(),(int)height);
+        Log.i("measure",(int)averageWidth*datas.size()+" "+(int)height);
+        calculateIntervals();
+        setTrendNodes();
     }
 
     @Override
@@ -375,53 +380,51 @@ public class TrendView extends View implements View.OnTouchListener{
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int range = DensityUtils.dip2px(context,10);
+        int range = DensityUtils.dip2px(context,20);
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.i("----ACTION_DOWN-----","---------");
+                Log.i("----ACTION_DOWN-----",event.getX()+" "+event.getY());
                 downX = event.getX();
                 downY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.i("----ACTION_MOVE-----","---------");
+                Log.i("----ACTION_MOVE-----",event.getX()+" "+event.getY());
 
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i("----ACTION_UP-----","---------");
-                if(downX == event.getX() && downY == event.getY()){
-                    boolean isNotChoosed = true;//间距比较小时，确保只press一个point
-                    for(int i = 0 ; i < datas.size() ;i++){
-                        TrendBean bean = datas.get(i);
-                        switch (trendType){
-                            case Weight:
-                                if(isNotChoosed&&Math.abs(bean.getPositionWeightX() - event.getX()) < range && Math.abs(bean.getPositionWeightY() - event.getY()) < range){
-                                    datas.get(i).setIsWeightPressed(true);
-                                    isNotChoosed = false;
-                                }else{
-                                    datas.get(i).setIsWeightPressed(false);
-                                }
-                                break;
-                            case Fat:
-                                if(isNotChoosed&&Math.abs(bean.getPositionFatX() - event.getX()) < range && Math.abs(bean.getPositionFatY() - event.getY()) < range){
-                                    datas.get(i).setFatPressed(true);
-                                    isNotChoosed = false;
-                                }else{
-                                    datas.get(i).setFatPressed(false);
-                                }
-                                break;
-                            case Muscle:
-                                if(isNotChoosed&&Math.abs(bean.getPositionMuscleX() - event.getX()) < range && Math.abs(bean.getPositionMuscleY() - event.getY()) < range){
-                                    datas.get(i).setMusclePressed(true);
-                                    isNotChoosed = false;
-                                }else{
-                                    datas.get(i).setMusclePressed(false);
-                                }
-                                break;
-                        }
+                Log.i("----ACTION_UP-----",event.getX()+" "+event.getY());
+                boolean isNotChoosed = true;//间距比较小时，确保只press一个point
+                for(int i = 0 ; i < datas.size() ;i++){
+                    TrendBean bean = datas.get(i);
+                    switch (trendType){
+                        case Weight:
+                            if(isNotChoosed&&Math.abs(bean.getPositionWeightX() - event.getX()) < range && Math.abs(bean.getPositionWeightY() - event.getY()) < range){
+                                datas.get(i).setIsWeightPressed(true);
+                                isNotChoosed = false;
+                            }else{
+                                datas.get(i).setIsWeightPressed(false);
+                            }
+                            break;
+                        case Fat:
+                            if(isNotChoosed&&Math.abs(bean.getPositionFatX() - event.getX()) < range && Math.abs(bean.getPositionFatY() - event.getY()) < range){
+                                datas.get(i).setFatPressed(true);
+                                isNotChoosed = false;
+                            }else{
+                                datas.get(i).setFatPressed(false);
+                            }
+                            break;
+                        case Muscle:
+                            if(isNotChoosed&&Math.abs(bean.getPositionMuscleX() - event.getX()) < range && Math.abs(bean.getPositionMuscleY() - event.getY()) < range){
+                                datas.get(i).setMusclePressed(true);
+                                isNotChoosed = false;
+                            }else{
+                                datas.get(i).setMusclePressed(false);
+                            }
+                            break;
                     }
-                    invalidate();
                 }
+                invalidate();
                 break;
         }
         return true;
