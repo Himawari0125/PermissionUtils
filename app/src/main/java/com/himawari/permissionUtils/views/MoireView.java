@@ -95,5 +95,4 @@ public class MoireView extends View {
         float percent = intervalTimes * 1.0f / mDuration;
         return (int) ((1.0f - mInterpolator.getInterpolation(percent)) * 200);
     }
-
 }

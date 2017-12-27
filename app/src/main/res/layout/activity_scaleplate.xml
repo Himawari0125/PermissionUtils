@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.himawari.permissionUtils.views.ScaleplateView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:statuStrs="偏瘦,正常,偏胖,肥胖,重度,极度"
+        app:statusInterval="18.5,24.9,29.9,34.6,36.9"
+        />
+</android.support.constraint.ConstraintLayout>

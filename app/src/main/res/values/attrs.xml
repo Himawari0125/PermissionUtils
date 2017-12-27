@@ -45,4 +45,10 @@
         <attr name="isStroke" format="boolean"/>
         <attr name="duration" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="scaleview">
+        <attr name="statuStrs" format="string"/>
+        <attr name="statusInterval" format="string"/>
+    </declare-styleable>
+
 </resources>
