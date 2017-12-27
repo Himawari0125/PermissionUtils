@@ -53,6 +53,7 @@
         <activity android:name=".activity.DrawerActivity"/>
         <activity android:name=".activity.CalendarActivity"/>
         <activity android:name=".activity.TrendActivity"/>
+        <activity android:name=".activity.MoireActivity"/>
 
         <service
             android:name=".services.BaseService"

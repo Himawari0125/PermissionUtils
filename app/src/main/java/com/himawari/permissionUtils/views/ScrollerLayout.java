@@ -18,9 +18,6 @@ import com.himawari.permissionUtils.MyApplication;
 
 public class ScrollerLayout extends ViewGroup {
     private Scroller mScroller;
-    /**
-     * 判定为拖动的最小移动像素数
-     */
     private int mTouchSlop;
     private float mXDown;
     private float mXMove;
@@ -40,8 +37,8 @@ public class ScrollerLayout extends ViewGroup {
         // 第一步，创建Scroller的实例
         mScroller = new Scroller(context);
         ViewConfiguration configuration = ViewConfiguration.get(context);
-        // 获取TouchSlop值
-        mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
+        // Distance in pixels a touch can wander before we think the user is scrolling a full page
+        mTouchSlop = configuration.getScaledTouchSlop();
     }
 
     public void reMeasure(int size){
@@ -81,6 +78,7 @@ public class ScrollerLayout extends ViewGroup {
     }
 
     private void layoutChild(){
+        if(getChildCount() <= 0)return;
         View childView = getChildAt(0);
         childView.layout(0, 0,(int)averageWidth*size, (int)height);
         leftBorder = getChildAt(0).getLeft();
@@ -144,4 +142,5 @@ public class ScrollerLayout extends ViewGroup {
             invalidate();
         }
     }
+
 }

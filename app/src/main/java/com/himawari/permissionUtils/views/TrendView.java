@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -87,7 +86,6 @@ public class TrendView extends View implements View.OnTouchListener{
         this.datas = beans;
         isScrolling = (datas.size() > splitSpaceCount)?true:false;
         measure((int)averageWidth*datas.size(),(int)height);
-        Log.i("measure",(int)averageWidth*datas.size()+" "+(int)height);
         calculateIntervals();
         setTrendNodes();
     }
@@ -383,17 +381,12 @@ public class TrendView extends View implements View.OnTouchListener{
         int range = DensityUtils.dip2px(context,20);
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.i("----ACTION_DOWN-----",event.getX()+" "+event.getY());
                 downX = event.getX();
                 downY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.i("----ACTION_MOVE-----",event.getX()+" "+event.getY());
-
-                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i("----ACTION_UP-----",event.getX()+" "+event.getY());
                 boolean isNotChoosed = true;//间距比较小时，确保只press一个point
                 for(int i = 0 ; i < datas.size() ;i++){
                     TrendBean bean = datas.get(i);

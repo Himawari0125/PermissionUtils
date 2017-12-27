@@ -380,4 +380,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
    public void ontrendClick(View view){
        startActivity(new Intent(this,TrendActivity.class));
    }
+
+   public void onMoireClick(View view){
+       startActivity(new Intent(this,MoireActivity.class));
+   }
 }

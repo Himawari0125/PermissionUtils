@@ -38,4 +38,11 @@
         <attr name="position" format="integer"></attr>
         <attr name="distance" format="integer"></attr>
     </declare-styleable>
+
+
+    <declare-styleable name="moireview">
+        <attr name="moirecolor" format="color"/>
+        <attr name="isStroke" format="boolean"/>
+        <attr name="duration" format="integer"/>
+    </declare-styleable>
 </resources>
