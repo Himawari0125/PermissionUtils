@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="100dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@color/background_white"
+        >
+    <com.himawari.permissionUtils.views.ScrollPickerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollview"
+        android:padding="10dp"
+        />
+    </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/background_white"
+            android:layout_alignParentTop="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/background_white"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+</FrameLayout>

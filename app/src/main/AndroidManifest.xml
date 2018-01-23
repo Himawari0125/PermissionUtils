@@ -56,6 +56,12 @@
         <activity android:name=".activity.TrendActivity"/>
         <activity android:name=".activity.MoireActivity"/>
         <activity android:name=".activity.ScalePlateActivity"/>
+        <activity android:name=".activity.ScrollDeleteActivity"/>
+        <activity android:name=".activity.BirthdayPickerActivity"/>
+        <activity android:name=".activity.GuideActivity"></activity>
+        <activity android:name=".activity.WebViewloadGifActivity"></activity>
+
+
 
         <service
             android:name=".services.BaseService"

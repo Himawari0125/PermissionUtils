@@ -30,6 +30,7 @@ import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.BTDeviceAdapter;
 import com.himawari.permissionUtils.deleteList.DeleteListActivity;
 import com.himawari.permissionUtils.resolution.ResolutionActivity;
+import com.himawari.permissionUtils.utils.BleStateListenerUtils;
 import com.himawari.permissionUtils.utils.BlutoothVersionUtils;
 import com.himawari.permissionUtils.utils.CameraAlbumUtils;
 import com.himawari.permissionUtils.utils.PermissionRequestUtils;
@@ -46,9 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity_5.0以上";
     private static final String TAG_2 = "MainActivity_5.0以下";
 
-
     private boolean isShow = false;
-
     private Button camera_btn,scanbluetooth_btn,resolution_btn,
             sendBroadcast_btn,webView_btn,service_btn,weblogin_btn,
             circlelayout_btn;
@@ -76,6 +75,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         bluetoothData = new HashMap<>();
+
 
         mbluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         callback = new LeScanCallback(){

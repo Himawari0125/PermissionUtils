@@ -1,9 +1,14 @@
 package com.himawari.permissionUtils.activity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,8 +16,12 @@ import android.widget.ListView;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
+import com.himawari.permissionUtils.utils.BleStateListenerUtils;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +31,8 @@ import java.util.List;
 public class MainViewActivity extends BaseActivity implements AdapterView.OnItemClickListener{
     private ListView listView;
     private List<String> items;
-    private String[] itemStr = new String[]{"Main","Scaleplate"};
+    private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
+    ,"Test"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +59,34 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
             case 1:
                 startActivity(new Intent(this,ScalePlateActivity.class));
                 break;
+            case 2:
+                startActivity(new Intent(this,ScrollDeleteActivity.class));
+                break;
+            case 3:
+                startActivity(new Intent(this,BirthdayPickerActivity.class));
+                break;
+            case 4:
+                startActivity(new Intent(this,GuideActivity.class));
+                break;
+            case 5:
+                startActivity(new Intent(this,WebViewloadGifActivity.class));
+                break;
+            case 6:
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY,23);
+                calendar.set(Calendar.MINUTE,59);
+                calendar.set(Calendar.SECOND,50);
+                Log.i("Calendar:",new Date(calendar.getTimeInMillis()).toString());
+                for(int i = 0 ; i < 5;i++){
+                    calendar.setTimeInMillis(calendar.getTimeInMillis()+5000);
+                    Log.i("Calendar:",new Date(calendar.getTimeInMillis()).toString());
+                }
+                break;
+
+
         }
 
     }
+
+
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+
 import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.bean.CalenderPickerBean;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class CalenderPickerView extends View implements View.OnTouchListener{
     private Paint normalDate_paint;
+    private Paint normalWeek_paint;
     private Paint todayDate_paint;
     private Paint selectedDate_paint;
     private Paint dataDate_paint;
@@ -35,12 +37,17 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
     private List<CalenderPickerBean> beans;
     private float paintSize;
     private float startX;
+    private float startY;
     private Context context;
     private selectListener listener;
 
     private int today;
     private int month;
     private int year;
+
+
+    private int[] weekens = new int[]{R.string.sunday,R.string.monday,R.string.tuesday,R.string.wedensday,R.string.thursday,
+            R.string.friday,R.string.saturday};
 
     public void setSelectedListener(selectListener mlistener){
         this.listener = mlistener;
@@ -64,14 +71,16 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
 
         float resultWidth;
         if (wSpecMode == MeasureSpec.EXACTLY){
-                resultWidth = wSpecSize;
+            resultWidth = wSpecSize;
         }else{
             resultWidth = MyApplication.width - (getPaddingLeft()+getPaddingRight());
         }
-        averageWidth = resultWidth/7;
+        float width = resultWidth;
+        averageWidth = width/7;
         selectedAadius = (averageWidth-10)/2;
         startX = averageWidth/2;
-        setMeasuredDimension((int)resultWidth,(int)resultWidth);
+        startY = startX;
+        setMeasuredDimension((int)resultWidth,(int)averageWidth*7);
     }
 
     public void setCurrentTime(Calendar currentTime){
@@ -82,10 +91,14 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(beans==null)return;
+        for(int j = 0; j < weekens.length;j++){
+            float x = startX+averageWidth*j;
+            drawNormalWeek(canvas,x,startY,getResources().getString(weekens[j]));
+        }
         for(int i = 0; i < beans.size(); i++){
             CalenderPickerBean bean = beans.get(i);
             float x = startX+averageWidth*(bean.getDayofWeek() - 1);
-            float y = startX+averageWidth*(bean.getWeekofMonth() -1);
+            float y = startY+averageWidth*(bean.getWeekofMonth());
             if(bean.isNormalDay()){
                 beans.get(i).setSetXAndY(x,y);
                 drawNormalDate(canvas,x,y,bean.getDay()+"");
@@ -131,6 +144,13 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
     }
 
     /**
+     * 星期
+     */
+    private void drawNormalWeek(Canvas canvas,float x,float y,String dayOfWeek){
+        canvas.drawText(dayOfWeek,x,y,normalWeek_paint);
+    }
+
+    /**
      * 普通日期
      */
     private void drawTodayDate(Canvas canvas,float x,float y,String dayOfMonth){
@@ -147,16 +167,19 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
         int scaledDate_color = Color.parseColor("#89d1ff");
         int selectedDate_bg_color = Color.parseColor("#ffffff");
         int todayDate_color = Color.parseColor("#FF4081");
+        int normalweek_color = Color.parseColor("#aaffffff");
 
         normalDate_paint = new Paint();
         selectedDate_bg_paint = new Paint();
         dataDate_paint = new Paint();
         selectedDate_paint = new Paint();
         todayDate_paint = new Paint();
+        normalWeek_paint = new Paint();
 
         selectedDate_bg_paint.setAntiAlias(true);
 
         normalDate_paint.setTextAlign(Paint.Align.CENTER);
+        normalWeek_paint.setTextAlign(Paint.Align.CENTER);
         dataDate_paint.setTextAlign(Paint.Align.CENTER);
         selectedDate_paint.setTextAlign(Paint.Align.CENTER);
         todayDate_paint.setTextAlign(Paint.Align.CENTER);
@@ -164,7 +187,9 @@ public class CalenderPickerView extends View implements View.OnTouchListener{
         paintSize = DensityUtils.dip2px(context,15);
 
         normalDate_paint.setColor(normalDate_color);
+        normalWeek_paint.setColor(normalweek_color);
         normalDate_paint.setTextSize(paintSize);
+        normalWeek_paint.setTextSize(paintSize);
         selectedDate_bg_paint.setColor(selectedDate_bg_color);
         dataDate_paint.setColor(scaledDate_color);
         dataDate_paint.setTextSize(paintSize);

@@ -51,4 +51,15 @@
         <attr name="statusInterval" format="string"/>
     </declare-styleable>
 
+
+
+    <declare-styleable name="gitview">
+        <attr name="gitsrc" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="pointview">
+        <attr name="pointSize" format="integer" />
+        <attr name="pointInterval" format="float"/>
+        <attr name="pointRadius" format="float"/>
+    </declare-styleable>
 </resources>

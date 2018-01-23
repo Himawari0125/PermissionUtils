@@ -24,7 +24,7 @@ import com.himawari.permissionUtils.utils.LogUtils;
 public class ScaleplateView extends View{
     private String[] statusStrs;
     private String[] statusInterval;
-    private String statusDetail;
+
 
     private Paint statusPaint;
     private Paint intervalPaint;
@@ -38,13 +38,14 @@ public class ScaleplateView extends View{
     private Context context;
 
     private int intervalMarginTop = 5;
+    private int statusIntervalX;
+    private int intervalX;
+    private float pointWeight;
+    private int bodyType;
     public ScaleplateView(Context context, @Nullable AttributeSet attrs) throws Exception {
         super(context, attrs);
         setBackground(getResources().getDrawable(R.mipmap.detailbg));
-
         TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.scaleview);
-        statusDetail = typedArray.getString(R.styleable.scaleview_statusDetail);
-
         String statusString = typedArray.getString(R.styleable.scaleview_statuStrs);
         if(!statusString.contains(","))throw new Exception("StatusStr must split by ','");
         statusStrs =  statusString.split(",");
@@ -65,7 +66,8 @@ public class ScaleplateView extends View{
         if(scalePlateWidth == 0||scalePlateHeight == 0)return;
         onDrawStatusStrs(canvas,statusStrs,height*2/5,statusPaint);
         onDrawIntervalStrs(canvas,statusInterval,height*2/5+scalePlateHeight+DensityUtils.dip2px(context,intervalMarginTop),intervalPaint);
-
+        if(pointWeight <=0 )return;
+        onDrawTypePoint(canvas,bodyType,height*2/5);
     }
 
     @Override
@@ -85,19 +87,50 @@ public class ScaleplateView extends View{
     }
 
     private void onDrawStatusStrs(Canvas canvas,String[] strs,int y,Paint paint){
-        int intervalX = scalePlateWidth/strs.length;
-        int StartX = (width - scalePlateWidth)/2+intervalX/2;
+        statusIntervalX = (int) Math.ceil (scalePlateWidth*29/30f/strs.length);
+        int StartX = (width - scalePlateWidth)/2+statusIntervalX/2+scalePlateWidth/60;
         for(int i = 0 ;i < strs.length;i++){
-            canvas.drawText(strs[i],StartX+intervalX*i ,y,paint);
+            canvas.drawText(strs[i],StartX+statusIntervalX*i ,y,paint);
         }
     }
 
     private void onDrawIntervalStrs(Canvas canvas,String[] strs,int y,Paint paint){
-        int intervalX = scalePlateWidth/(strs.length+1);
-        int StartX = (width - scalePlateWidth)/2;
+        intervalX  = (int) Math.ceil  (scalePlateWidth*29/30f/(strs.length+1));
+        int StartX = (width - scalePlateWidth)/2+scalePlateWidth/60+intervalX;
         for(int i = 0 ;i < strs.length;i++){
-            canvas.drawText(strs[i],StartX+intervalX*(i+1),y,paint);
+            canvas.drawText(strs[i],StartX+intervalX*i,y,paint);
         }
+    }
+
+    private void onDrawTypePoint(Canvas canvas,int type,float top){
+        Bitmap bitmap = null;
+        switch (type){
+            case 1:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point1);
+                break;
+            case 2:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point2);
+                break;
+            case 3:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point3);
+                break;
+            case 4:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point4);
+                break;
+            case 5:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point5);
+                break;
+            case 6:
+                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point6);
+                break;
+//            case 7:
+//                bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status_point7);
+//                break;
+        }
+        if(bitmap!=null){
+            canvas.drawBitmap(bitmap,(width - scalePlateWidth)/2+scalePlateWidth/60f+statusIntervalX*pointWeight - bitmap.getWidth()/2f,top,null);
+        }
+
     }
     private void onDrawScalePlate(Canvas canvas,int top){
         Bitmap bitmap = null;
@@ -149,5 +182,17 @@ public class ScaleplateView extends View{
         statusPaint.setTextSize(DensityUtils.dip2px(context,14));
         intervalPaint.setTextSize(DensityUtils.dip2px(context,14));
         detailPaint.setTextSize(DensityUtils.dip2px(context,14));
+    }
+
+    /**
+     * @param status type合集
+     * @param intervals 标尺合集
+     * @param type 当前身体类型
+     * @param weight 身体类型位置在整条Scaleplate上占的比重
+     */
+    public void setBodyTypeAndWeight(String[] status,String[] intervals,int type,float weight){
+        this.bodyType = type;
+        this.pointWeight = weight;
+        invalidate();
     }
 }

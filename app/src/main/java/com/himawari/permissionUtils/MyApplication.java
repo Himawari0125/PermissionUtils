@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.himawari.permissionUtils.utils.BleStateListenerUtils;
 import com.himawari.permissionUtils.utils.DensityUtils;
 
 /**
@@ -42,6 +43,8 @@ public class MyApplication extends Application {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        BleStateListenerUtils.registerBleStateListener(this);
     }
+
+
 }

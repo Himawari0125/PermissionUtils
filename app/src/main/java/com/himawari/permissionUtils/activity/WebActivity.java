@@ -18,6 +18,7 @@ import com.himawari.permissionUtils.utils.WebViewLoadUtils;
 public class WebActivity extends BaseActivity {
     private WebView webView;
     private LinearLayout layout;
+    //key words: embed
     private static final String urlPath = "<html><body><iframe height=360 width=604 src='http://player.youku.com/embed/XNzQzMTc4Njg0' frameborder=0 'allowfullscreen'></iframe></body></html>";//"http://v.youku.com/v_show/id_XNzQzMTc4Njg0.html";
     private static final String testPath = "http://oq2qpeuia.bkt.clouddn.com/kuwo_vf_1.mp4";
 

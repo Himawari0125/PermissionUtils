@@ -5,9 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.himawari.permissionUtils.views.ScaleplateView
+        android:id="@+id/scaleplate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:statuStrs="偏瘦,正常,偏胖,肥胖,重度,极度"
-        app:statusInterval="18.5,24.9,29.9,34.6,36.9"
-        />
+        app:statusInterval="18.5,24.9,29.9,34.6,36.9" />
 </android.support.constraint.ConstraintLayout>

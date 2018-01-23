@@ -46,7 +46,7 @@ public class MoireView extends View {
         outsideRadius = width/2;
         insideRadius = width/3;
         centerX = width/2;
-        centerY = centerX;
+        centerY = specHeight/2;
         setMeasuredDimension(width,specHeight);
     }
 

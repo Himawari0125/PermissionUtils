@@ -20,4 +20,6 @@
 
     <color name="history_titleBarstart">#56d9ff</color>
     <color name="history_titleBarend">#2072fe</color>
+
+    <color name="test">#aa000000</color>
 </resources>
