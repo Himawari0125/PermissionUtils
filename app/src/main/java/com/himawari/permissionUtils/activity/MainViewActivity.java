@@ -13,11 +13,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.BleStateListenerUtils;
 import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.ServiceUtils;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,7 +34,7 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private ListView listView;
     private List<String> items;
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
-    ,"Test"};
+    ,"Test","GPS AGPS"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,13 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
                 for(int i = 0 ; i < 5;i++){
                     calendar.setTimeInMillis(calendar.getTimeInMillis()+5000);
                     Log.i("Calendar:",new Date(calendar.getTimeInMillis()).toString());
+                }
+                break;
+            case 7:
+                if(ServiceUtils.isOPen(this)){
+                    Toast.makeText(this,"定位服务已打开",Toast.LENGTH_SHORT).show();
+                }else{
+                    ServiceUtils.openGPS(this);
                 }
                 break;
 
