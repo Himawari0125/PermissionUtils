@@ -34,7 +34,7 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private ListView listView;
     private List<String> items;
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
-    ,"Test","GPS AGPS"};
+    ,"Test","GPS AGPS","ParcelTest"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +90,9 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
                 }else{
                     ServiceUtils.openGPS(this);
                 }
+                break;
+            case 8:
+                startActivity(new Intent(this,ParcelActivity.class));
                 break;
 
 

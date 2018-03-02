@@ -68,6 +68,8 @@
         <activity android:name=".activity.BirthdayPickerActivity"/>
         <activity android:name=".activity.GuideActivity"></activity>
         <activity android:name=".activity.WebViewloadGifActivity"></activity>
+        <activity android:name=".activity.ParcelActivity"></activity>
+        <activity android:name=".activity.ParcelReceiverActivity"></activity>
 
 
 
