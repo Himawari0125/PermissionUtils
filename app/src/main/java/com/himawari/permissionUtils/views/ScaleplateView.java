@@ -154,7 +154,7 @@ public class ScaleplateView extends View{
                 bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.status6);
                 break;
             default:
-                LogUtils.e("ScaleplateView","ScalePlate:"+statusStrs.length);
+                LogUtils.e("ScalePlate:"+statusStrs.length);
                 break;
         }
         if(bitmap!=null){

@@ -122,4 +122,22 @@ public class PopupWindowUtils {
             }
         }
     }
+
+    public static void showPopupLocation(Context context,View rootView,int gravity){
+        View view = LayoutInflater.from(context).inflate(R.layout.item_popup,null);
+        final PopupWindow popupWindow = new PopupWindow(view, WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setAnimationStyle(R.style.CalendarActionSheetDialogAnimation);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(rootView,gravity,0,0);
+        //popupWindow.showAsDropDown(rootView);
+
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                    popupWindow.dismiss();
+                return false;
+            }
+        });
+    }
 }

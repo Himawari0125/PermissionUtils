@@ -1,10 +1,6 @@
 package com.himawari.permissionUtils.activity;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -17,8 +13,6 @@ import android.widget.Toast;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
-import com.himawari.permissionUtils.utils.BleStateListenerUtils;
-import com.himawari.permissionUtils.utils.LogUtils;
 import com.himawari.permissionUtils.utils.ServiceUtils;
 
 import java.util.Arrays;
@@ -34,7 +28,8 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private ListView listView;
     private List<String> items;
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
-    ,"Test","GPS AGPS","ParcelTest"};
+    ,"Test","GPS AGPS","ParcelTest","RecyclerActvity","ListView","Progress","ConstraintSet",
+    "CrashFile","LifeCycle","PopupLocation","Keydown"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +89,30 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
             case 8:
                 startActivity(new Intent(this,ParcelActivity.class));
                 break;
-
+            case 9:
+                startActivity(new Intent(this,RecyclerActivity.class));
+                break;
+            case 10:
+                startActivity(new Intent(this,ListViewActivity.class));
+                break;
+            case 11:
+                startActivity(new Intent(this,ProgressActivity.class));
+                break;
+            case 12:
+                startActivity(new Intent(this,ConstraintSetActivity.class));
+                break;
+            case 13:
+                startActivity(new Intent(this,CrashFileActivity.class));
+                break;
+            case 14:
+                startActivity(new Intent(this,LifeCycleActivity.class));
+                break;
+            case 15:
+                startActivity(new Intent(this,PopupActivity.class));
+                break;
+            case 16:
+                startActivity(new Intent(this,KeyDownActivity.class));
+                break;
 
         }
 

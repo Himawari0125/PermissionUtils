@@ -19,5 +19,17 @@
     <string name="saturday">六</string>
     <string name="sunday">日</string>
 
+
     <string name="loginoregister">登录或注册</string>
+    <string name="twenty_title">21项身体数据</string>
+    <string name="twenty_detail">全面知晓身体状况</string>
+    <string name="account_title">多账户健康管理</string>
+    <string name="account_detail">家人健康，尽在掌握</string>
+    <string name="health_title">健康趋势</string>
+    <string name="health_detail">记录每天的努力</string>
+    <string name="share_title">分享健康成果</string>
+    <string name="share_detail">分享你的每一个健康里程碑</string>
+
+   <string name="title">标题</string>
+   <string name="detail">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</string>
 </resources>

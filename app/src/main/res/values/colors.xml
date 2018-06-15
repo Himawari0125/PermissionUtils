@@ -22,4 +22,9 @@
     <color name="history_titleBarend">#2072fe</color>
 
     <color name="test">#aa000000</color>
+
+
+    <color name="measure_data">#ff5c23</color>
+    <color name="detail_color">#9b9b9b</color>
+    <color name="line_color">#f2f2f2</color>
 </resources>

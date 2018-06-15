@@ -5,6 +5,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview"></ListView>
+        android:id="@+id/listview"
+        android:layoutAnimation="@anim/anim_listview_item"></ListView>
 
 </LinearLayout>

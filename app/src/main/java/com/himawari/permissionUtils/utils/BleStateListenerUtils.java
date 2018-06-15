@@ -34,17 +34,17 @@ public class BleStateListenerUtils {
                     int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
                     switch (blueState) {
                         case BluetoothAdapter.STATE_TURNING_ON:
-                            LogUtils.e("--", "onReceive---------STATE_TURNING_ON");
+                            LogUtils.e( "onReceive---------STATE_TURNING_ON");
                             break;
                         case BluetoothAdapter.STATE_ON:
-                            LogUtils.e("--", "onReceive---------STATE_ON");
+                            LogUtils.e( "onReceive---------STATE_ON");
                             break;
                         case BluetoothAdapter.STATE_TURNING_OFF:
-                            LogUtils.e("--", "onReceive---------STATE_TURNING_OFF");
+                            LogUtils.e("onReceive---------STATE_TURNING_OFF");
 
                             break;
                         case BluetoothAdapter.STATE_OFF:
-                            LogUtils.e("--", "onReceive---------STATE_OFF");
+                            LogUtils.e( "onReceive---------STATE_OFF");
 
                             break;
                     }

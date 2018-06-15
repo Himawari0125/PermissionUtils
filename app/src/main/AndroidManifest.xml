@@ -18,7 +18,7 @@
     <!-- 悬浮框权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <permission android:name="android.permission.READ_LOGS" />
 
     <!--ScreenControlUtils Required-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -70,6 +70,14 @@
         <activity android:name=".activity.WebViewloadGifActivity"></activity>
         <activity android:name=".activity.ParcelActivity"></activity>
         <activity android:name=".activity.ParcelReceiverActivity"></activity>
+        <activity android:name=".activity.RecyclerActivity"></activity>
+        <activity android:name=".activity.ListViewActivity"></activity>
+        <activity android:name=".activity.ProgressActivity"></activity>
+        <activity android:name=".activity.ConstraintSetActivity"></activity>
+        <activity android:name=".activity.CrashFileActivity"></activity>
+        <activity android:name=".activity.LifeCycleActivity"/>
+        <activity android:name=".activity.PopupActivity"></activity>
+        <activity android:name=".activity.KeyDownActivity"/>
 
 
 

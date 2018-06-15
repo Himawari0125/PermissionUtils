@@ -3,25 +3,29 @@ package com.himawari.permissionUtils.utils;
 import android.util.Log;
 
 /**
- * Created by S.Lee on 2017-12-04.
+ * Created by DELL on 2016-07-21.
  */
 public class LogUtils {
     private static final boolean mdebug = true;
-    public static void e(String Tag,String detail){
+    private static int originalIndex = 3;
+
+    public static void e(String detail){
         if(mdebug){
-            Log.e(Tag,detail);
+            StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[originalIndex];
+            Log.e(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
+        }
+    }
+    public static void i(String detail){
+        if(mdebug){
+            StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[originalIndex];
+            Log.i(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
         }
     }
 
-    public static void i(String Tag,String detail){
+    public static void d(String detail){
         if(mdebug){
-            Log.i(Tag,detail);
-        }
-    }
-
-    public static void d(String Tag,String detail){
-        if(mdebug){
-            Log.d(Tag,detail);
+            StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[originalIndex];
+            Log.d(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
         }
     }
 }

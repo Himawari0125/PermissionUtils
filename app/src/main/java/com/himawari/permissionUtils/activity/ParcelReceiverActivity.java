@@ -34,9 +34,9 @@ public class ParcelReceiverActivity extends BaseActivity {
         ParcelTest parcelTest = intent1.getParcelableExtra("parcelTest");
         AddScaleDateBeans beans = parcelTest.getmData();
         tv5.setText(beans.getCheckTime().toString());
-        tv5.setText(beans.getMuscleControl()+"");
-        tv5.setText(beans.getBone()+"");
-        tv5.setText(beans.getFatControl()+"");
+        tv6.setText(beans.getMuscleControl()+"");
+        tv7.setText(beans.getBone()+"");
+        tv8.setText(beans.getFatControl()+"");
 
     }
 }
