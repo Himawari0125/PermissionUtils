@@ -38,7 +38,7 @@ public class ScrollPickerView extends LinearLayout implements View.OnTouchListen
 
     private List<View> viewList;
 
-    private static final int totalItem = 7;
+    private int totalItem = 7;
 
     private int itemHeight ;
 
@@ -58,12 +58,31 @@ public class ScrollPickerView extends LinearLayout implements View.OnTouchListen
     }
 
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        LogUtils.i(3,MeasureSpec.AT_MOST+" "+MeasureSpec.EXACTLY+" "+MeasureSpec.UNSPECIFIED);
+
+        LogUtils.i(3,widthMode+" "+widthSize+" "+heightMode+" "+heightSize);
+
+    }
+
     /**
      *设置填充数据
      */
-    public void setDatas(List<String> data,boolean isRecycle){
-        this.datas = data;
+    public void setDatas(int startDate,int endDate,boolean isRecycle){
+        datas = new ArrayList<>();
+        for(int i = startDate; i<= endDate;i++){
+            datas.add(i+"");
+        }
         this.isRecycle = isRecycle;
+        totalItem = datas.size();
         setOrientation(VERTICAL);
         setOnTouchListener(this);
         initializing();

@@ -78,6 +78,8 @@
         <activity android:name=".activity.LifeCycleActivity"/>
         <activity android:name=".activity.PopupActivity"></activity>
         <activity android:name=".activity.KeyDownActivity"/>
+        <activity android:name=".activity.BindingActivity"/>
+        <activity android:name=".activity.StackTaceActivity"/>
 
 
 
@@ -90,7 +92,14 @@
                 <action android:name="com.himawari.requestpermission.mybroadcast"></action>
             </intent-filter>
         </receiver>
+        <service android:name="com.himawari.permissionUtils.services.LocalService">
+            <intent-filter>
+                <action android:name="LocalService"/>
+            </intent-filter>
+        </service>
 
+        <service android:name="com.himawari.permissionUtils.services.MessengerService"
+            android:process=":remote" />
         <provider
             android:authorities="${applicationId}.fileprovider"
             android:name="android.support.v4.content.FileProvider"

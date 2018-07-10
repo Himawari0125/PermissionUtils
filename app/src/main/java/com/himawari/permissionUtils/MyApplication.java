@@ -84,12 +84,12 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     @Override
     public void onActivityPaused(Activity activity) {
-        LogUtils.i(activity.getComponentName().toShortString());
+        LogUtils.i(3,activity.getComponentName().toShortString());
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        LogUtils.i(activity.getComponentName().toShortString());
+        LogUtils.i(3,activity.getComponentName().toShortString());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        LogUtils.i(activity.getComponentName().toShortString());
+        LogUtils.i(3,activity.getComponentName().toShortString());
         if (activities.contains(activity)) {
             activities.remove(activity);
             activityList.remove(activity);
@@ -109,7 +109,7 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     public static void finishAllActivity() {
         for (Activity activity : activities) {
-            LogUtils.i(activity.getComponentName()+"");
+            LogUtils.i(3,activity.getComponentName()+"");
             activity.finish();
         }
         activityList.clear();

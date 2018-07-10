@@ -64,7 +64,7 @@ public class CrashFileActivity extends BaseActivity {
                 Toast.makeText(this,"the file is already exists",Toast.LENGTH_SHORT).show();
             }
         }catch(Exception e){
-            LogUtils.e(e.getMessage());
+            LogUtils.e(3,e.getMessage());
         }
     }
 }

@@ -29,7 +29,7 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private List<String> items;
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
     ,"Test","GPS AGPS","ParcelTest","RecyclerActvity","ListView","Progress","ConstraintSet",
-    "CrashFile","LifeCycle","PopupLocation","Keydown"};
+    "CrashFile","LifeCycle","PopupLocation","Keydown","BindActivity","StackTrace"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
 
         listView.setOnItemClickListener(this);
+
+
     }
 
     @Override
@@ -112,6 +114,12 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
                 break;
             case 16:
                 startActivity(new Intent(this,KeyDownActivity.class));
+                break;
+            case 17:
+                startActivity(new Intent(this,BindingActivity.class));
+                break;
+            case 18:
+                startActivity(new Intent(this,StackTaceActivity.class));
                 break;
 
         }

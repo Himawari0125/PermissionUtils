@@ -70,25 +70,25 @@ public class GuideActivity extends BaseActivity {
         bean0.setGifResource(R.raw.twenty_gif);
         beans.add(bean0);
 
-        GuideBean bean1 = new GuideBean();
-        bean1.setTitleStr(getResources().getString(R.string.account_title));
-        bean1.setDetailStr(getResources().getString(R.string.account_detail));
-        bean1.setGifResource(R.raw.multi_account_gif);
-        beans.add(bean1);
-
-
-        GuideBean bean2 = new GuideBean();
-        bean2.setTitleStr(getResources().getString(R.string.health_title));
-        bean2.setDetailStr(getResources().getString(R.string.health_detail));
-        bean2.setGifResource(R.raw.health_trend_gif);
-
-        beans.add(bean2);
-
-        GuideBean bean3 = new GuideBean();
-        bean3.setTitleStr(getResources().getString(R.string.share_title));
-        bean3.setDetailStr(getResources().getString(R.string.share_detail));
-        bean3.setGifResource(R.raw.share_gif);
-        beans.add(bean3);
+//        GuideBean bean1 = new GuideBean();
+//        bean1.setTitleStr(getResources().getString(R.string.account_title));
+//        bean1.setDetailStr(getResources().getString(R.string.account_detail));
+//        bean1.setGifResource(R.raw.multi_account_gif);
+//        beans.add(bean1);
+//
+//
+//        GuideBean bean2 = new GuideBean();
+//        bean2.setTitleStr(getResources().getString(R.string.health_title));
+//        bean2.setDetailStr(getResources().getString(R.string.health_detail));
+//        bean2.setGifResource(R.raw.health_trend_gif);
+//
+//        beans.add(bean2);
+//
+//        GuideBean bean3 = new GuideBean();
+//        bean3.setTitleStr(getResources().getString(R.string.share_title));
+//        bean3.setDetailStr(getResources().getString(R.string.share_detail));
+//        bean3.setGifResource(R.raw.share_gif);
+//        beans.add(bean3);
 
     }
 

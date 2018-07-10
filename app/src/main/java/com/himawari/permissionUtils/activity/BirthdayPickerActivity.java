@@ -21,8 +21,7 @@ public class BirthdayPickerActivity extends BaseActivity {
         setContentView(R.layout.activity_birthdaypicker);
         super.onCreate(savedInstanceState);
         scrollPickerView = findViewById(R.id.scrollview);
-        scrollPickerView.setDatas(Arrays.asList(new String[]{"2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017"
-        ,"2018","2019","2020"}),false);
+        scrollPickerView.setDatas(2002,2032,false);
     }
 
     @Override

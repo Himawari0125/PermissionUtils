@@ -73,7 +73,7 @@ public class PointView extends View {
         circleY = height/2;
         setMeasuredDimension(width,height);
 
-        LogUtils.i("width:"+width+" height:"+height);
+        LogUtils.i(3,"width:"+width+" height:"+height);
     }
 
     @Override

@@ -20,11 +20,12 @@ import java.util.List;
  */
 
 public class TrendActivity extends BaseActivity{
-    private TrendView trendView;
-    private ScrollerLayout scrollerLayout;
+    private TrendView trendView,trendViewM;
+    private ScrollerLayout scrollerLayout,scrollerLayoutM;
     private Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f
     ,50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f};
     private  List<TrendBean> datas;
+    private  List<TrendBean> datasM;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_trend);
@@ -36,19 +37,27 @@ public class TrendActivity extends BaseActivity{
     protected void initView() {
         trendView = findViewById(R.id.trendView);
         scrollerLayout = findViewById(R.id.scrollLayout);
+
+        trendViewM = findViewById(R.id.trendViewM);
+        scrollerLayoutM = findViewById(R.id.scrollLayoutM);
     }
 
 
     public void onWeightClick(View view){
+
         trendView.setTrendType(TrendView.TrendType.Weight);
+        trendViewM.setTrendType(TrendView.TrendType.Weight);
     }
 
     public void onFatClick(View view){
         trendView.setTrendType(TrendView.TrendType.Fat);
+        trendViewM.setTrendType(TrendView.TrendType.Fat);
+
     }
 
     public void onMuscleClick(View view){
         trendView.setTrendType(TrendView.TrendType.Muscle);
+        trendViewM.setTrendType(TrendView.TrendType.Muscle);
     }
 
 
@@ -65,34 +74,38 @@ public class TrendActivity extends BaseActivity{
         }
         Log.i("----week----","-----------");
         scrollerLayout.reMeasure(datas.size());
-        trendView.setDatas(datas);
+        trendView.setDatas(datas,false);
         trendView.setTrendType(TrendView.TrendType.Weight);
 
     }
     private void LoadMonthDatas(){
         Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f
                 ,50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f};
-        datas = new ArrayList<>();
+        datasM = new ArrayList<>();
         for(int i = 0 ; i < 30 ;i++){
             TrendBean bean = new TrendBean();
             bean.setScaleDate("12/1"+i);
             bean.setWeight(weights[i]);
             bean.setFat(20+i);
             bean.setMuscle(30+i);
-            datas.add(bean);
+            datasM.add(bean);
         }
 
         Log.i("----month----","-----------");
-        scrollerLayout.reMeasure(datas.size());
-        trendView.setDatas(datas);
-        trendView.setTrendType(TrendView.TrendType.Weight);
+        scrollerLayoutM.reMeasure(datasM.size());
+        trendViewM.setDatas(datasM,true);
+        trendViewM.setTrendType(TrendView.TrendType.Weight);
     }
 
     public void onWeekClick(View view){
+        scrollerLayout.setVisibility(View.VISIBLE);
+        scrollerLayoutM.setVisibility(View.INVISIBLE);
         LoadWeekDatas();
     }
 
     public void onMonthclick(View view){
+        scrollerLayoutM.setVisibility(View.VISIBLE);
+        scrollerLayout.setVisibility(View.INVISIBLE);
         LoadMonthDatas();
     }
 }

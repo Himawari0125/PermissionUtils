@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -37,6 +36,21 @@
 
         <com.himawari.permissionUtils.views.TrendView
             android:id="@+id/trendView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/qushitu_beijing1"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+    </com.himawari.permissionUtils.views.ScrollerLayout>
+
+    <com.himawari.permissionUtils.views.ScrollerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollLayoutM"
+        android:visibility="gone">
+
+        <com.himawari.permissionUtils.views.TrendView
+            android:id="@+id/trendViewM"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/qushitu_beijing1"

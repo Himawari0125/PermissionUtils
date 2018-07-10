@@ -40,12 +40,14 @@ public class GifView extends View {
         this.gitResource = gifSource;
         mMovie = Movie.decodeStream(getResources().openRawResource(gitResource));
         setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+        LogUtils.i(LogUtils.superIndex,"GifView setGiftsource"+gifSource);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(mMovie.width(),mMovie.height());
+        if(mMovie!=null)setMeasuredDimension(mMovie.width(),mMovie.height());
+        LogUtils.i(LogUtils.superIndex,"GifView onMeasure");
     }
 
     @Override
@@ -76,7 +78,7 @@ public class GifView extends View {
      * 播放gif方法
      */
     private void playGif(Canvas canvas,int moviewtime){
-        LogUtils.i(" resource"+gitResource+" "+moviewtime+"");
+        LogUtils.i(3," resource"+gitResource+" "+moviewtime+"");
         mMovie.setTime(moviewtime);
         mMovie.draw(canvas,0,0);
         if(isPlaying)invalidate();

@@ -35,7 +35,7 @@ public class HistoryAdapter extends BaseAdapter {
     public void addDatas(List<HistoryListBean> beans){
         this.datas.addAll(beans);
         this.notifyDataSetChanged();
-        LogUtils.e("data size:"+datas.size());
+        LogUtils.e(3,"data size:"+datas.size());
     }
     @Override
     public int getCount() {

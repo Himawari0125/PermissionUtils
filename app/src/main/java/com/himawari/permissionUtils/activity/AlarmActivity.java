@@ -24,6 +24,7 @@ public class AlarmActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
+
     }
     @Override
     protected void initView() {

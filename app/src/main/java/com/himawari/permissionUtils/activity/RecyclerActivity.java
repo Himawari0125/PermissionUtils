@@ -33,7 +33,7 @@ public class RecyclerActivity extends BaseActivity {
     private RecyclerAdapter.OnRecyclerItemClick onRecyclerItemClick = new RecyclerAdapter.OnRecyclerItemClick() {
         @Override
         public void onItemClick(int position) {
-            LogUtils.i("position:"+position);
+            LogUtils.i(3,"position:"+position);
         }
     };
 
@@ -73,7 +73,7 @@ public class RecyclerActivity extends BaseActivity {
 
                 boolean lastPosition = recyclerView.canScrollVertically(1);
                 if(!lastPosition&&newState==SCROLL_STATE_IDLE){//最后一个item
-                    LogUtils.i("up:"+newState);
+                    LogUtils.i(3,"up:"+newState);
                 }
             }
         });

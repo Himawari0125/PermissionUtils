@@ -75,7 +75,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                LogUtils.e( "error : "+ e);
+                LogUtils.e(3, "error : "+ e);
             }
             //退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -124,7 +124,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 infos.put("versionCode", versionCode);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            LogUtils.e( "an error occured when collect package info"+ e);
+            LogUtils.e(3, "an error occured when collect package info"+ e);
         }
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {

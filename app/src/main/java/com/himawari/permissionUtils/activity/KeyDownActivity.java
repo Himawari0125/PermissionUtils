@@ -27,7 +27,7 @@ public class KeyDownActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        LogUtils.i("Activity keycode:"+keyCode+" action:"+event.getAction());
+        LogUtils.i(3,"Activity keycode:"+keyCode+" action:"+event.getAction());
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Toast.makeText(this, "返回键无效", Toast.LENGTH_SHORT).show();
             return true;//return true;拦截事件传递,从而屏蔽back键。

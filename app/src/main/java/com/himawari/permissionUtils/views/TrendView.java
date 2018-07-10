@@ -17,6 +17,7 @@ import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.bean.TrendBean;
 import com.himawari.permissionUtils.utils.DensityUtils;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 import java.util.List;
 
@@ -54,9 +55,15 @@ public class TrendView extends View implements View.OnTouchListener{
 
     private int intervalWeight,intervalFat,intervalMuscle;
 
+    private boolean userScrollIntention;
+
     private boolean isScrolling;
 
-    private int splitSpaceCount = 5;
+    private boolean isMorethanSplit;
+
+    private int splitSpaceCount = 7;
+
+    private int widthSpec,heightSpec;
 
 
     public enum TrendType{
@@ -82,10 +89,33 @@ public class TrendView extends View implements View.OnTouchListener{
         init();
     }
 
-    public void setDatas(List<TrendBean> beans){
+
+    /**
+     *
+     * @param beans
+     * @param isScroll it could be useful when beans's size big than splitSpaceCount
+     */
+    public void setDatas(List<TrendBean> beans,boolean isScroll){
+        if(beans == null || beans.size() == 0){
+            LogUtils.e(LogUtils.originalIndex,"List<TrendBean> could not be null or empty");
+            return;
+        }
         this.datas = beans;
-        isScrolling = (datas.size() > splitSpaceCount)?true:false;
-        measure((int)averageWidth*datas.size(),(int)height);
+        this.userScrollIntention = isScroll;
+        if(userScrollIntention){
+            isScrolling = (datas.size() > splitSpaceCount)?true:false;//长条滚动模式
+        }else{
+            isMorethanSplit = (datas.size() > splitSpaceCount)?true:false;//多条（大于splitSpaceCount）数据一屏展示
+            if(splitSpaceCount>datas.size())splitSpaceCount = datas.size();//少于splitSpaceCount数据平均展示
+        }
+
+
+        if(averageWidth!=0&&height!=0){
+            measure(MeasureSpec.makeMeasureSpec((int)averageWidth*datas.size(),MeasureSpec.getMode(widthSpec)),
+                    MeasureSpec.makeMeasureSpec((int)height,MeasureSpec.getMode(widthSpec)));
+            LogUtils.i(LogUtils.originalIndex,(int)averageWidth*datas.size()+" "+(int)height);
+        }
+
         calculateIntervals();
         setTrendNodes();
     }
@@ -93,6 +123,10 @@ public class TrendView extends View implements View.OnTouchListener{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        this.widthSpec = widthMeasureSpec;
+        this.widthSpec = heightMeasureSpec;
+
         int specWidthMode = MeasureSpec.getMode(widthMeasureSpec);
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
 
@@ -102,7 +136,7 @@ public class TrendView extends View implements View.OnTouchListener{
         }else{
             width = MyApplication.width ;//- getPaddingLeft() - getPaddingRight();
         }
-        if(isScrolling){
+        if(isScrolling&&userScrollIntention){
             int size = datas.size();
             averageWidth = width/splitSpaceCount;
             height = width*heightScaleWidth;
@@ -111,12 +145,24 @@ public class TrendView extends View implements View.OnTouchListener{
             width = averageWidth*size+getPaddingLeft()+getPaddingRight();
             setMeasuredDimension((int)width,(int)height);
         }else{
-            averageWidth = width/ splitSpaceCount;
-            height = width*heightScaleWidth;
-            averageHeight = height/verticalColumnCount;
-            startX = averageWidth/2;
-            setMeasuredDimension((int)width,(int)height);
+            if(isMorethanSplit){
+                int padding = DensityUtils.dip2px(context,10);//月份趋势图padding，方便点击。
+                int size = datas.size();
+                averageWidth = (width-padding*2)/size;
+                height = width*heightScaleWidth;
+                averageHeight = height/verticalColumnCount;
+                startX = averageWidth/2+padding;
+                setMeasuredDimension((int)width,(int)height);
+            }else{
+                averageWidth = width/ splitSpaceCount;
+                height = width*heightScaleWidth;
+                averageHeight = height/verticalColumnCount;
+                startX = averageWidth/2;
+                setMeasuredDimension((int)width,(int)height);
+            }
         }
+
+
         calculateIntervals();
         setTrendNodes();
     }
@@ -124,13 +170,18 @@ public class TrendView extends View implements View.OnTouchListener{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for(int i = 1 ; i < verticalColumnCount ; i++){//绘制横轴四条线
-            int muliple = isScrolling?datas.size():5;
+            int muliple = isMorethanSplit?datas.size():splitSpaceCount;
             onDrawHorizonalLine(canvas,0,averageHeight*i,(int)averageWidth*muliple,averageHeight*i);
         }
 
-        for(int j = 0 ; j < datas.size();j++){//绘制日期
-            onDrawDateText(canvas,datas.get(j).getScaleDate(),startX+averageWidth*j,height - averageHeight/2);
+        if(isMorethanSplit){
+
+        }else{
+            for(int j = 0 ; j < datas.size();j++){//绘制日期
+                onDrawDateText(canvas,datas.get(j).getScaleDate(),startX+averageWidth*j,height - averageHeight/2);
+            }
         }
+
 
         switch (trendType){
             case Weight:
@@ -243,6 +294,8 @@ public class TrendView extends View implements View.OnTouchListener{
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.tizhong_beijing_liangweishu);
         canvas.drawBitmap(bitmap,x - bitmap.getWidth()/2,y - bitmap.getHeight(),DrawPicPaint);
         canvas.drawText(textStr,x,y - bitmap.getHeight()/2,textPressedPaint);
+
+        bitmap.recycle();
     }
 
     /**
@@ -259,6 +312,8 @@ public class TrendView extends View implements View.OnTouchListener{
         else
             bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.jiedian_weixuanzhong);
         canvas.drawBitmap(bitmap,startX-bitmap.getWidth()/2,startY-bitmap.getHeight()/2,DrawPicPaint);
+
+        bitmap.recycle();
     }
 
     private void init(){
@@ -343,32 +398,53 @@ public class TrendView extends View implements View.OnTouchListener{
 
             float weight = bean.getWeight();
             float heights;
-            if(weight > maxWeight)
-                heights = (verticalColumnCount - 3 - (weight - maxWeight)/(intervalWeight*1.0f))*averageHeight;
-            else if(weight < minWeight)
-                heights = ((minWeight - weight)/(intervalWeight*1.0f)+verticalColumnCount-2)*averageHeight;
-            else
-                heights = ((maxWeight - weight)/(intervalWeight*1.0f)+verticalColumnCount-3)*averageHeight;
+
+            if(minWeight == maxWeight){
+                if(minWeight==0)
+                    heights = averageHeight*3;
+                else
+                    heights = height/2;
+            }else{
+                if(weight > maxWeight)
+                    heights = (verticalColumnCount - 3 - (weight - maxWeight)/(intervalWeight*1.0f))*averageHeight;
+                else if(weight < minWeight)
+                    heights = ((minWeight - weight)/(intervalWeight*1.0f)+verticalColumnCount-2)*averageHeight;
+                else
+                    heights = ((maxWeight - weight)/(intervalWeight*1.0f)+verticalColumnCount-3)*averageHeight;
+            }
+
 
 
             float fat = bean.getFat();
             float heights_fat;
-            if(fat > maxFat)
-                heights_fat = (verticalColumnCount - 3  - (fat - maxFat)/(intervalFat*1.0f))*averageHeight;
-            else if(fat < minFat)
-                heights_fat = ((minFat - fat)/(intervalFat*1.0f)+verticalColumnCount - 2)*averageHeight;
-            else
-                heights_fat = ((maxFat - fat)/(intervalFat*1.0f)+verticalColumnCount - 3 )*averageHeight;
-
+            if(minFat == maxFat){
+                if(minFat==0)
+                    heights_fat = averageHeight*3;
+                else
+                    heights_fat = height/2;
+            }else {
+                if (fat > maxFat)
+                    heights_fat = (verticalColumnCount - 3 - (fat - maxFat) / (intervalFat * 1.0f)) * averageHeight;
+                else if (fat < minFat)
+                    heights_fat = ((minFat - fat) / (intervalFat * 1.0f) + verticalColumnCount - 2) * averageHeight;
+                else
+                    heights_fat = ((maxFat - fat) / (intervalFat * 1.0f) + verticalColumnCount - 3) * averageHeight;
+            }
             float muscle = bean.getMuscle();
             float heights_muscle;
-            if(muscle > maxMuscle)
-                heights_muscle = (verticalColumnCount - 3  - (muscle - maxMuscle)/(intervalMuscle*1.0f))*averageHeight;
-            else if(muscle < minMuscle)
-                heights_muscle = ((minMuscle - muscle)/(intervalMuscle*1.0f)+verticalColumnCount - 2)*averageHeight;
-            else
-                heights_muscle = ((maxMuscle - muscle)/(intervalMuscle*1.0f)+verticalColumnCount - 3)*averageHeight;
-
+            if(minMuscle == maxMuscle){
+                if(minMuscle==0)//处理所有数据为0的情况
+                    heights_muscle = averageHeight*3;
+                else//处理所有数据在不为0的情况下，一致的情况
+                    heights_muscle = height/2;
+            }else {
+                if (muscle > maxMuscle)
+                    heights_muscle = (verticalColumnCount - 3 - (muscle - maxMuscle) / (intervalMuscle * 1.0f)) * averageHeight;
+                else if (muscle < minMuscle)
+                    heights_muscle = ((minMuscle - muscle) / (intervalMuscle * 1.0f) + verticalColumnCount - 2) * averageHeight;
+                else
+                    heights_muscle = ((maxMuscle - muscle) / (intervalMuscle * 1.0f) + verticalColumnCount - 3) * averageHeight;
+            }
             datas.get(n).setPositionWeightX(startX+averageWidth*n,heights);
             datas.get(n).setPositionFatX(startX+averageWidth*n,heights_fat);
             datas.get(n).setPositionMuscleX(startX+averageWidth*n,heights_muscle);

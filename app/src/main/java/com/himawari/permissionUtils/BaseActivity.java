@@ -16,6 +16,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         TAG = this.getClass().getSimpleName()+"_";
     }
-
     protected abstract void initView();
+
 }

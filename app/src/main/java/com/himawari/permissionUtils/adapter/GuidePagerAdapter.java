@@ -95,5 +95,6 @@ public class GuidePagerAdapter extends PagerAdapter {
             gifView.setNull();
         }
     }
+    
 
 }

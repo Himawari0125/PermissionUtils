@@ -32,4 +32,12 @@
 
    <string name="title">标题</string>
    <string name="detail">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</string>
+
+    <string name="local_service_started">local_service_started</string>
+    <string name="local_service_stopped">local_service_stopped</string>
+    <string name="local_service_label">local_service_label</string>
+    <string name="local_service_connected">local_service_connected</string>
+    <string name="local_service_disconnected">local_service_disconnected</string>
+    <string name="remote_service_started">remote_service_started</string>
+    <string name="remote_service_stopped">remote_service_stopped</string>
 </resources>
