@@ -20,8 +20,8 @@ import java.util.List;
  */
 
 public class TrendActivity extends BaseActivity{
-    private TrendView trendView,trendViewM;
-    private ScrollerLayout scrollerLayout,scrollerLayoutM;
+    private TrendView trendView;
+    private ScrollerLayout scrollerLayout;
     private Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f
     ,50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f};
     private  List<TrendBean> datas;
@@ -30,7 +30,7 @@ public class TrendActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_trend);
         super.onCreate(savedInstanceState);
-        LoadWeekDatas();
+        LoadWeekDatas(true);
     }
 
     @Override
@@ -38,33 +38,27 @@ public class TrendActivity extends BaseActivity{
         trendView = findViewById(R.id.trendView);
         scrollerLayout = findViewById(R.id.scrollLayout);
 
-        trendViewM = findViewById(R.id.trendViewM);
-        scrollerLayoutM = findViewById(R.id.scrollLayoutM);
     }
 
 
     public void onWeightClick(View view){
-
         trendView.setTrendType(TrendView.TrendType.Weight);
-        trendViewM.setTrendType(TrendView.TrendType.Weight);
     }
 
     public void onFatClick(View view){
         trendView.setTrendType(TrendView.TrendType.Fat);
-        trendViewM.setTrendType(TrendView.TrendType.Fat);
 
     }
 
-    public void onMuscleClick(View view){
+    public void onMuscleClick(View view) {
         trendView.setTrendType(TrendView.TrendType.Muscle);
-        trendViewM.setTrendType(TrendView.TrendType.Muscle);
     }
 
 
-    private void LoadWeekDatas(){
-        Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f};
+    private void LoadWeekDatas(boolean isScroll){
+        Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f,48.0f};
         datas = new ArrayList<>();
-        for(int i = 0 ; i < 5 ;i++){
+        for(int i = 0 ; i < 6 ;i++){
             TrendBean bean = new TrendBean();
             bean.setScaleDate("12/1"+i);
             bean.setWeight(weights[i]);
@@ -72,13 +66,13 @@ public class TrendActivity extends BaseActivity{
             bean.setMuscle(30+i);
             datas.add(bean);
         }
-        Log.i("----week----","-----------");
-        scrollerLayout.reMeasure(datas.size());
-        trendView.setDatas(datas,false);
+
+        scrollerLayout.reMeasure(datas.size(),isScroll);
+        trendView.setDatas(datas,isScroll);
         trendView.setTrendType(TrendView.TrendType.Weight);
 
     }
-    private void LoadMonthDatas(){
+    private void LoadMonthDatas(boolean isScroll){
         Float[] weights = new Float[]{50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f
                 ,50.9f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f,50.3f,49.2f,49.0f,50.0f,49.9f};
         datasM = new ArrayList<>();
@@ -91,21 +85,27 @@ public class TrendActivity extends BaseActivity{
             datasM.add(bean);
         }
 
-        Log.i("----month----","-----------");
-        scrollerLayoutM.reMeasure(datasM.size());
-        trendViewM.setDatas(datasM,true);
-        trendViewM.setTrendType(TrendView.TrendType.Weight);
+
+        scrollerLayout.reMeasure(datasM.size(),isScroll);
+        trendView.setDatas(datasM,isScroll);
+        trendView.setTrendType(TrendView.TrendType.Weight);
     }
 
-    public void onWeekClick(View view){
-        scrollerLayout.setVisibility(View.VISIBLE);
-        scrollerLayoutM.setVisibility(View.INVISIBLE);
-        LoadWeekDatas();
+    public void onWTrueClick(View view){
+
+        LoadWeekDatas(true);
     }
 
-    public void onMonthclick(View view){
-        scrollerLayoutM.setVisibility(View.VISIBLE);
-        scrollerLayout.setVisibility(View.INVISIBLE);
-        LoadMonthDatas();
+    public void onMfalseClick(View view){
+
+        LoadMonthDatas(false);
+    }
+
+    public void onWfalseClick(View view){
+        LoadWeekDatas(false);
+    }
+
+    public void onMtrueClick(View view){
+        LoadMonthDatas(true);
     }
 }

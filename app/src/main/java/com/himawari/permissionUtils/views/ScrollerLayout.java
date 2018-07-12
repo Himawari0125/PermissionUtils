@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 
 import com.himawari.permissionUtils.MyApplication;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 
 /**
  * Created by S.Lee on 2017/12/20.
+ *
+ * 配合TrendView使用
  */
 
 public class ScrollerLayout extends ViewGroup {
@@ -22,14 +25,25 @@ public class ScrollerLayout extends ViewGroup {
     private float mXDown;
     private float mXMove;
     private float mXLastMove;
+    private float width;
     private int leftBorder;
     private int rightBorder;
 
     private float heightScaleWidth = 2/3.0f;
-    private int splitSpaceCount = 5;
+    private int splitSpaceCount = 7;
+    private final int STANDARDCOUNT = 7;
     private float averageWidth;
+    private float originalWidth;
     private int size;
     private float height;
+
+
+    private int widthSpec,heightSpec;
+
+    private boolean userScrollIntention,isScrolling,isMorethanSplit,isSetedData;
+
+
+
 
 
     public ScrollerLayout(Context context, AttributeSet attrs) {
@@ -41,9 +55,42 @@ public class ScrollerLayout extends ViewGroup {
         mTouchSlop = configuration.getScaledTouchSlop();
     }
 
-    public void reMeasure(int size){
+    /**
+     *
+     * @param size TrendView中数据的大小
+     * @param isScroll 设置是否可滑动
+     */
+    public void reMeasure(int size,boolean isScroll){
         this.size = size;
-        measure((int)averageWidth*size,(int)height);
+        if(averageWidth!=0){
+            averageWidth = averageWidth * splitSpaceCount / size;
+            splitSpaceCount = STANDARDCOUNT;
+        }
+
+        this.userScrollIntention = isScroll;
+        if(userScrollIntention){
+            isScrolling = (size > STANDARDCOUNT)?true:false;//长条滚动模式
+            if(isScrolling)
+                splitSpaceCount = STANDARDCOUNT;
+            else
+                splitSpaceCount = size;
+        }else{
+            isMorethanSplit = (size > STANDARDCOUNT)?true:false;//多条（大于splitSpaceCount）数据一屏展示
+            splitSpaceCount = size;//少于splitSpaceCount数据平均展示
+        }
+
+
+        if(isSetedData)
+            averageWidth = originalWidth/splitSpaceCount;
+
+        if (averageWidth!=0&&height!=0){
+            LogUtils.i(LogUtils.originalIndex," width:"+(int)averageWidth*size+" height:"+height);
+            this.measure(MeasureSpec.makeMeasureSpec((int)averageWidth*size,MeasureSpec.EXACTLY)
+                    ,MeasureSpec.makeMeasureSpec((int) height,MeasureSpec.EXACTLY));
+
+        }else{
+            LogUtils.i(LogUtils.originalIndex," averageWidth:"+averageWidth+" height:"+height);
+        }
         layoutChild();
         if(mScroller!=null)mScroller.startScroll(0, 0, 0, 0);
         invalidate();
@@ -52,24 +99,31 @@ public class ScrollerLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int childCount = getChildCount();
-        int specWidthMode = MeasureSpec.getMode(widthMeasureSpec);
+        LogUtils.i(LogUtils.superIndex," widthSpec:"+widthMeasureSpec+" heightSpec:"+heightMeasureSpec);
+
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
+        if(specWidthSize!=0&&!isSetedData){
+            originalWidth = specWidthSize;
+            isSetedData = true;
+            averageWidth = originalWidth/splitSpaceCount;
+
+        }
+        width = specWidthSize;
+
+        this.widthSpec = widthMeasureSpec;
+        this.heightSpec = heightMeasureSpec;
+
+        int childCount = getChildCount();
+
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             // 为ScrollerLayout中的每一个子控件测量大小
             measureChild(childView, widthMeasureSpec, heightMeasureSpec);
         }
 
-        float width;
-        if(specWidthMode == MeasureSpec.EXACTLY){
-            width = specWidthSize;
-        }else{
-            width = MyApplication.width ;//- getPaddingLeft() - getPaddingRight();
-        }
+
         height = width*heightScaleWidth;
-        averageWidth = width/splitSpaceCount;
-        setMeasuredDimension((int)averageWidth*size,(int)height);
+        setMeasuredDimension((int) width,(int)height);
     }
 
     @Override

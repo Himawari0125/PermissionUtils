@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.bean.TrendBean;
 import com.himawari.permissionUtils.utils.DensityUtils;
@@ -24,6 +23,8 @@ import java.util.List;
 
 /**
  * Created by S.Lee on 2017/12/18.
+ *
+ * 滑动部分配合ScrollerLayout使用
  */
 
 public class TrendView extends View implements View.OnTouchListener{
@@ -60,8 +61,11 @@ public class TrendView extends View implements View.OnTouchListener{
     private boolean isScrolling;
 
     private boolean isMorethanSplit;
+    private boolean isSetedData;
+    private float originalWidth;
 
-    private int splitSpaceCount = 7;
+    private int splitSpaceCount;
+    private final int STANDARDCOUNT = 7;
 
     private int widthSpec,heightSpec;
 
@@ -103,17 +107,28 @@ public class TrendView extends View implements View.OnTouchListener{
         this.datas = beans;
         this.userScrollIntention = isScroll;
         if(userScrollIntention){
-            isScrolling = (datas.size() > splitSpaceCount)?true:false;//长条滚动模式
+            isScrolling = (datas.size() > STANDARDCOUNT)?true:false;//长条滚动模式
+            if(isScrolling)
+                splitSpaceCount = STANDARDCOUNT;
+            else
+                splitSpaceCount = datas.size();
         }else{
-            isMorethanSplit = (datas.size() > splitSpaceCount)?true:false;//多条（大于splitSpaceCount）数据一屏展示
-            if(splitSpaceCount>datas.size())splitSpaceCount = datas.size();//少于splitSpaceCount数据平均展示
+            isMorethanSplit = (datas.size() > STANDARDCOUNT)?true:false;//多条（大于splitSpaceCount）数据一屏展示
+            splitSpaceCount = datas.size();//少于splitSpaceCount数据平均展示
         }
 
 
-        if(averageWidth!=0&&height!=0){
-            measure(MeasureSpec.makeMeasureSpec((int)averageWidth*datas.size(),MeasureSpec.getMode(widthSpec)),
-                    MeasureSpec.makeMeasureSpec((int)height,MeasureSpec.getMode(widthSpec)));
-            LogUtils.i(LogUtils.originalIndex,(int)averageWidth*datas.size()+" "+(int)height);
+        if(isSetedData){
+            averageWidth = originalWidth/splitSpaceCount;
+            startX = averageWidth/2;
+        }
+        if (averageWidth!=0&&height!=0){
+            LogUtils.i(LogUtils.originalIndex," width:"+(int)averageWidth*datas.size()+" height:"+height);
+            this.measure(MeasureSpec.makeMeasureSpec((int)averageWidth*datas.size(),MeasureSpec.EXACTLY)
+                    ,MeasureSpec.makeMeasureSpec((int) height,MeasureSpec.EXACTLY));
+
+        }else{
+            LogUtils.i(LogUtils.originalIndex," averageWidth:"+averageWidth+" height:"+height);
         }
 
         calculateIntervals();
@@ -124,59 +139,44 @@ public class TrendView extends View implements View.OnTouchListener{
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        this.widthSpec = widthMeasureSpec;
-        this.widthSpec = heightMeasureSpec;
-
         int specWidthMode = MeasureSpec.getMode(widthMeasureSpec);
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
 
         if(datas == null || datas.size() == 0)return;
-        if(specWidthMode == MeasureSpec.EXACTLY){
-            width = specWidthSize;
-        }else{
-            width = MyApplication.width ;//- getPaddingLeft() - getPaddingRight();
-        }
-        if(isScrolling&&userScrollIntention){
-            int size = datas.size();
-            averageWidth = width/splitSpaceCount;
-            height = width*heightScaleWidth;
-            averageHeight = height/verticalColumnCount;
-            startX = averageWidth/2+getPaddingLeft();
-            width = averageWidth*size+getPaddingLeft()+getPaddingRight();
-            setMeasuredDimension((int)width,(int)height);
-        }else{
-            if(isMorethanSplit){
-                int padding = DensityUtils.dip2px(context,10);//月份趋势图padding，方便点击。
-                int size = datas.size();
-                averageWidth = (width-padding*2)/size;
-                height = width*heightScaleWidth;
-                averageHeight = height/verticalColumnCount;
-                startX = averageWidth/2+padding;
-                setMeasuredDimension((int)width,(int)height);
-            }else{
-                averageWidth = width/ splitSpaceCount;
-                height = width*heightScaleWidth;
-                averageHeight = height/verticalColumnCount;
-                startX = averageWidth/2;
-                setMeasuredDimension((int)width,(int)height);
-            }
+
+        if(specWidthSize!=0&&!isSetedData){
+            originalWidth = specWidthSize;
+            isSetedData = true;
+            averageWidth = originalWidth/splitSpaceCount;
+            startX = averageWidth/2;
         }
 
 
+        width = specWidthSize;
+
+        if(widthSpec == 0 && heightSpec == 0)height = width*heightScaleWidth;
+        averageHeight = height/verticalColumnCount;
+
+        setMeasuredDimension((int) width,(int)height);
         calculateIntervals();
         setTrendNodes();
+
+
+        this.widthSpec = widthMeasureSpec;
+        this.heightSpec = heightMeasureSpec;
+
+
+
     }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for(int i = 1 ; i < verticalColumnCount ; i++){//绘制横轴四条线
-            int muliple = isMorethanSplit?datas.size():splitSpaceCount;
+            int muliple = isScrolling?datas.size():splitSpaceCount;
             onDrawHorizonalLine(canvas,0,averageHeight*i,(int)averageWidth*muliple,averageHeight*i);
         }
 
-        if(isMorethanSplit){
-
-        }else{
+        if(userScrollIntention||!isMorethanSplit){
             for(int j = 0 ; j < datas.size();j++){//绘制日期
                 onDrawDateText(canvas,datas.get(j).getScaleDate(),startX+averageWidth*j,height - averageHeight/2);
             }
