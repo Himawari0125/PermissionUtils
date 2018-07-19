@@ -11,10 +11,12 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.utils.DensityUtils;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 
 /**
@@ -30,6 +32,10 @@ public class AboveItemView extends LinearLayout {
     private OnClickListener deleteListener;
     private Context context;
     private SlipListener slipListener;
+
+    private boolean isSlipAble =true;
+
+    private boolean isDown;//onTouchEvent 一次Action_Down后 返回多次Action_Up情况
 
 
     public void setSlipListener(SlipListener listener){
@@ -49,6 +55,7 @@ public class AboveItemView extends LinearLayout {
 
 
 
+
     public AboveItemView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -57,7 +64,7 @@ public class AboveItemView extends LinearLayout {
         viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
-                return true;
+                return isSlipAble;
             }
 
             @Override
@@ -94,6 +101,9 @@ public class AboveItemView extends LinearLayout {
         return viewDragHelper.shouldInterceptTouchEvent(ev);
     }
 
+    public void setIsSlipable(boolean isSlipAble){
+        this.isSlipAble = isSlipAble;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -105,6 +115,8 @@ public class AboveItemView extends LinearLayout {
                 yStart = event.getY();
                 xLast = xStart;
                 yLast = yStart;
+
+                isDown = true;
                 break;
             case MotionEvent.ACTION_MOVE:
                 final float curX = event.getX();
@@ -119,20 +131,26 @@ public class AboveItemView extends LinearLayout {
                     return false;
                 }
             case MotionEvent.ACTION_UP:
-                int upx = (int) event.getX();
-                int upy = (int) event.getY();
+                float upx =  event.getX();
+                float upy =  event.getY();
                 int position = (int) getTag();
                 //按下和抬起时候是一样的，那么就是点击事件
-                if(upx == xStart && upy == yStart){
+                if(Math.abs(upx - xStart)<=5 && Math.abs(upy - yStart)<=5 && isDown){
+
+                    isDown = false;
+
                     if(getChildAt(0).getLeft()==0){
                         AdapterView.OnItemClickListener itemClickListener = listView.getOnItemClickListener();
                         if(itemClickListener != null){
                             itemClickListener.onItemClick(listView,this,position,position); }
-                    }else if(upx >= (MyApplication.width+leftBound)){
+                    }else if(getChildAt(0).getLeft() == leftBound){
                         this.setTag(position);
                         deleteListener.onClick(this);
                     }
 
+                }else{
+                    LogUtils.i(LogUtils.superIndex,"upx:"+upx+" xStart:"+xStart+" upy:"+upy
+                            +" yStart:"+yStart + " isDown:"+ isDown);
                 }
                 return false;
         }
@@ -144,6 +162,7 @@ public class AboveItemView extends LinearLayout {
         CheckBox checkBox = this.findViewById(R.id.checkBox);
         checkBox.setVisibility(isAppear?View.VISIBLE:View.INVISIBLE);
     }
+
 
 
     public void addViews(Context mcontext){
@@ -176,17 +195,18 @@ public class AboveItemView extends LinearLayout {
     }
 
     public interface SlipListener{
-        void isSliped(int position,boolean isSliped);
+        void isSliped(int position, boolean isSliped);
     }
 
 
     public void setIsSlipedLeft(boolean isSlipedLeft){
-            View child = getChildAt(0);
-            if(isSlipedLeft){
-                child.layout(leftBound,0,(int) MyApplication.width+leftBound,DensityUtils.dip2px(context,66));
-            }else{
-                child.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
-            }
+        View child = getChildAt(0);
+        if(isSlipedLeft){
+            child.layout(leftBound,0,(int) MyApplication.width+leftBound,DensityUtils.dip2px(context,66));
+        }else{
+            child.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
+        }
     }
+
 
 }

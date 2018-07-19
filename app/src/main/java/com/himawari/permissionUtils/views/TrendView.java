@@ -18,6 +18,7 @@ import com.himawari.permissionUtils.bean.TrendBean;
 import com.himawari.permissionUtils.utils.DensityUtils;
 import com.himawari.permissionUtils.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,6 +48,7 @@ public class TrendView extends View implements View.OnTouchListener{
 
     private int verticalColumnCount = 5;
     private float heightScaleWidth = 2/3.0f;
+    private List<Integer> removeIndex;//当天没数据情况下要移除的数据index
 
     private Context context;
 
@@ -54,7 +56,7 @@ public class TrendView extends View implements View.OnTouchListener{
 
     private float downX = 0,downY = 0;
 
-    private int intervalWeight,intervalFat,intervalMuscle;
+    private int intervalWeight,intervalFat,intervalMuscle,intervals;
 
     private boolean userScrollIntention;
 
@@ -69,9 +71,13 @@ public class TrendView extends View implements View.OnTouchListener{
 
     private int widthSpec,heightSpec;
 
+    private final int MININTERVAL = 2;
+
+    private float middleValue;
+
 
     public enum TrendType{
-        Weight,Fat,Muscle
+        Weight,Fat,Muscle,Values;
     }
 
     private TrendType trendType;
@@ -99,13 +105,18 @@ public class TrendView extends View implements View.OnTouchListener{
      * @param beans
      * @param isScroll it could be useful when beans's size big than splitSpaceCount
      */
-    public void setDatas(List<TrendBean> beans,boolean isScroll){
+    public void setDatas(List<TrendBean> beans,boolean isScroll,float intervals){
+        if(removeIndex==null)
+            removeIndex = new ArrayList<>();
+        if(removeIndex.size()!=0)
+            removeIndex.clear();
         if(beans == null || beans.size() == 0){
             LogUtils.e(LogUtils.originalIndex,"List<TrendBean> could not be null or empty");
             return;
         }
         this.datas = beans;
         this.userScrollIntention = isScroll;
+        this.middleValue = intervals;
         if(userScrollIntention){
             isScrolling = (datas.size() > STANDARDCOUNT)?true:false;//长条滚动模式
             if(isScrolling)
@@ -131,8 +142,15 @@ public class TrendView extends View implements View.OnTouchListener{
             LogUtils.i(LogUtils.originalIndex," averageWidth:"+averageWidth+" height:"+height);
         }
 
-        calculateIntervals();
-        setTrendNodes();
+
+        if(middleValue == 0){
+            calculateIntervals();
+            setTrendNodes();
+        }else{
+            calculateIntervals(middleValue);
+            setValueTrendNodes();
+        }
+
     }
 
     @Override
@@ -158,8 +176,14 @@ public class TrendView extends View implements View.OnTouchListener{
         averageHeight = height/verticalColumnCount;
 
         setMeasuredDimension((int) width,(int)height);
-        calculateIntervals();
-        setTrendNodes();
+
+        if(intervals == 0){
+            calculateIntervals();
+            setTrendNodes();
+        }else{
+            calculateIntervals(intervals);
+            setValueTrendNodes();
+        }
 
 
         this.widthSpec = widthMeasureSpec;
@@ -256,6 +280,40 @@ public class TrendView extends View implements View.OnTouchListener{
                     }
                     if(isPressed){
                         onDrawPressData(canvas,bean.getMuscle()+getResources().getString(R.string.kilogram),bean.getPositionMuscleX(),bean.getPositionMuscleY(),0,0);
+                    }
+                }
+                break;
+            case Values:
+                //removeData必须在绘制完除折线外的数据(如日期)之后，否则其他的数据也不会绘制
+                List<TrendBean> tempDatas = new ArrayList<>();
+                tempDatas.addAll(datas);
+              
+                for (int n = 0; n < removeIndex.size() ;n++){
+                    if(removeIndex.get(n) < tempDatas.size())
+                        tempDatas.remove(tempDatas.get(removeIndex.get(n))); 
+                }
+
+                /**
+                 * 绘制Value折线
+                 */
+                for(int i = 0;i < tempDatas.size();i++){
+                    TrendBean bean = tempDatas.get(i);
+                    boolean isPressed = bean.isValuePressed();
+                    if(isPressed){
+                        onDrawVerticalDottedLine(canvas,bean.getPositionValueX(),averageHeight*0.9f,averageHeight*(verticalColumnCount - 0.8f));
+                    }
+                    if(!bean.getIsLastNode()){
+                        TrendBean bean1 = tempDatas.get(i+1);
+                        onDrawTrendline(canvas,bean.getPositionValueX(),bean.getPositionValueY(),
+                                bean1.getPositionValueX(),bean1.getPositionValueY(),
+                                bean.getIsLastNode(),isPressed);
+                    }else{
+                        onDrawTrendline(canvas,bean.getPositionValueX(),bean.getPositionValueY(),
+                                0,0,
+                                bean.getIsLastNode(),isPressed);
+                    }
+                    if(isPressed){
+                        onDrawPressData(canvas,bean.getValue()+getResources().getString(R.string.kilogram),bean.getPositionValueX(),bean.getPositionValueY(),0,0);
                     }
                 }
                 break;
@@ -356,6 +414,9 @@ public class TrendView extends View implements View.OnTouchListener{
         trendLinePaint.setAntiAlias(true);
     }
 
+    /**
+     * 根据最大最小值计算 绘制图间隔的大小 (数据为0的情况不特殊考虑)
+     */
     private void calculateIntervals(){
         //初始化min
         TrendBean beanInit = datas.get(0);
@@ -388,6 +449,29 @@ public class TrendView extends View implements View.OnTouchListener{
 
     }
 
+
+    /**
+     * 根据中间值及最大最小值计算间隔大小(排除数据为0的情况,只处理单一数据的情况)
+     */
+    private void calculateIntervals(float middleValue){
+        this.middleValue = middleValue;
+        float halfIntervals=0.0f;
+        for(int i = 0 ; i < datas.size(); i++){
+            TrendBean bean = datas.get(i);
+            if(bean.getValue()!=0){
+                float tempInterval = Math.abs(bean.getValue()-middleValue);
+                halfIntervals = halfIntervals > tempInterval?halfIntervals:tempInterval;
+            }
+        }
+        intervals = (int) Math.ceil(halfIntervals);
+
+        //if(intervals < MININTERVAL)intervals = MININTERVAL;
+
+    }
+
+    /**
+     * 将数据转换成要绘制的点 (数据为0的情况不特殊考虑)
+     */
     private void setTrendNodes(){
         for(int n = 0; n < datas.size();n++){
             TrendBean bean = datas.get(n);
@@ -412,8 +496,6 @@ public class TrendView extends View implements View.OnTouchListener{
                 else
                     heights = ((maxWeight - weight)/(intervalWeight*1.0f)+verticalColumnCount-3)*averageHeight;
             }
-
-
 
             float fat = bean.getFat();
             float heights_fat;
@@ -452,6 +534,33 @@ public class TrendView extends View implements View.OnTouchListener{
         }
     }
 
+
+    /**
+     * 将数据转换成要绘制的点 (与calculateIntervals(float middleValue)搭配使用
+     * 处理单一数据 考虑数据为0的情况)
+     */
+    private void setValueTrendNodes(){
+
+        for(int n = 0; n < datas.size();n++){
+            TrendBean bean = datas.get(n);
+
+            boolean isLast;
+            if(n < datas.size() -1)isLast = false;
+            else isLast = true;
+
+            float value = bean.getValue();
+            if(value==0){
+                removeIndex.add(n);
+            }else{
+                float heights = averageHeight*(2+(middleValue - value)/intervals);
+                datas.get(n).setPositionValue(startX+averageWidth*n,heights);
+                datas.get(n).setIsLastNode(isLast);
+            }
+        }
+
+
+
+    }
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int range = DensityUtils.dip2px(context,20);
@@ -489,6 +598,14 @@ public class TrendView extends View implements View.OnTouchListener{
                                 isNotChoosed = false;
                             }else{
                                 datas.get(i).setMusclePressed(false);
+                            }
+                            break;
+                        case Values:
+                            if(isNotChoosed&&Math.abs(bean.getPositionValueX() - event.getX()) < range && Math.abs(bean.getPositionValueY() - event.getY()) < range){
+                                datas.get(i).setValuePressed(true);
+                                isNotChoosed = false;
+                            }else{
+                                datas.get(i).setValuePressed(false);
                             }
                             break;
                     }

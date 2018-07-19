@@ -6,10 +6,19 @@ package com.himawari.permissionUtils.bean;
 
 public class TrendBean {
     private String scaleDate;
+    private float value;
+    private float positionValueX;
+    private float positionValueY;
+    private boolean isLastNode;
+    private boolean isValuePressed;
+
+
+
+
     private float weight;
     private float positionWeightX;
     private float positionWeightY;
-    private boolean isLastNode;
+
 
     private int fat;
     private float positionFatX;
@@ -23,6 +32,37 @@ public class TrendBean {
     private boolean isWeightPressed;
     private boolean isFatPressed;
     private boolean isMusclePressed;
+
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    public float getPositionValueX() {
+        return positionValueX;
+    }
+
+    public void setPositionValue(float positionValueX,float positionValueY) {
+        this.positionValueX = positionValueX;
+        this.positionValueY = positionValueY;
+    }
+
+    public float getPositionValueY() {
+        return positionValueY;
+    }
+
+
+    public boolean isValuePressed() {
+        return isValuePressed;
+    }
+
+    public void setValuePressed(boolean valuePressed) {
+        isValuePressed = valuePressed;
+    }
 
     public boolean isFatPressed() {
         return isFatPressed;
