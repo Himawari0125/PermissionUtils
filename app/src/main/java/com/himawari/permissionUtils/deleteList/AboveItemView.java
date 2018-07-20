@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -26,6 +28,7 @@ import com.himawari.permissionUtils.utils.LogUtils;
 public class AboveItemView extends LinearLayout {
     private ViewDragHelper viewDragHelper;
     private int leftBound,newLeft;
+    private TranslateAnimation translateAnimation;
     private float xDistance, yDistance, xLast, yLast,xStart,yStart;
     private CheckBoxListener checkBxlistener;
     private ListView listView;
@@ -59,6 +62,9 @@ public class AboveItemView extends LinearLayout {
     public AboveItemView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        leftBound = DensityUtils.dip2px(context,-66);
+        translateAnimation = new TranslateAnimation(leftBound,0,0,0);
+        translateAnimation.setDuration(200);
         addViews(context);
 
         viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
@@ -69,7 +75,7 @@ public class AboveItemView extends LinearLayout {
 
             @Override
             public int clampViewPositionHorizontal(View child, int left, int dx) {
-                leftBound = DensityUtils.dip2px(context,-66);
+
                 newLeft = (left > 0)?0:(left > leftBound)?left:leftBound;
                 return newLeft;
 
@@ -134,6 +140,7 @@ public class AboveItemView extends LinearLayout {
                 float upx =  event.getX();
                 float upy =  event.getY();
                 int position = (int) getTag();
+
                 //按下和抬起时候是一样的，那么就是点击事件
                 if(Math.abs(upx - xStart)<=5 && Math.abs(upy - yStart)<=5 && isDown){
 
@@ -143,7 +150,7 @@ public class AboveItemView extends LinearLayout {
                         AdapterView.OnItemClickListener itemClickListener = listView.getOnItemClickListener();
                         if(itemClickListener != null){
                             itemClickListener.onItemClick(listView,this,position,position); }
-                    }else if(getChildAt(0).getLeft() == leftBound){
+                    }else if(upx > (MyApplication.width + leftBound)&&getChildAt(0).getLeft() == leftBound){
                         this.setTag(position);
                         deleteListener.onClick(this);
                     }
@@ -204,7 +211,10 @@ public class AboveItemView extends LinearLayout {
         if(isSlipedLeft){
             child.layout(leftBound,0,(int) MyApplication.width+leftBound,DensityUtils.dip2px(context,66));
         }else{
-            child.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
+            if(child.getLeft() == leftBound){
+                child.layout(0,0, (int) MyApplication.width, DensityUtils.dip2px(context,66));
+                child.startAnimation(translateAnimation);
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.bean.AccManageBean;
 import com.himawari.permissionUtils.deleteList.AboveItemView;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -154,8 +155,14 @@ public class DeleteAdapter extends BaseAdapter {
         holder.above_item.setSlipListener(new AboveItemView.SlipListener() {
             @Override
             public void isSliped(int position, boolean isSliped) {
+                if(isSliped){
+                    initSlipMap();
+                    slip_map.put(position, isSliped);
+                    notifyDataSetChanged();
+                }else{
+                    slip_map.put(position, isSliped);
+                }
 
-                slip_map.put(position, isSliped);
             }
         });
 
