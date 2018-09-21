@@ -2,29 +2,26 @@ package com.himawari.permissionUtils.utils;
 
 import android.content.Context;
 import android.os.Handler;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CalendarView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+
 import com.himawari.permissionUtils.R;
+import com.himawari.permissionUtils.adapter.AccChoosePopAdapter;
+import com.himawari.permissionUtils.bean.AccManageBean;
 import com.himawari.permissionUtils.bean.CalenderPickerBean;
 import com.himawari.permissionUtils.views.CalenderPickerView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 
 /**
  * Created by S.Lee on 2017/11/30.
@@ -35,6 +32,14 @@ public class PopupWindowUtils {
     private static PopupWindow calendarPopupWindow;
     private static CalenderPickerView calendarView;
     private static TextView monthYear;
+
+    private static List<AccManageBean> acc_datas;
+    private static AccChoosePopAdapter acc_adapter;
+    private static PopupWindow accountPopupWindow;
+
+    /**
+     *删除按钮
+     */
     public static void showDeleteDialog(Context mcontext, View rootView, int gravityLocation, boolean isShow, final DeletePopWindowListener listener){
         View contextView = LayoutInflater.from(mcontext).inflate(R.layout.dialog_delete,null);
         if(deletPopupWindow == null){
@@ -64,6 +69,9 @@ public class PopupWindowUtils {
         if(deletPopupWindow!=null)deletPopupWindow = null;
     }
 
+    /**
+     *日历控件
+     */
     public static void showCalenderView(Context mcontext,View rootView,Calendar time){
         View view = LayoutInflater.from(mcontext).inflate(R.layout.dialog_datechoose, null);
         if(calendarPopupWindow == null) {
@@ -140,4 +148,59 @@ public class PopupWindowUtils {
             }
         });
     }
+    /**
+     * 账号选择
+     */
+
+    public static AccChoosePopAdapter showAccountView(Context context, final List<AccManageBean> datas, View rootView, final AccSelectListener listener){
+        if (datas == null||datas.size() <= 0)return null;
+
+
+        View view = LayoutInflater.from(context).inflate(R.layout.pop_accchoose, null);
+        ListView listView = view.findViewById(R.id.listview);
+        if(acc_datas == null || acc_datas != datas){
+            acc_datas = datas;
+
+            acc_adapter = new AccChoosePopAdapter(context,datas);
+            listView.setAdapter(acc_adapter);
+            accountPopupWindow = new PopupWindow(view,WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            accountPopupWindow.setAnimationStyle(R.style.CalendarActionSheetDialogAnimation);
+            accountPopupWindow.setOutsideTouchable(false);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if(position == 0){
+
+                    }else if(position == datas.size()-1){
+                        listener.onAddAcc();
+                    }else{
+                        if(datas.get(position).IsChild())
+                            listener.onAccSelect(datas.get(position).getData().getBindUserId());
+                        else
+                            listener.onAccSelect(datas.get(position).getData().getParentUserId());
+                    }
+
+                    if(accountPopupWindow.isShowing())accountPopupWindow.dismiss();
+                }
+            });
+        }
+
+
+
+
+        if(!accountPopupWindow.isShowing())accountPopupWindow.showAsDropDown(rootView);
+
+        LogUtils.i(LogUtils.originalIndex,"PopupWindow is showing.");
+        return acc_adapter;
+
+
+
+    }
+    public interface AccSelectListener{
+        void onAccSelect(int userId);
+        void onAddAcc();
+    }
+
+
 }

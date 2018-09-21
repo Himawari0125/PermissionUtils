@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.himawari.permissionUtils.handler.CrashHandler;
 import com.himawari.permissionUtils.utils.BleStateListenerUtils;
 import com.himawari.permissionUtils.utils.DensityUtils;
 import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.MyActivityManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,8 +27,7 @@ import java.util.Set;
  */
 
 public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks  {
-    private static Set<Activity> activities = new HashSet<>();
-    public static List<Activity> activityList = new ArrayList<>();
+
     public static float width;
     public static float height;
     public static float width_dp;
@@ -34,9 +35,17 @@ public class MyApplication extends Application implements Application.ActivityLi
     private PackageInfo packageInfo;
     public static String[] requestPermission;
     private static Activity currentActivity;
+
+    private MyActivityManager manager;
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
+
+
+        manager = MyActivityManager.getManager();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -66,9 +75,8 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        activities.add(activity);
-        activityList.add(activity);
-        currentActivity = activity;
+        manager.addActivity(activity);
+
     }
 
     @Override
@@ -100,61 +108,7 @@ public class MyApplication extends Application implements Application.ActivityLi
     @Override
     public void onActivityDestroyed(Activity activity) {
         LogUtils.i(3,activity.getComponentName().toShortString());
-        if (activities.contains(activity)) {
-            activities.remove(activity);
-            activityList.remove(activity);
-        }
-
-    }
-
-    public static void finishAllActivity() {
-        for (Activity activity : activities) {
-            LogUtils.i(3,activity.getComponentName()+"");
-            activity.finish();
-        }
-        activityList.clear();
-        activities.removeAll(activities);
-
-    }
-
-    public static void finishTillActivity(String componentName){
-        int length = activities.size();
-        int targetIdx = -1;
-        for(int i = length-1;i >= 0;i--){
-            String localName = activityList.get(i).getLocalClassName();
-            String simpleName = localName.substring(localName.lastIndexOf(".")+1);
-            if(componentName.equals(simpleName)){
-                targetIdx = i;
-                break;
-            };
-        }
-        if(targetIdx<0)return;
-        for (int i = length - 1; i > targetIdx; i--){
-            Activity activity = activityList.get(i);
-
-            activities.remove(activityList.get(i));
-            activityList.remove(i);
-
-            activity.finish();
-        }
-
-    }
-
-    public static void finishOneActivity(Activity activity) {
-        if (activities.contains(activity)) {
-            activityList.remove(activity);
-            activities.remove(activity);
-        }
-        activity.finish();
-    }
-
-    public static void finishTopActivity() {
-        if (activityList.size() > 0 && activities.size() > 0) {
-            Activity activity = activityList.get(activityList.size() - 1);
-            activity.finish();
-            if (activities.contains(activity)) activities.remove(activity);
-            activityList.remove(activity);
-        }
+        manager.removeActivity(activity);
     }
 
 }

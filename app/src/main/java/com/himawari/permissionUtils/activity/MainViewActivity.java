@@ -29,7 +29,8 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private List<String> items;
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
     ,"Test","GPS AGPS","ParcelTest","RecyclerActvity","ListView","Progress","ConstraintSet",
-    "CrashFile","LifeCycle","PopupLocation","Keydown","BindActivity","StackTrace"};
+    "CrashFile","LifeCycle","PopupLocation","Keydown","BindActivity","StackTrace","ScrollOne"
+    ,"ListRefresh","EmptyActivity","SharePActivity"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,6 +121,18 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
                 break;
             case 18:
                 startActivity(new Intent(this,StackTaceActivity.class));
+                break;
+            case 19:
+                startActivity(new Intent(this,ScrollOneActivity.class));
+                break;
+            case 20:
+                startActivity(new Intent(this,ListRefreshActivity.class));
+                break;
+            case 21:
+                startActivity(new Intent(this,EmptyActivityUndVisible.class));
+                break;
+            case 22:
+                startActivity(new Intent(this,SharePActivity.class));
                 break;
 
         }

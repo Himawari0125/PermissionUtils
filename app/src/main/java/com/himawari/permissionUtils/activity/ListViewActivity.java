@@ -3,13 +3,16 @@ package com.himawari.permissionUtils.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.HistoryAdapter;
 import com.himawari.permissionUtils.bean.HistoryListBean;
+import com.himawari.permissionUtils.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,13 @@ public class ListViewActivity extends BaseActivity {
             @Override
             public void onRefresh() {
 
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               LogUtils.i(LogUtils.originalIndex," first:"+listView.getFirstVisiblePosition()+" position:"+position);
             }
         });
 

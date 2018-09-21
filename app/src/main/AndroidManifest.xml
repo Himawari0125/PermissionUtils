@@ -12,6 +12,7 @@
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!--获取拍照后的图片-->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -80,12 +81,16 @@
         <activity android:name=".activity.KeyDownActivity"/>
         <activity android:name=".activity.BindingActivity"/>
         <activity android:name=".activity.StackTaceActivity"/>
+        <activity android:name=".activity.ScrollOneActivity"/>
+        <activity android:name=".activity.ListRefreshActivity"/>
+        <activity android:name=".activity.EmptyActivityUndVisible"/>
+        <activity android:name=".activity.SharePActivity"/>
 
 
 
         <service
-            android:name=".services.BaseService"
-            android:process=":remote"></service>
+            android:name="com.himawari.permissionUtils.services.BaseService"
+            ></service>
         <service android:name=".services.ProtectorService"></service>
         <receiver android:name=".receiver.MyBroadcastReceiver">
             <intent-filter>

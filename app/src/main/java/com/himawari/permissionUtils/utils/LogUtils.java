@@ -10,32 +10,32 @@ public class LogUtils {
     public static int originalIndex = 4;
     public static int superIndex = 5;
 
-    public static void e(int traceIndex,String detail){
+    public static void e(int traceIndex,Object detail){
         if(mdebug){
             StackTraceElement stackTraceElement = getStackTrace(traceIndex);
             if(stackTraceElement !=null)
-                Log.e(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
+                Log.e(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),""+detail);
             else
-                Log.e("no stack trace",detail);
+                Log.e("no stack trace",""+detail);
         }
     }
-    public static void i(int traceIndex,String detail){
+    public static void i(int traceIndex,Object detail){
         if(mdebug){
             StackTraceElement stackTraceElement = getStackTrace(traceIndex);
             if(stackTraceElement !=null)
-                Log.i(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
+                Log.i(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),""+detail);
             else
-                Log.i("no stack trace",detail);
+                Log.i("no stack trace",""+detail);
         }
     }
 
-    public static void d(int traceIndex,String detail){
+    public static void d(int traceIndex,Object detail){
         if(mdebug){
             StackTraceElement stackTraceElement = getStackTrace(traceIndex);
             if(stackTraceElement !=null)
-                Log.d(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),detail);
+                Log.d(stackTraceElement.getFileName()+"."+stackTraceElement.getMethodName()+" line:"+stackTraceElement.getLineNumber(),""+detail);
             else
-                Log.d("no stack trace",detail);
+                Log.d("no stack trace",""+detail);
         }
     }
 

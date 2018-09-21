@@ -12,10 +12,17 @@ import android.support.annotation.Nullable;
 
 public class ProtectorService extends Service {
     private boolean isRunning;
+    private Intent it;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if(it == null) it = new Intent(ProtectorService.this, BaseService.class);
     }
 
     @Override
@@ -27,7 +34,7 @@ public class ProtectorService extends Service {
                 public void run() {
                     SystemClock.sleep(3000);
                     isRunning = false;
-                    startService(new Intent(ProtectorService.this, BaseService.class));
+                    startService(it);
                     System.out.println("ProtectorService");
                 }
             }).start();
@@ -38,5 +45,6 @@ public class ProtectorService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopService(it);
     }
 }

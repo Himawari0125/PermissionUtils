@@ -1,10 +1,15 @@
 package com.himawari.permissionUtils.utils;
 
+import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
+
+import java.util.List;
 
 /**
  * Created by S.Lee on 2018/2/9.
@@ -47,4 +52,44 @@ public class ServiceUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 判断某个后台Service是否运行
+     * @param context
+     * @param serviceName
+     * @return
+     */
+    public boolean isServiceRunning(Context context,String serviceName){
+        if(TextUtils.isEmpty(serviceName))
+            return false;
+        List<ActivityManager.RunningServiceInfo> runningService = getAllService(context);
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().toString()
+                    .equals(serviceName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 打印所有运行Service
+     * @param context
+     */
+    public void printAllService(Context context){
+        List<ActivityManager.RunningServiceInfo> runningService = getAllService(context);
+        for (int i = 0; i < runningService.size(); i++)
+            LogUtils.i(LogUtils.originalIndex,"running service:"+runningService.get(i).service.getClassName().toString());
+    }
+
+    private List<ActivityManager.RunningServiceInfo> getAllService(Context context){
+        ActivityManager activityManager =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> runningService
+                = activityManager.getRunningServices(30);
+        return runningService;
+
+    }
+
+
 }

@@ -6,12 +6,12 @@ import android.view.View;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
-import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.MyActivityManager;
 
-import static com.himawari.permissionUtils.MyApplication.finishTillActivity;
 
 public class LifeCycleActivity extends BaseActivity {
 
+    private MyActivityManager manager;
     @Override
     protected void initView() {
 
@@ -21,13 +21,14 @@ public class LifeCycleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_lifecycle);
         super.onCreate(savedInstanceState);
+        manager = MyActivityManager.getManager();
 
     }
 
     public void onFinishTillClick(View view){
 
 
-        finishTillActivity(MainViewActivity.class.getSimpleName());
+        manager.finishTillActivity(MainViewActivity.class.getSimpleName());
 
 
 

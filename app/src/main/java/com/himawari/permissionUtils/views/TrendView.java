@@ -106,6 +106,7 @@ public class TrendView extends View implements View.OnTouchListener{
      * @param isScroll it could be useful when beans's size big than splitSpaceCount
      */
     public void setDatas(List<TrendBean> beans,boolean isScroll,float intervals){
+        LogUtils.i(LogUtils.originalIndex,"index setDatas");
         if(removeIndex==null)
             removeIndex = new ArrayList<>();
         if(removeIndex.size()!=0)
@@ -156,7 +157,7 @@ public class TrendView extends View implements View.OnTouchListener{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        LogUtils.i(LogUtils.originalIndex,"index onMeasure");
         int specWidthMode = MeasureSpec.getMode(widthMeasureSpec);
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
 
@@ -195,6 +196,8 @@ public class TrendView extends View implements View.OnTouchListener{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        LogUtils.i(LogUtils.originalIndex,"index onDraw");
         for(int i = 1 ; i < verticalColumnCount ; i++){//绘制横轴四条线
             int muliple = isScrolling?datas.size():splitSpaceCount;
             onDrawHorizonalLine(canvas,0,averageHeight*i,(int)averageWidth*muliple,averageHeight*i);

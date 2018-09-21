@@ -40,4 +40,6 @@
     <string name="local_service_disconnected">local_service_disconnected</string>
     <string name="remote_service_started">remote_service_started</string>
     <string name="remote_service_stopped">remote_service_stopped</string>
+
+    <string name="pop">pop</string>
 </resources>
