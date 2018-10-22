@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.himawari.a24hoursrecord.requestpermission"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,9 @@ dependencies {
     implementation 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
     implementation 'com.android.support:appcompat-v7:26.+'
     implementation 'com.android.support:recyclerview-v7:26.+'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
 
 

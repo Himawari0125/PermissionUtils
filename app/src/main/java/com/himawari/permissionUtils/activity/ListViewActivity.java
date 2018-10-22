@@ -1,18 +1,30 @@
 package com.himawari.permissionUtils.activity;
 
+import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.himawari.permissionUtils.BaseActivity;
+import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.HistoryAdapter;
 import com.himawari.permissionUtils.bean.HistoryListBean;
+import com.himawari.permissionUtils.commons.Constant;
+import com.himawari.permissionUtils.utils.FileNameUtils;
 import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.ViewCaptureUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +69,9 @@ public class ListViewActivity extends BaseActivity {
 
         adapter = new HistoryAdapter(this,beans);
         listView.setAdapter(adapter);
+
+
+
         swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,7 +82,18 @@ public class ListViewActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               LogUtils.i(LogUtils.originalIndex," first:"+listView.getFirstVisiblePosition()+" position:"+position);
+               LogUtils.i(LogUtils.originalIndex,
+                       " first:"+listView.getFirstVisiblePosition()+" position:"+position);
+               //listView.smoothScrollToPosition(0);
+
+               //listView.addFooterView(listView.getRootView());
+               View headView = LayoutInflater.from(ListViewActivity.this).inflate(R.layout.item_scrolldelete,null);
+              // headView.setLayoutParams(new LinearLayout.LayoutParams((int) MyApplication.width,(int)MyApplication.height));
+               ViewCaptureUtils.saveOneBitmap(Constant.crashPath,
+                       FileNameUtils.getPicName()+".png",
+                       ViewCaptureUtils.getBitmapFromView(headView, ContextCompat.getColor(ListViewActivity.this, R.color.history_titleBarstart))
+                       ,100);
+
             }
         });
 

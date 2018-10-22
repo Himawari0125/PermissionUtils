@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.himawari.permissionUtils.BaseActivity;
 import com.himawari.permissionUtils.R;
+import com.himawari.permissionUtils.utils.PermissionRequestUtils;
 import com.himawari.permissionUtils.utils.ServiceUtils;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
     private String[] itemStr = new String[]{"Main","Scaleplate","ScrollDelete","BirthdayPicker","Guide","WebViewLoadGif"
     ,"Test","GPS AGPS","ParcelTest","RecyclerActvity","ListView","Progress","ConstraintSet",
     "CrashFile","LifeCycle","PopupLocation","Keydown","BindActivity","StackTrace","ScrollOne"
-    ,"ListRefresh","EmptyActivity","SharePActivity"};
+    ,"ListRefresh","EmptyActivity","SharePActivity","PackageManagerActivity","Sensor","AddCalendar"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
 
         listView.setOnItemClickListener(this);
+
+        PermissionRequestUtils.requestPermission(this,PermissionRequestUtils.storage_RequestCode,"CrashHandler need this Permission");
 
 
     }
@@ -134,7 +137,15 @@ public class MainViewActivity extends BaseActivity implements AdapterView.OnItem
             case 22:
                 startActivity(new Intent(this,SharePActivity.class));
                 break;
-
+            case 23:
+                startActivity(new Intent(this,PackageManagerActivity.class));
+                break;
+            case 24:
+                startActivity(new Intent(this,SensorActivity.class));
+                break;
+            case 25:
+                startActivity(new Intent(this,AddScheduleActivity.class));
+                break;
         }
 
     }

@@ -10,7 +10,9 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.himawari.permissionUtils.MyApplication;
@@ -24,7 +26,7 @@ import java.util.List;
 
 public class PermissionRequestUtils {
     /**
-     * use eg:       if(!PermissionRequestUtils.RequestPermission(this,PermissionRequestUtils.location_RequestCode,"为了确保APP正常工作,请允许云悦健康使用您的位置信息"))
+     * use eg:       if(PermissionRequestUtils.requestPermission(this,PermissionRequestUtils.location_RequestCode,"为了确保APP正常工作,请允许云悦健康使用您的位置信息"))
                       Log.i("Permission_","权限不需要授予");
      */
     public static final int contact_RequestCode = 1001;
@@ -91,15 +93,29 @@ public class PermissionRequestUtils {
     };
 
 
-    public static boolean RequestPermission(final Activity mActivity, final int RequestCode, String requestRationaleStr){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+    /**
+     *
+     * @param mActivity
+     * @param RequestCode
+     * @param requestRationaleStr
+     * @return true表示权限已开启 false还未拥有权限
+     */
+    public static boolean requestPermission(final FragmentActivity mActivity,
+                                            final int RequestCode,
+                                            String requestRationaleStr){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;//Android6.0一下无需请求授权
         final String[] Requests = new PermissionRequestUtils().getPermissions(RequestCode);
-        for(String request:Requests){
-            //判断是否有权限
-            if (ContextCompat.checkSelfPermission(mActivity,
-                    request) != PackageManager.PERMISSION_GRANTED) {
-                Log.i("Permission_",request+" 没有权限");
+        if(Requests == null || Requests.length == 0)return false;
 
+        String request = Requests[0];//只要其中一个申请了就全部打开了
+        boolean isAlreadyGranted = (ContextCompat.checkSelfPermission(mActivity,
+                request) == PackageManager.PERMISSION_GRANTED?true:false);
+       
+        //判断是否有权限
+        if (!isAlreadyGranted) {
+            Log.i("Permission_",request+" 没有权限");
+            //是否显示向用户解释应用为何请求该权限
+            if(!TextUtils.isEmpty(requestRationaleStr)){
                 //判断是否需要 向用户解释，为什么要申请该权限
                 if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
                         request)) {
@@ -118,50 +134,15 @@ public class PermissionRequestUtils {
                                     ActivityCompat.requestPermissions(mActivity, Requests, RequestCode);
                                 }
                             }).create().show();
-                    return true;
+                }else{
+                    //请求权限
+                    ActivityCompat.requestPermissions(mActivity, Requests, RequestCode);
                 }
-                //请求权限
-                ActivityCompat.requestPermissions(mActivity, Requests, RequestCode);
-                return true;//申请一个权限则整组权限可使用。
             }
         }
-        return false;
+        
+        return isAlreadyGranted;
 
-    }
-
-    public static boolean RequestPermission(final Fragment mFragment, Context mContext, final int RequestCode, String requestRationaleStr){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
-        String[] Requests = new PermissionRequestUtils().getPermissions(RequestCode);
-        for(String request:Requests){
-            //判断是否有权限
-            if (mContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Log.i("Permission_",request+" 没有权限");
-                //判断是否需要 向用户解释，为什么要申请该权限
-                if(mFragment.shouldShowRequestPermissionRationale(request)) {
-                    new AlertDialog.Builder(mContext)
-                            .setMessage(requestRationaleStr)
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            })
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //请求权限
-                                    mFragment.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, RequestCode);
-                                }
-                            }).create().show();
-                    return true;
-
-                }
-                //请求权限
-                mFragment.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, RequestCode);
-                return true;//申请一个权限则整组权限可使用。
-            }
-        }
-        return false;
     }
 
     private String[] getAllRequestPermission(){

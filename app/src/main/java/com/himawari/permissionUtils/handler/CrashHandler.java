@@ -1,5 +1,7 @@
 package com.himawari.permissionUtils.handler;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,8 +12,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.himawari.permissionUtils.Contant;
 import com.himawari.permissionUtils.commons.Constant;
 import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.MyActivityManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,6 +54,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return INSTANCE;
     }
 
+
+
     /**
      * 初始化
      *
@@ -68,18 +74,21 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+
         if (!handleException(ex) && mDefaultHandler != null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
+
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                LogUtils.e(3, "error : "+ e);
+                e.printStackTrace();
             }
             //退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
+
         }
     }
 
@@ -93,6 +102,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
+
         //使用Toast来显示异常信息
         new Thread() {
             @Override
@@ -103,20 +113,19 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
         }.start();
         //收集设备参数信息
-        collectDeviceInfo(mContext);
+        collectDeviceInfo();
         //保存日志文件
         saveCrashInfo2File(ex);
         return true;
     }
 
     /**
-     * 收集设备参数信息
-     * @param ctx
+     * 收集移动设备参数信息
      */
-    public void collectDeviceInfo(Context ctx) {
+    public void collectDeviceInfo() {
         try {
-            PackageManager pm = ctx.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
+            PackageManager pm = mContext.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode = pi.versionCode + "";
@@ -131,9 +140,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-                Log.d(TAG, field.getName() + " : " + field.get(null));
+                LogUtils.d(LogUtils.originalIndex, field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-                Log.e(TAG, "an error occured when collect crash info", e);
+                LogUtils.e(LogUtils.originalIndex, "an error occured when collect crash info"+ e);
             }
         }
     }

@@ -153,13 +153,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.intent_camera:
-                if(!PermissionRequestUtils.RequestPermission(MainActivity.this, PermissionRequestUtils.storage_RequestCode,"  "))
-                    if(!PermissionRequestUtils.RequestPermission(MainActivity.this, PermissionRequestUtils.camera_RequestCode,"  "))
+                if(PermissionRequestUtils.requestPermission(MainActivity.this, PermissionRequestUtils.storage_RequestCode,"  "))
+                    if(PermissionRequestUtils.requestPermission(MainActivity.this, PermissionRequestUtils.camera_RequestCode,"  "))
                         CameraAlbumUtils.intentSystemCamera(MainActivity.this);
                 break;
             case R.id.scanbluetooth:
                 if(BlutoothVersionUtils.IsTurnonBluetooth(MainActivity.this,mbluetoothAdapter))
-                if(!PermissionRequestUtils.RequestPermission(MainActivity.this, PermissionRequestUtils.location_RequestCode,"  "))
+                if(PermissionRequestUtils.requestPermission(MainActivity.this, PermissionRequestUtils.location_RequestCode,"  "))
                    ScanBluetoothDevice();
                 break;
             case R.id.screenResolution:
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case PermissionRequestUtils.storage_RequestCode:
                 if(PermissionRequestUtils.IsAllGranted(permissions,grantResults)) {
                     Log.i("Permission_Yes","权限已授予");
-                    if (!PermissionRequestUtils.RequestPermission(MainActivity.this, PermissionRequestUtils.camera_RequestCode, "   "))
+                    if (PermissionRequestUtils.requestPermission(MainActivity.this, PermissionRequestUtils.camera_RequestCode, "   "))
                         CameraAlbumUtils.intentSystemCamera(MainActivity.this);
                 }else{
                     Log.i("Permission_No","权限未授予");
@@ -229,7 +229,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch(requestCode){
             case BlutoothVersionUtils.TURNONBLUETOOTH:
                 if(resultCode == RESULT_OK)
-                    if(!PermissionRequestUtils.RequestPermission(MainActivity.this, PermissionRequestUtils.location_RequestCode,"  "))
+                    if(PermissionRequestUtils.requestPermission(MainActivity.this, PermissionRequestUtils.location_RequestCode,"  "))
                         ScanBluetoothDevice();
                 break;
 		    case CameraAlbumUtils.PHOTOHRAPH:

@@ -30,7 +30,7 @@ public class CrashFileActivity extends BaseActivity {
     }
 
     public void onCreateDirClick(View view){
-        if(!PermissionRequestUtils.RequestPermission(this, PermissionRequestUtils.storage_RequestCode,""))
+        if(PermissionRequestUtils.requestPermission(this, PermissionRequestUtils.storage_RequestCode,""))
             createFile();
 
 
