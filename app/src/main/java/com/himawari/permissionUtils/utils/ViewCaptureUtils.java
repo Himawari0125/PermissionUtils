@@ -35,6 +35,7 @@ public class ViewCaptureUtils {
         int itemHeight = 0;
         for (int i = 0 ; i < bitmapList.size();i++){
             Bitmap bitmap1 = bitmapList.get(i);
+          //  saveOneBitmap(folderStr,FileNameUtils.getPicName()+"_"+i+".png",bitmap1,100);
             canvas.drawBitmap(bitmap1,0,itemHeight,null);
             itemHeight += bitmap1.getHeight();
             canvas.save();//保存 Canvas.ALL_SAVE_FLAG

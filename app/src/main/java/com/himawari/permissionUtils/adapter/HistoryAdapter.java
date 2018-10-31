@@ -54,7 +54,6 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LogUtils.iAlltrace("history");
         ViewHolder holder;
         if(convertView == null){
             holder = new ViewHolder();

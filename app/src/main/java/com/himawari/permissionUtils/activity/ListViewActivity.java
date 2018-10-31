@@ -17,14 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.himawari.permissionUtils.BaseActivity;
-import com.himawari.permissionUtils.MyApplication;
 import com.himawari.permissionUtils.R;
 import com.himawari.permissionUtils.adapter.HistoryAdapter;
 import com.himawari.permissionUtils.bean.HistoryListBean;
 import com.himawari.permissionUtils.commons.Constant;
 import com.himawari.permissionUtils.utils.FileNameUtils;
 import com.himawari.permissionUtils.utils.LogUtils;
+import com.himawari.permissionUtils.utils.ScrollCaptureUtils;
 import com.himawari.permissionUtils.utils.ViewCaptureUtils;
+import com.himawari.permissionUtils.views.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,10 @@ public class ListViewActivity extends BaseActivity {
     private SwipeRefreshLayout swipe_layout;
     private boolean canRefresh;
     private boolean isTouchScroll;
+
     @Override
     protected void initView() {
+
         listView = findViewById(R.id.listview);
         swipe_layout = findViewById(R.id.swipe_layout);
         beans = new ArrayList<>();
@@ -127,11 +130,15 @@ public class ListViewActivity extends BaseActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
         });
+
+
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_list);
         super.onCreate(savedInstanceState);
+
+
     }
 }

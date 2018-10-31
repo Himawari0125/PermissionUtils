@@ -9,6 +9,9 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import com.himawari.permissionUtils.handler.CrashHandler;
@@ -33,6 +36,8 @@ public class MyApplication extends Application implements Application.ActivityLi
     public static float width_dp;
     public static float height_dp;
     private PackageInfo packageInfo;
+    public static int statusBarHeight = 0;
+    public static int navigationBarHeight = 0;
     public static String[] requestPermission;
     private static Activity currentActivity;
 
@@ -44,7 +49,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
 
-
+        getBarsHeight();
         manager = MyActivityManager.getManager();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -111,4 +116,29 @@ public class MyApplication extends Application implements Application.ActivityLi
         manager.removeActivity(activity);
     }
 
+
+    /**
+     * 获取stateBar navigationBar高度
+     */
+    private void getBarsHeight() {
+        //获取status_bar_height，navigation_bar_height资源的ID
+        int statusBarId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (statusBarId > 0) {
+            //根据资源ID获取响应的尺寸值
+            statusBarHeight = getResources().getDimensionPixelSize(statusBarId);
+        }
+
+        boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        LogUtils.i(LogUtils.originalIndex,hasBackKey + "" + hasMenuKey);
+        if (!hasBackKey && !hasMenuKey) {
+            int navigationBarId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            if (navigationBarId > 0) {
+                navigationBarHeight = getResources().getDimensionPixelSize(navigationBarId);
+            }
+        }
+
+        LogUtils.i(LogUtils.originalIndex, "statusBarHeight:" + statusBarHeight + " navigationBarHeight:" + navigationBarHeight);
+        LogUtils.i( LogUtils.originalIndex,"width = " + DensityUtils.px2dip(getApplicationContext(), width) + " height = " + DensityUtils.px2dip(getApplicationContext(), height));
+    }
 }

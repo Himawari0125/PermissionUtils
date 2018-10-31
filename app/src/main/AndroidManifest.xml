@@ -94,6 +94,8 @@
         <activity android:name=".activity.SensorActivity"/>
         <activity android:name=".activity.AddScheduleActivity"/>
 
+        <activity android:name=".activity.SCListViewActivity"/>
+
 
 
         <service

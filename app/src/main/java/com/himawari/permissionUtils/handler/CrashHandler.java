@@ -183,7 +183,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
+                FileOutputStream fos = new FileOutputStream(path+"/" + fileName);
                 fos.write(sb.toString().getBytes());
                 fos.close();
             }
